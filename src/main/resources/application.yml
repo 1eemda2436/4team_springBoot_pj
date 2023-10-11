@@ -19,7 +19,17 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-      
+
+  jpa:
+    hibernate:
+      ddl-auto: update #create update none #create: 사용자 테이블이 없으면 자동생성
+    properties:
+      hibernate:
+      dialect: org.hibernate.dialect.Oracle12cDialect
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      show-sql: true
+  
 mybatis:
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.example.team_pj_springboot.mappers
