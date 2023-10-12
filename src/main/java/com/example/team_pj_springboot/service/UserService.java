@@ -11,8 +11,6 @@ import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.JoinDTO;
 import com.example.team_pj_springboot.dto.LoginDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
-import com.example.team_pj_springboot.entities.Company;
-import com.example.team_pj_springboot.entities.Member;
 import com.example.team_pj_springboot.exception.AppException;
 import com.example.team_pj_springboot.mappers.UserMapper;
 import com.example.team_pj_springboot.repository.CompanyRepository;
@@ -32,16 +30,16 @@ public class UserService {
    public MemberDTO findById(String id) {
       System.out.println("UserService - findById()");
       
-      Member member = userRepository.findById(id)
+      MemberDTO memberDTO = userRepository.findById(id)
          .orElseThrow(() -> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
       
-      return userMapper.toMemberDTO(member);
+      return userMapper.toMemberDTO(memberDTO);
    }
    
-   public Member login(LoginDTO loginDTO) {
+   public MemberDTO login(LoginDTO loginDTO) {
       System.out.println("UserService - login()");
       
-      Member member = userRepository.findById(loginDTO.getId())
+      MemberDTO member = userRepository.findById(loginDTO.getId())
             .orElseThrow(() -> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
       
       // 비밀번호 인코더를 사용하여 비밀번호가 일반 텍스트로 저장되는 것을 방지하지만 해시된 비밀번호는 읽을 수 없다.
@@ -54,14 +52,14 @@ public class UserService {
    }
    
    
-   public Company companyJoin(JoinDTO joinDTO) {
+   public CompanyDTO companyJoin(JoinDTO joinDTO) {
       
       System.out.println("UserService - join()");
       
       System.out.println(joinDTO);
       
-      Company company = new Company();
-      Member member = new Member();
+      CompanyDTO company = new CompanyDTO();
+      MemberDTO member = new MemberDTO();
       
       company.setCompany_id(joinDTO.getCompanyDTO().getCompany_id());
       company.setName(joinDTO.getCompanyDTO().getName());
@@ -80,7 +78,7 @@ public class UserService {
 //      
 //      Member saveUser = userRepository.save(member);
       
-      Company saveCompany = companyRepository.save(company);
+      CompanyDTO saveCompany = companyRepository.save(company);
       
       return saveCompany;
    }
