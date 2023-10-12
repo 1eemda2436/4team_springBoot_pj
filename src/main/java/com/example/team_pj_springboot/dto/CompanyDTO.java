@@ -2,16 +2,26 @@ package com.example.team_pj_springboot.dto;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="company")
 @Builder
+@DynamicInsert
 @Data
 public class CompanyDTO {
+	@Id
 	private String company_id; //회사 id
 	private String name; //회사명
 	private String address; //회사 주소

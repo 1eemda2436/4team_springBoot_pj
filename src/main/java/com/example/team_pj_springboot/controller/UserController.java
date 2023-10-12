@@ -17,8 +17,6 @@ import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.JoinDTO;
 import com.example.team_pj_springboot.dto.LoginDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
-import com.example.team_pj_springboot.entities.Company;
-import com.example.team_pj_springboot.entities.Member;
 import com.example.team_pj_springboot.service.UserService;
 
 
@@ -31,10 +29,10 @@ public class UserController {
 	private final UserAuthProvider userAuthProvider;
 
 	@PostMapping({"", "/"})
-	public ResponseEntity<Member> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<MemberDTO> login(@RequestBody LoginDTO loginDTO) {
 		System.out.println("<<< AuthController - login() >>>");
 
-		Member member = userService.login(loginDTO);
+		MemberDTO member = userService.login(loginDTO);
 
 		System.out.println("token : " + userAuthProvider.createToken(member.getId()));
 		userAuthProvider.createToken(member.getId());
@@ -43,14 +41,14 @@ public class UserController {
 	}
 
 	@PostMapping("/join")
-	public ResponseEntity<Company> Companyjoin(@RequestBody JoinDTO joinDTO) {
+	public ResponseEntity<CompanyDTO> Companyjoin(@RequestBody JoinDTO joinDTO) {
 	    System.out.println("<<< AuthController - register() >>>");
 
 	    // 엔티티를 생성할 때 새 엔티티를 찾을 수 있는 URL과 함께 201HTTP 코드를 반환하는 것이 가장 좋다.
-	    Company company = userService.companyJoin(joinDTO);//리액트에서 넘어온 정보 + 토큰 → 토큰 insert
+	    CompanyDTO companyDTO = userService.companyJoin(joinDTO);//리액트에서 넘어온 정보 + 토큰 → 토큰 insert
 	    
-	    return ResponseEntity.created(URI.create("/company/" + company.getCompany_id()))
-	            .body(company); //크롬 Network - Headers : 201Created 반환
+	    return ResponseEntity.created(URI.create("/company/" + companyDTO.getCompany_id()))
+	            .body(companyDTO); //크롬 Network - Headers : 201Created 반환
 	}
 }
 
