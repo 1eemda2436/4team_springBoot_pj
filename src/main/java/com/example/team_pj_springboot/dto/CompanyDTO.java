@@ -16,6 +16,7 @@ public class CompanyDTO {
 	private String name; //회사명
 	private String address; //회사 주소
 	private int employees; //직원 수
+	private String manager; //담당자명
 	private String email; //회사 이메일
 	private Timestamp work_in; //회사 근무내규 _ 출근시간
 	private Timestamp work_out; //회사 근무내규 _ 퇴근시간

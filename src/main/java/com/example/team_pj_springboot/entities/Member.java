@@ -3,7 +3,10 @@ package com.example.team_pj_springboot.entities;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -15,15 +18,15 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamicInsert
 @Entity
 @Table(name="MEMBER")
 @Builder
+@DynamicInsert
 @Data
 public class Member {
 	
 	@Id
-    private String id; // 사원 고유 번호
+    private String id;
     private String company_id; // 회사 id
     private String pwd; // 사원 비밀번호
     private String name; // 사원 이름
