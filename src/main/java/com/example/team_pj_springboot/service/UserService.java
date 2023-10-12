@@ -8,12 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.team_pj_springboot.dto.CompanyDTO;
+import com.example.team_pj_springboot.dto.JoinDTO;
 import com.example.team_pj_springboot.dto.LoginDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.entities.Company;
 import com.example.team_pj_springboot.entities.Member;
 import com.example.team_pj_springboot.exception.AppException;
 import com.example.team_pj_springboot.mappers.UserMapper;
+import com.example.team_pj_springboot.repository.CompanyRepository;
 import com.example.team_pj_springboot.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
    private final UserRepository userRepository;
+   private final CompanyRepository companyRepository;
    private final UserMapper userMapper;
    private final PasswordEncoder passwordEncoder;
    
@@ -50,34 +53,36 @@ public class UserService {
       throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
    }
    
-//   public Company join(CompanyDTO companyDTO) {
-//      
-//      System.out.println("<<< UserService - register() >>>");
-//      System.out.println("FirstName : " + userDTO.getFirstName());
-//      System.out.println("LastName : " + userDTO.getLastName());
-//      System.out.println("Id : " + userDTO.getId());
-//      System.out.println("Password : " + userDTO.getPassword());
-//      System.out.println("Token : " + userDTO.getToken());
-//      
-//      // Optional : java.util
-//      Optional<Member> optionalUser = userRepository.findById(userDTO.getId());
-//      
-//      if(optionalUser.isPresent()) {
-//         throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
-//      }
-//      
-//      Member user = new Member();
-//      user.setId(userDTO.getId()); // username
-//      user.setFirstName(userDTO.getFirstName());
-//      user.setLastName(userDTO.getLastName());
-//      user.setToken(userDTO.getToken());
-//      
+   
+   public Company companyJoin(JoinDTO joinDTO) {
+      
+      System.out.println("UserService - join()");
+      
+      System.out.println(joinDTO);
+      
+      Company company = new Company();
+      Member member = new Member();
+      
+      company.setCompany_id(joinDTO.getCompanyDTO().getCompany_id());
+      company.setName(joinDTO.getCompanyDTO().getName());
+      company.setAddress(joinDTO.getCompanyDTO().getAddress());
+      company.setEmployees(joinDTO.getCompanyDTO().getEmployees());
+      company.setManager(joinDTO.getCompanyDTO().getManager());
+      company.setEmail(joinDTO.getCompanyDTO().getEmail());
+      company.setWork_in(joinDTO.getCompanyDTO().getWork_in());
+      company.setWork_out(joinDTO.getCompanyDTO().getWork_out());
+      company.setKey(joinDTO.getCompanyDTO().getKey());
+      company.setAuthoriry(joinDTO.getCompanyDTO().getAuthoriry());
+      company.setEnabled(joinDTO.getCompanyDTO().getEnabled());
+//      member.setId(joinDTO.getLoginDTO().getId());
 //      // passwordEncoder를 사용하여 암호를 일반텍스트로 저장하지 않고 해시한다.
-//      user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDTO.getPassword())));
+//      member.setPwd(passwordEncoder.encode(CharBuffer.wrap(joinDTO.getLoginDTO().getPwd())));
 //      
-//      Member saveUser = userRepository.save(user);
-//      
-//      return saveUser;
-//   }
+//      Member saveUser = userRepository.save(member);
+      
+      Company saveCompany = companyRepository.save(company);
+      
+      return saveCompany;
+   }
    
 }
