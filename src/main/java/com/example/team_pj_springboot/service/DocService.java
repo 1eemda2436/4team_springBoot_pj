@@ -33,7 +33,7 @@ public interface DocService {
 	public List<ApprovalDTO> approvalBackList();
 	
 	// 문서작성페이지
-	public void insertDoc(DocDTO dto);
+	public DocDTO insertDoc(DocDTO dto);
 	
 	// 문서상세페이지
 	public DocDTO selectDoc(int doc_id);

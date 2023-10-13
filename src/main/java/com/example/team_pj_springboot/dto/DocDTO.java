@@ -6,17 +6,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="doc")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@DynamicInsert
 public class DocDTO {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@SequenceGenerator(
+	        name = "DOC_SEQ_GENERATOR",
+	        sequenceName = "DOC_SEQ",
+	        allocationSize = 1
+	    )
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DOC_SEQ_GENERATOR")
 	private int doc_id;				// 문서번호
 	private String id;				// 사번
 	private String doc_title;		// 문서제목

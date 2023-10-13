@@ -93,10 +93,10 @@ public class DocServiceImpl implements DocService{
 
 	// 문서작성페이지
 	@Override
-	public void insertDoc(DocDTO dto) {
+	public DocDTO insertDoc(DocDTO dto) {
 		System.out.println("DocServiceImpl - insertDoc");
 		
-		dao.save(dto);
+		return dao.save(dto);
 	}
 	
 	// 문서상세페이지

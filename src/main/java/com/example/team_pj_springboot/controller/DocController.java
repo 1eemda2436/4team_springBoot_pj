@@ -35,7 +35,7 @@ public class DocController {
 	@Autowired
 	private DocService service;
 	
-	// http://localhost:8081/doc/~
+	// http://localhost:8081/doc/adminTotal
 	// 어드민통합문서함
 	@GetMapping("/adminTotal")
 	public List<ApprovalDTO> selectAdmin(Model model) {
@@ -126,21 +126,13 @@ public class DocController {
 	
 	// 문서작성페이지 안됌
 	@PostMapping("/insert")
-	public void insertDoc(Model model) {
+	public String insertDoc(@ModelAttribute("dto") DocDTO dto, Model model) {
 		logger.info("<<< 컨트롤러 - insertDoc >>>");
 		
-		DocDTO dto = new DocDTO();
-		model.addAttribute("dto", dto);
-		
-	}
-	
-	// 문서작성저장 안됌
-	@PutMapping("/save")
-	public String insertSave(@ModelAttribute("dto") DocDTO dto) {
-		logger.info("<<< 컨트롤러 - insertSave >>>");
-		
 		service.insertDoc(dto);
+		
 		return "redirect:/";
+		
 	}
 	
 	// 문서상세페이지
