@@ -40,6 +40,6 @@ public class ViewDTO {
 	private int category_id;
 	private char doc_status;
 	private char doc_read;
-	private String name;
+	private String name; 
 	
 }
