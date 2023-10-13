@@ -25,8 +25,9 @@ import com.example.team_pj_springboot.dto.TemporaryDTO;
 import com.example.team_pj_springboot.dto.ViewDTO;
 import com.example.team_pj_springboot.service.DocService;
 
-@CrossOrigin(origins="**", maxAge=3600)
+@CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
+@RequestMapping("/doc")
 public class DocController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocController.class);
@@ -34,10 +35,21 @@ public class DocController {
 	@Autowired
 	private DocService service;
 	
-	// http://localhost:8081/
-	// 통합문서함
-	@GetMapping("/total")
-	public List<DocDTO> selectMember(Model model) {
+	// http://localhost:8081/doc/~
+	// 어드민통합문서함
+	@GetMapping("/adminTotal")
+	public List<ApprovalDTO> selectAdmin(Model model) {
+		logger.info("<<< 컨트롤러 - selectMember >>>");
+		
+		List<ApprovalDTO> list = service.approvalIngList();
+		model.addAttribute("list", list);
+		
+		return service.approvalIngList();
+	}
+	
+	// 게스트통합문서함
+	@GetMapping("/guestTotal")
+	public List<DocDTO> selectGuest(Model model) {
 		logger.info("<<< 컨트롤러 - selectMember >>>");
 		
 		List<DocDTO> list = service.draftList();
