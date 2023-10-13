@@ -1,7 +1,14 @@
 package com.example.team_pj_springboot.dto;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+import lombok.Data;
+
+@Entity
+@Table(name = "team")
+@Data
 public class TeamDTO {
 	@Id
 	private int 	team_id;	// 팀 id
