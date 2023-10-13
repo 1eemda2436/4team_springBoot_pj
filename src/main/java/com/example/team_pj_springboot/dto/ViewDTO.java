@@ -41,5 +41,5 @@ public class ViewDTO {
 	private char doc_status;
 	private char doc_read;
 	private String name;
-	 
+	
 }
