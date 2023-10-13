@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.team_pj_springboot.mappers.AdminMapper">
+    <!-- 신청된 연차 목록 -->
+    <select id="annualRequestsList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT annual_id
+              ,annual_title
+              ,confirm
+          FROM annual_board
+         ORDER BY annual_id ASC
+    </select>
+
+    <!-- 연차 상세페이지 -->
+    <select id="annualDetail" parameterType="int" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT * FROM annual_board WHERE annual_id = #{annual_id}
+    </select>
+
+    <!-- 연차 승인 -->
+    <update id="confirmAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+        UPDATE annual_board
+           SET confirm = 'Y'
+         WHERE annual_id = #{annual_id}
+    </update>
+
+    <!-- 연차 반려 -->
+    <update id="returnAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+        UPDATE annual_board
+           SET confirm = 'N'
+         WHERE annual_id = #{annual_id}
+    </update>
+
+	<!-- 부서별 근태 현황/통계 조회 -->
+	<resultMap id="departmentAttendanceResultMap" type="com.example.team_pj_springboot.dto.DepartmentDTO">
+	    <result property="depart_name" column="부서명" />
+	    <result property="name" column="사원 이름" />
+	    <result property="general_workin" column="출근 시간" />
+	    <result property="general_workout" column="퇴근 시간" />
+	    <result property="holiday_name" column="휴가 사유" />
+	    <result property="gived_holiday" column="휴가 기간" />
+	</resultMap>
+	
+	<!-- 부서별 근태 현황/통계 조회 -->
+	<select id="departmentAttendanceStatus" parameterType="String" resultMap="departmentAttendanceResultMap">
+	    SELECT
+	        D.depart_name AS "부서명",
+	        M.name AS "사원 이름",
+	        MA.general_workin AS "출근 시간",
+	        MA.general_workout AS "퇴근 시간",
+	        MA.holiday_name AS "휴가 사유",
+	        MA.gived_holiday AS "휴가 기간"
+	    FROM
+	        MEMBER M
+	    INNER JOIN
+	        MEMBER_ATTENDANCE MA ON M.id = MA.id
+	    INNER JOIN
+	        department D ON M.depart_id = D.depart_id
+	    WHERE
+	        D.depart_name = '${depart_name}'
+	    ORDER BY
+	        D.depart_name, M.name;
+	</select>
+
+
+    <!-- 부서별 근태 현황(상세)[ 출근/지각/연차 률 ] -->
+    <select id="departmentAtPercent" parameterType="int" resultMap="departmentAttendanceResultMap">
+        <![CDATA[
+        SELECT
+            D.depart_name AS "부서명",
+            CONCAT(
+                ROUND(
+                    (SUM(CASE WHEN MA.GENERAL_WORKIN <= TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 ELSE 0 END) / COUNT(M.id)) * 100, 2
+                ),
+                '%'
+            ) AS "출근률",
+            CONCAT(
+                ROUND(
+                    (SUM(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 ELSE 0 END) / COUNT(M.id)) * 100, 2
+                ),
+                '%'
+            ) AS "지각률",
+            CONCAT(
+                ROUND(
+                    ((COUNT(M.id) - SUM(MA.USED_ANNUAL)) / COUNT(M.id)) * 100, 2
+                ),
+                '%'
+            ) AS "연차율"
+        FROM
+            MEMBER M
+        INNER JOIN
+            MEMBER_ATTENDANCE MA ON M.id = MA.ID
+        INNER JOIN
+            department D ON M.depart_id = D.depart_id
+        GROUP BY
+            D.depart_name
+        ORDER BY
+            D.depart_name
+        ]]>
+    </select>
+
+    <!-- 부서별 근태 현황(상세)[ 캘린더 ] -->
+    <select id="departmentAtCal" parameterType="int" resultMap="departmentAttendanceResultMap">
+        SELECT 
+            M.name AS "사원 이름",
+            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 END) AS "연차",
+            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'N' AND MA.HOLIDAY_NAME IS NOT NULL THEN 1 END) AS "휴가",
+            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'N' AND MA.HOLIDAY_NAME IS NULL AND MA.GENERAL_WORKIN IS NOT NULL THEN 1 END) AS "결근",
+            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'N' AND MA.GENERAL_WORKIN IS NOT NULL AND EXTRACT(HOUR FROM (MA.GENERAL_WORKIN - TO_TIMESTAMP(TO_CHAR(MA.GENERAL_WORKIN, 'YYYY-MM-DD') || ' 08:59:59', 'YYYY-MM-DD HH24:MI:SS'))) > 0 THEN 1 END) AS "지각"
+        FROM
+            MEMBER M
+        INNER JOIN
+            MEMBER_ATTENDANCE MA ON M.id = MA.ID
+        INNER JOIN
+            department D ON M.depart_id = D.depart_id
+        GROUP BY
+            D.depart_name, M.name
+        ORDER BY
+            D.depart_name, M.name
+    </select>
+
+    <!-- 부서별 근태 현황 [ 지각자 수 / 통계 , 연차 및 휴가자 수 / 통계 ] -->
+    <select id="departmentAtCount" parameterType="int" resultMap="departmentAttendanceResultMap">
+        SELECT
+            D.depart_name AS "부서명",
+            COUNT(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 END) AS "지각자 수",
+            ROUND(
+                (COUNT(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 END) / COUNT(M.id)) * 100,
+                2
+            ) AS "지각자 통계(%)",
+            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 END) AS "연차 및 휴가자 수",
+            ROUND(
+                (COUNT(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 END) / COUNT(M.id)) * 100,
+                2
+            ) AS "연차 및 휴가자 통계(%)"
+        FROM
+            MEMBER M
+        INNER JOIN
+            MEMBER_ATTENDANCE MA ON M.id = MA.ID
+        INNER JOIN
+            department D ON M.depart_id = D.depart_id
+        GROUP BY
+            D.depart_name
+        ORDER BY
+            D.depart_name
+    </select>
+
+    <!-- 부서별 근태 통계(상세) [ 이름순 / 지각순 / 사번순 / 정렬기능 ] -->
+    <select id="departmentStDetails" parameterType="int" resultMap="departmentAttendanceResultMap">
+        SELECT
+            M.name AS "이름",
+            COUNT(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 END) AS "지각 횟수",
+            M.id AS "사원번호"
+        FROM
+            MEMBER M
+        INNER JOIN
+            MEMBER_ATTENDANCE MA ON M.id = MA.ID
+        INNER JOIN
+            department D ON M.depart_id = D.depart_id
+        GROUP BY
+            M.name, M.id
+        ORDER BY
+            M.name ASC, "지각 횟수" ASC, M.id ASC
+    </select>
+
+    <!-- 전사 근태 현황/통계 -->
+    <select id="companyStatus" resultMap="departmentAttendanceResultMap">
+        SELECT
+            C.name AS "회사명",
+            D.depart_name AS "부서명",
+            SUM(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 ELSE 0 END) AS "지각 횟수",
+            SUM(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 ELSE 0 END) AS "연차 및 휴가 횟수"
+        FROM
+            company C
+        INNER JOIN
+            department D ON C.company_id = D.company_id
+        LEFT JOIN
+            MEMBER M ON D.depart_id = M.depart_id
+        LEFT JOIN
+            MEMBER_ATTENDANCE MA ON M.id = MA.ID
+        GROUP BY
+            C.name, D.depart_name
+        ORDER BY
+            C.name, D.depart_name
+    </select>
+
+</mapper>
