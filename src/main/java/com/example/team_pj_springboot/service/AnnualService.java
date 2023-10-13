@@ -3,6 +3,7 @@ package com.example.team_pj_springboot.service;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.VacationDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +26,18 @@ public interface AnnualService {
 	
 	// 연차 상세페이지 반려 및 조회
 	public void annualReturn(AnnualDTO dto) throws ServletException, IOException;
+	
+	// 휴가 신청 목록 조회
+	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model) throws ServletException, IOException;
+	
+	// 휴가 상세페이지
+	public VacationDTO vacationDetail(int vacation_id) throws ServletException, IOException;
+	
+	// 휴가 상세페이지 승인 및 조회
+	public void vacationConfirm(VacationDTO dto) throws ServletException, IOException;
+	
+	// 휴가 상세페이지 반려 및 조회
+	public void vacationReturn(VacationDTO dto) throws ServletException, IOException;
 	
 	// 부서별 근태 현황/통계 조회 (부서 하나)
 	public DepartmentDTO departmentAttendanceStatus(int depart_id) throws ServletException, IOException;

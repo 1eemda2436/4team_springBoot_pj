@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AnnualServiceImpl;
 
 @CrossOrigin(origins = "**", maxAge = 3600)
@@ -69,6 +70,45 @@ public class AttendanceController {
 		
 		service.annualReturn(dto);
 	}
+	
+	//////////////////////////////////////////////////////////////////////
+	
+	// 휴가 신청 목록 조회 (Select)
+	@GetMapping("/vacationRequestsList")
+	public List<VacationDTO> vacationRequestsList (HttpServletRequest req, Model model) 
+			throws ServletException, IOException {
+		logger.info("[ AttendanceController - vacationRequestsList ]");
+		
+		return service.vacationRequestsList(req, model);
+	}
+	
+	// 휴가 상세 페이지 (Select)
+	@GetMapping("/vacationDetail/{vacation_id}")
+	public VacationDTO vacationDetail (@PathVariable int vacation_id) throws ServletException, IOException {
+		logger.info("[ AttendanceController - vacationDetail ]");
+		
+		return service.vacationDetail(vacation_id);
+	}
+	
+	// 휴가 상세페이지 승인 및 조회 (Update)
+	@PutMapping("/vacationConfirm/{vacation_id}")
+	public void vacationConfirm (@PathVariable int vacation_id, @RequestBody VacationDTO dto) 
+			throws ServletException, IOException {
+		logger.info("[ AttendanceController - vacationConfirm ]");
+		
+		service.vacationConfirm(dto);
+	}
+	
+	// 휴가 상세페이지 반려 및 조회 (Update)
+	@PutMapping("/vacationReturn/{vacation_id}")
+	public void vacationReturn (@PathVariable int vacation_id, @RequestBody VacationDTO dto) 
+			throws ServletException, IOException {
+		logger.info("[ AttendanceController - vacationReturn ]");
+		
+		service.vacationReturn(dto);
+	}
+	
+	//////////////////////////////////////////////////////////////////////
 	
 	// 부서별 근태 현황/통계 조회 (Select)
 	@GetMapping("/departmentAttendanceStatus/{depart_id}")

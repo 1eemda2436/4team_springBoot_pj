@@ -31,6 +31,34 @@
            SET confirm = 'N'
          WHERE annual_id = #{annual_id}
     </update>
+    
+    <!-- 신청된 휴가 목록 -->
+    <select id="vacationRequestsList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT vacation_id
+              ,vacation_title
+              ,confirm
+          FROM vacation_board
+         ORDER BY vacation_id ASC
+    </select>
+
+    <!-- 휴가 상세페이지 -->
+    <select id="vacationDetail" parameterType="int" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT * FROM vacation_board WHERE vacation_id = #{vacation_id}
+    </select>
+
+    <!-- 휴가 승인 -->
+    <update id="confirmVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+        UPDATE vacation_board
+           SET confirm = 'Y'
+         WHERE vacation_id = #{vacation_id}
+    </update>
+
+    <!-- 휴가 반려 -->
+    <update id="returnVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+        UPDATE vacation_board
+           SET confirm = 'N'
+         WHERE vacation_id = #{vacation_id}
+    </update>
 
 	<!-- 부서별 근태 현황/통계 조회 -->
 	<resultMap id="departmentAttendanceResultMap" type="com.example.team_pj_springboot.dto.DepartmentDTO">

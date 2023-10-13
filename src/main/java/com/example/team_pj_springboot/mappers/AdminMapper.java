@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Mapper
 public interface AdminMapper {
@@ -17,6 +18,13 @@ public interface AdminMapper {
 	
 	public void confirmAnnual(AnnualDTO dto);		// 연차 승인
 	public void returnAnnual(AnnualDTO dto);		// 연차 반려
+	
+	public List<VacationDTO> vacationRequestsList();	// 신청된 휴가 목록
+	
+	public VacationDTO vacationDetail(int vacation_id);	// 휴가 글 상세페이지
+	
+	public void confirmVacation(VacationDTO dto);		// 휴가 승인
+	public void returnVacation(VacationDTO dto);		// 휴가 반려
 	
 	public DepartmentDTO departmentAttendanceStatus(int depart_id);	// 부서별 근태 현황/통계 조회 (부서 하나)
 	

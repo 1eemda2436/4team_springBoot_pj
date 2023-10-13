@@ -14,6 +14,7 @@ import com.example.team_pj_springboot.mappers.AdminMapper;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Service
 public class AnnualServiceImpl implements AnnualService {
@@ -61,7 +62,50 @@ public class AnnualServiceImpl implements AnnualService {
 		
 		dao.returnAnnual(dto);
 	}
+//////////////////////////////////
+	
+	// 휴가 신청 목록 조회
+	@Override
+	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model)
+			throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationRequestsList ]");
+		
+		List<VacationDTO> VacationList = dao.vacationRequestsList();
+		
+		System.out.println("VacationList : " + VacationList);
+		
+		return VacationList;
+	}
 
+	// 휴가 상세페이지
+	@Override
+	public VacationDTO vacationDetail(int vacation_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationDetail ]");
+		
+		VacationDTO VcDto = dao.vacationDetail(vacation_id);
+		
+		System.out.println("VcDto : " + VcDto);
+		
+		return VcDto;
+	}
+
+	// 휴가 상세페이지 승인 및 조회
+	@Override
+	public void vacationConfirm(VacationDTO dto) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationConfirm ]");
+		
+		dao.confirmVacation(dto);
+	}
+
+	// 휴가 상세페이지 반려 및 조회
+	@Override
+	public void vacationReturn(VacationDTO dto) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationReturn ]");
+		
+		dao.returnVacation(dto);
+	}
+	
+//////////////////////////////////
 	// 부서별 근태 현황/통계 조회 (부서 하나)
 	@Override
 	public DepartmentDTO departmentAttendanceStatus(int depart_id)
@@ -113,5 +157,7 @@ public class AnnualServiceImpl implements AnnualService {
 		
 		return ComDto;
 	}
+
+
 
 }
