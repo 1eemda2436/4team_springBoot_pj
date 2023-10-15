@@ -2,12 +2,14 @@ package com.example.team_pj_springboot.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,15 +28,17 @@ public class CompanyController {
 	
 	@Autowired
 	private CompanyService service;
-	
+	 
 	//http://localhost:8081/company
 	//admin 메인 페이지 회사 정보 출력
 	@GetMapping("/{company_id}")
-	public CompanyDTO adminsMain(@PathVariable(name="company_id") String company_id) 
+	public Optional<CompanyDTO> adminsMain(@PathVariable(name="company_id") String companyId) 
 			throws ServletException, IOException{
 		logger.info("[adminsMain]");
 		
-		return service.main(company_id);
+		Optional<CompanyDTO> dto = service.main(companyId);
+		
+		return dto;
 	}
 	
 }
