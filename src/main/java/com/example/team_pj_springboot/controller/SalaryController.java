@@ -22,13 +22,10 @@ public class SalaryController {
 	@Autowired
 	private SalaryService service;
 	
-	//http://localhost:8081/salaryMain
+	//http://localhost:8081/salary/salaryMain
 	@GetMapping("/salaryMain")
     public List<SalaryAndMemberDTO> salaryAndMemberInfo() {
 		logger.info("[salaryAndMemberInfo]");
-		
-//		List<SalaryAndMemberDTO> list = service.getSalaryAndMemberInfo();
-//		model.addAttribute("list", list);
 		
         return service.getSalaryAndMemberInfo();
     }
@@ -36,9 +33,6 @@ public class SalaryController {
 	@GetMapping("/personnel")
 	public List<MemberDTO> personnelInfo(){
 		logger.info("[personnelInfo]");
-		
-//		List<MemberDTO> list = service.getPersonnelInfo();
-//		model.addAttribute("list", list);
 		
 		return service.getPersonnelInfo();
 	}

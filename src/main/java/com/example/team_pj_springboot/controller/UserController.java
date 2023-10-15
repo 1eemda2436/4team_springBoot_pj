@@ -47,7 +47,7 @@ public class UserController {
 	    // 엔티티를 생성할 때 새 엔티티를 찾을 수 있는 URL과 함께 201HTTP 코드를 반환하는 것이 가장 좋다.
 	    CompanyDTO companyDTO = userService.companyJoin(joinDTO);//리액트에서 넘어온 정보 + 토큰 → 토큰 insert
 	    
-	    return ResponseEntity.created(URI.create("/company/" + companyDTO.getCompany_id()))
+	    return ResponseEntity.created(URI.create("/company/" + companyDTO.getCompanyId()))
 	            .body(companyDTO); //크롬 Network - Headers : 201Created 반환
 	}
 }
