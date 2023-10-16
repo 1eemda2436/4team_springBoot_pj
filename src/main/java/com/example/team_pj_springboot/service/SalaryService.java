@@ -11,10 +11,12 @@ import com.example.team_pj_springboot.repository.SalaryRepository;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.SalaryAndMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
+import com.example.team_pj_springboot.dto.payStatementDTO;
 import com.example.team_pj_springboot.mappers.UserMapper;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SalaryService {
@@ -33,6 +35,19 @@ public class SalaryService {
         return salaryRepository.getSalaryAndMemberInfo();
     }
     
+    //관리자 월급 명세서
+    @Transactional
+    public Optional<payStatementDTO> payStatementInfo(String id) {
+    	return salaryRepository.payStatementInfo(id);
+    }
+    
+//    //월급 추가
+//    @Transactional
+//    public void saveSalary(SalaryDTO dto) {
+//    	salaryRepository.save(dto);
+//    }
+    
+    //관리자 인사관리 PersonnelInfo
     @Transactional
     public List<MemberDTO> getPersonnelInfo(){
     	return memberRepository.findAll();

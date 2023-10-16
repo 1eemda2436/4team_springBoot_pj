@@ -61,7 +61,7 @@ public class UserService {
       CompanyDTO company = new CompanyDTO();
       MemberDTO member = new MemberDTO();
       
-      company.setCompany_id(joinDTO.getCompanyDTO().getCompany_id());
+      company.setCompanyId(joinDTO.getCompanyDTO().getCompanyId());
       company.setName(joinDTO.getCompanyDTO().getName());
       company.setAddress(joinDTO.getCompanyDTO().getAddress());
       company.setEmployees(joinDTO.getCompanyDTO().getEmployees());

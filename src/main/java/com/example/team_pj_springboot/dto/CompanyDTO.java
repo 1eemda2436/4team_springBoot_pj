@@ -2,6 +2,7 @@ package com.example.team_pj_springboot.dto;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,8 +22,11 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 @Data
 public class CompanyDTO {
+	
 	@Id
-	private String company_id; //회사 id
+    @Column(name = "company_id") // 회사 id
+    private String companyId; // 회사 id
+	
 	private String name; //회사명
 	private String address; //회사 주소
 	private int employees; //직원 수
