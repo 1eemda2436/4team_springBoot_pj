@@ -1,7 +1,7 @@
 package com.example.team_pj_springboot.service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import com.example.team_pj_springboot.repository.MemberRepository;
 import com.example.team_pj_springboot.repository.TemporaryRepository;
 import com.example.team_pj_springboot.repository.ViewRepository;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -101,10 +102,10 @@ public class DocServiceImpl implements DocService{
 	
 	// 문서상세페이지
 	@Override
-	public DocDTO selectDoc(int doc_id) {
+	public Optional<DocAndCategoryDTO> selectDoc(int doc_id) {
 		System.out.println("DocServiceImpl - selectDoc");
 		
-		return dao.findById(doc_id).get();
+		return dao.selectOneDoc(doc_id);
 	}
 
 	// 문서수정페이지

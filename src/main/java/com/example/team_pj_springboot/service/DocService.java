@@ -1,9 +1,10 @@
 package com.example.team_pj_springboot.service;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -36,7 +37,7 @@ public interface DocService {
 	public DocDTO insertDoc(DocDTO dto);
 	
 	// 문서상세페이지
-	public DocDTO selectDoc(int doc_id);
+	public Optional<DocAndCategoryDTO> selectDoc(int doc_id);
 	
 	// 문서수정페이지
 	public DocDTO updateDoc(int doc_id);

@@ -34,5 +34,5 @@ public class TemporaryDTO {
 	private int doc_id;
 	private String id;
 	private Date save_date;
-	
+	private String doc_title;
 }

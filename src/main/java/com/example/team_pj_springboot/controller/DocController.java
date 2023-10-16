@@ -1,7 +1,7 @@
 package com.example.team_pj_springboot.controller;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -58,7 +59,7 @@ public class DocController {
 		return service.draftList();
 	}
 	
-	// 기안문서함
+	// 기안문서함 - 연결완료
 	@GetMapping("/draft")
 	public List<DocDTO> draftList(Model model) {
 		logger.info("<<< 컨트롤러 - draftList >>>");
@@ -80,7 +81,7 @@ public class DocController {
 		return service.viewList();
 	}
 	
-	// 임시저장목록
+	// 임시저장목록 - 연결완료
 	@GetMapping("/temporary")
 	public List<TemporaryDTO> temporaryList(Model model) {
 		logger.info("<<< 컨트롤러 - temporaryList >>>");
@@ -98,6 +99,7 @@ public class DocController {
 		
 		List<ApprovalDTO> list = service.approvalEndList();
 		model.addAttribute("list", list);
+		System.out.println("list" + list);
 		
 		return service.approvalEndList();
 	}
@@ -137,13 +139,12 @@ public class DocController {
 	
 	// 문서상세페이지
 	@GetMapping("/detail/{doc_id}")
-	public DocDTO selectDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
+	public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
 		logger.info("<<< 컨트롤러 - selectDoc >>>");
 		
-		DocDTO dto = service.selectDoc(doc_id);
-		model.addAttribute("dto", dto);
+		Optional<DocAndCategoryDTO> dto = service.selectDoc(doc_id);
 		
-		return service.selectDoc(doc_id);
+		return dto;
 	}
 	
 	// 문서수정페이지 안됌
