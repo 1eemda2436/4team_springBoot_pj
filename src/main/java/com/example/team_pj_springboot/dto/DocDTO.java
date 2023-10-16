@@ -39,7 +39,7 @@ public class DocDTO {
 	private int category_id;		// 카테고리번호
 	private char doc_status;		// 문서상태
 	private char doc_read;			// 회람여부
-	private String name;			// 이름
+	private String name;			// 이름 
 	
 	
 	public DocDTO(int doc_id, Date doc_date, String id, String doc_title, String doc_content, String doc_attachment, Date doc_enddate, int category_id, char doc_status, char doc_read, String name) {

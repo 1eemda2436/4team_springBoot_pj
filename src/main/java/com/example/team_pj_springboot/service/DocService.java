@@ -43,6 +43,6 @@ public interface DocService {
 	public DocDTO updateDoc(int doc_id);
 	
 	// 문서삭제페이지
-	public void deleteDoc(int doc_id);
+	public void deleteDoc(int doc_id); 
 	
 }

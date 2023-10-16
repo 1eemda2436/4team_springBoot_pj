@@ -16,6 +16,6 @@ public interface DocRepository extends JpaRepository<DocDTO, Integer>{
 			"JOIN MemberDTO m ON d.id = m.id " + 
 			"JOIN CategoryDTO c ON d.category_id = c.category_id " +
 			"WHERE d.doc_id = :doc_id")
-	Optional<DocAndCategoryDTO> selectOneDoc(@Param("doc_id") int doc_id);
+	Optional<DocAndCategoryDTO> selectOneDoc(@Param("doc_id") int doc_id); 
 }
 
