@@ -41,6 +41,12 @@ public class SalaryService {
     	return salaryRepository.payStatementInfo(id);
     }
     
+//    //월급 추가
+//    @Transactional
+//    public void saveSalary(SalaryDTO dto) {
+//    	salaryRepository.save(dto);
+//    }
+    
     //관리자 인사관리 PersonnelInfo
     @Transactional
     public List<MemberDTO> getPersonnelInfo(){
