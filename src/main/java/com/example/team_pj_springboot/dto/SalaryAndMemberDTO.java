@@ -12,14 +12,14 @@ import lombok.Data;
 public class SalaryAndMemberDTO {
 	
 	@Id
-    private int s_id;
-    private String id;
-    private String name;
-    private int resident;
-    private String contract;
-    private int depart_id;
-    private String rank;
-    private char state;
-    private char estate;
-    private int salary;
+    private int s_id;			//순번
+    private String id;			//사번
+    private String name;		//이름
+    private int resident;		//주민번호
+    private String contract;	//계약형태
+    private int depart_id;		//부서ID
+    private String rank;		//직급
+    private char state;			//사원 업무상태 (1-업무중 / 2-외출 / 3-비활성화)
+    private char estate;		//재직여부(1-재직, 0-퇴사)
+    private int salary;			//기본급
 }
