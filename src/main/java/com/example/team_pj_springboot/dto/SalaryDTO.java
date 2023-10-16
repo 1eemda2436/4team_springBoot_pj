@@ -1,17 +1,27 @@
 package com.example.team_pj_springboot.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Data;
 
 @Entity
 @Table(name="salary")
+@DynamicInsert
+@DynamicUpdate
 @Data
 public class SalaryDTO {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "salary_seq")
+	@SequenceGenerator(name = "salary_seq", sequenceName = "salaryPayStatement", allocationSize = 1)
     private int s_id; // 순번
     private String id; // 사원 고유 번호 (member 테이블 FK)
     private int salary; // 기본급
