@@ -35,7 +35,11 @@ public class AttendanceController {
 	
 	@Autowired
 	private AnnualServiceImpl service;
-		
+	
+	/////////////////////////////////////////////////////////////////////
+	/////////////////////////////// ADMIN ///////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+	
 	// 연차 신청 목록 조회 (Select)
 	@GetMapping("/annualRequestsList")
 	public List<AnnualDTO> annualRequestsList (HttpServletRequest req, Model model) 
@@ -50,25 +54,27 @@ public class AttendanceController {
 	public AnnualDTO annualDetail (@PathVariable int annual_id) throws ServletException, IOException {
 		logger.info("[ AttendanceController - annualDetail ]");
 		
-		return service.annualDetail(annual_id);
+		AnnualDTO dto = service.annualDetail(annual_id);
+		
+		return dto;
 	}
 	
 	// 연차 상세페이지 승인 및 조회 (Update)
 	@PutMapping("/annualConfirm/{annual_id}")
-	public void annualConfirm (@PathVariable int annual_id, @RequestBody AnnualDTO dto) 
+	public void annualConfirm (@PathVariable int annual_id) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - annualConfirm ]");
 		
-		service.annualConfirm(dto);
+		service.annualConfirm(annual_id);
 	}
 	
 	// 연차 상세페이지 반려 및 조회 (Update)
 	@PutMapping("/annualReturn/{annual_id}")
-	public void annualReturn (@PathVariable int annual_id, @RequestBody AnnualDTO dto) 
+	public void annualReturn (@PathVariable int annual_id) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - annualReturn ]");
 		
-		service.annualReturn(dto);
+		service.annualReturn(annual_id);
 	}
 	
 	//////////////////////////////////////////////////////////////////////
@@ -92,20 +98,20 @@ public class AttendanceController {
 	
 	// 휴가 상세페이지 승인 및 조회 (Update)
 	@PutMapping("/vacationConfirm/{vacation_id}")
-	public void vacationConfirm (@PathVariable int vacation_id, @RequestBody VacationDTO dto) 
+	public void vacationConfirm (@PathVariable int vacation_id) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - vacationConfirm ]");
 		
-		service.vacationConfirm(dto);
+		service.vacationConfirm(vacation_id);
 	}
 	
 	// 휴가 상세페이지 반려 및 조회 (Update)
 	@PutMapping("/vacationReturn/{vacation_id}")
-	public void vacationReturn (@PathVariable int vacation_id, @RequestBody VacationDTO dto) 
+	public void vacationReturn (@PathVariable int vacation_id) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - vacationReturn ]");
 		
-		service.vacationReturn(dto);
+		service.vacationReturn(vacation_id);
 	}
 	
 	//////////////////////////////////////////////////////////////////////
@@ -143,5 +149,11 @@ public class AttendanceController {
 		
 		return service.companyStatus(req, model);
 	}
+	
+	/////////////////////////////////////////////////////////////////////
+	/////////////////////////////// GUEST ///////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+	
+	
 	
 }

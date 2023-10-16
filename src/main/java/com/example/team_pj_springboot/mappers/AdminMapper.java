@@ -16,15 +16,15 @@ public interface AdminMapper {
 	
 	public AnnualDTO annualDetail(int annual_id);	// 연차 글 상세페이지
 	
-	public void confirmAnnual(AnnualDTO dto);		// 연차 승인
-	public void returnAnnual(AnnualDTO dto);		// 연차 반려
+	public void confirmAnnual(int annual_id);		// 연차 승인
+	public void returnAnnual(int annual_id);		// 연차 반려
 	
 	public List<VacationDTO> vacationRequestsList();	// 신청된 휴가 목록
 	
 	public VacationDTO vacationDetail(int vacation_id);	// 휴가 글 상세페이지
 	
-	public void confirmVacation(VacationDTO dto);		// 휴가 승인
-	public void returnVacation(VacationDTO dto);		// 휴가 반려
+	public void confirmVacation(int vacation_id);		// 휴가 승인
+	public void returnVacation(int vacation_id);		// 휴가 반려
 	
 	public DepartmentDTO departmentAttendanceStatus(int depart_id);	// 부서별 근태 현황/통계 조회 (부서 하나)
 	

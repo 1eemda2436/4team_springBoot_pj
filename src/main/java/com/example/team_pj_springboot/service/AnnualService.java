@@ -22,10 +22,10 @@ public interface AnnualService {
 	public AnnualDTO annualDetail(int annual_id) throws ServletException, IOException;
 	
 	// 연차 상세페이지 승인 및 조회
-	public void annualConfirm(AnnualDTO dto) throws ServletException, IOException;
+	public void annualConfirm(int annual_id) throws ServletException, IOException;
 	
 	// 연차 상세페이지 반려 및 조회
-	public void annualReturn(AnnualDTO dto) throws ServletException, IOException;
+	public void annualReturn(int annual_id) throws ServletException, IOException;
 	
 	// 휴가 신청 목록 조회
 	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model) throws ServletException, IOException;
@@ -34,10 +34,10 @@ public interface AnnualService {
 	public VacationDTO vacationDetail(int vacation_id) throws ServletException, IOException;
 	
 	// 휴가 상세페이지 승인 및 조회
-	public void vacationConfirm(VacationDTO dto) throws ServletException, IOException;
+	public void vacationConfirm(int vacation_id) throws ServletException, IOException;
 	
 	// 휴가 상세페이지 반려 및 조회
-	public void vacationReturn(VacationDTO dto) throws ServletException, IOException;
+	public void vacationReturn(int vacation_id) throws ServletException, IOException;
 	
 	// 부서별 근태 현황/통계 조회 (부서 하나)
 	public DepartmentDTO departmentAttendanceStatus(int depart_id) throws ServletException, IOException;

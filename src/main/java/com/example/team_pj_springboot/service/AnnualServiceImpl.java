@@ -49,18 +49,18 @@ public class AnnualServiceImpl implements AnnualService {
 
 	// 연차 상세페이지 승인 및 조회
 	@Override
-	public void annualConfirm(AnnualDTO dto) throws ServletException, IOException {
+	public void annualConfirm(int annual_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → annualConfirm ]");
 		
-		dao.confirmAnnual(dto);
+		dao.confirmAnnual(annual_id);
 	}
 
 	// 연차 상세페이지 반려 및 조회
 	@Override
-	public void annualReturn(AnnualDTO dto) throws ServletException, IOException {
+	public void annualReturn(int annual_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → annualReturn ]");
 		
-		dao.returnAnnual(dto);
+		dao.returnAnnual(annual_id);
 	}
 //////////////////////////////////
 	
@@ -91,18 +91,18 @@ public class AnnualServiceImpl implements AnnualService {
 
 	// 휴가 상세페이지 승인 및 조회
 	@Override
-	public void vacationConfirm(VacationDTO dto) throws ServletException, IOException {
+	public void vacationConfirm(int vacation_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → vacationConfirm ]");
 		
-		dao.confirmVacation(dto);
+		dao.confirmVacation(vacation_id);
 	}
 
 	// 휴가 상세페이지 반려 및 조회
 	@Override
-	public void vacationReturn(VacationDTO dto) throws ServletException, IOException {
+	public void vacationReturn(int vacation_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → vacationReturn ]");
 		
-		dao.returnVacation(dto);
+		dao.returnVacation(vacation_id);
 	}
 	
 //////////////////////////////////
