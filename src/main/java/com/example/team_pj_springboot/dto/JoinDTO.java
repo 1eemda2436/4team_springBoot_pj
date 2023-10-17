@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class JoinDTO {
 	private CompanyDTO companyDTO;
-    private LoginDTO loginDTO;
+	private DepartmentDTO departmentDTO;
+	private TeamDTO teamDTO;
+	private MemberDTO memberDTO;
 }

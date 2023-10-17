@@ -1,19 +1,24 @@
 package com.example.team_pj_springboot.service;
 
 import java.nio.CharBuffer;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.team_pj_springboot.dto.CompanyDTO;
+import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.JoinDTO;
 import com.example.team_pj_springboot.dto.LoginDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
+import com.example.team_pj_springboot.dto.TeamDTO;
 import com.example.team_pj_springboot.exception.AppException;
 import com.example.team_pj_springboot.mappers.UserMapper;
 import com.example.team_pj_springboot.repository.CompanyRepository;
+import com.example.team_pj_springboot.repository.DepartmentRepository;
+import com.example.team_pj_springboot.repository.MemberRepository;
+import com.example.team_pj_springboot.repository.TeamRepository;
 import com.example.team_pj_springboot.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +29,9 @@ public class UserService {
 
    private final UserRepository userRepository;
    private final CompanyRepository companyRepository;
+   private final DepartmentRepository departmentRepository;
+   private final TeamRepository teamRepository;
+   private final MemberRepository memberRepository;
    private final UserMapper userMapper;
    private final PasswordEncoder passwordEncoder;
    
@@ -51,16 +59,14 @@ public class UserService {
       throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
    }
    
-   
-   public CompanyDTO companyJoin(JoinDTO joinDTO) {
+   @Transactional
+   public JoinDTO companyJoin(JoinDTO joinDTO) {
       
       System.out.println("UserService - join()");
       
       System.out.println(joinDTO);
       
       CompanyDTO company = new CompanyDTO();
-      MemberDTO member = new MemberDTO();
-      
       company.setCompanyId(joinDTO.getCompanyDTO().getCompanyId());
       company.setName(joinDTO.getCompanyDTO().getName());
       company.setAddress(joinDTO.getCompanyDTO().getAddress());
@@ -70,17 +76,51 @@ public class UserService {
       company.setWork_in(joinDTO.getCompanyDTO().getWork_in());
       company.setWork_out(joinDTO.getCompanyDTO().getWork_out());
       company.setKey(joinDTO.getCompanyDTO().getKey());
-      company.setAuthoriry(joinDTO.getCompanyDTO().getAuthoriry());
       company.setEnabled(joinDTO.getCompanyDTO().getEnabled());
-//      member.setId(joinDTO.getLoginDTO().getId());
-//      // passwordEncoder를 사용하여 암호를 일반텍스트로 저장하지 않고 해시한다.
-//      member.setPwd(passwordEncoder.encode(CharBuffer.wrap(joinDTO.getLoginDTO().getPwd())));
-//      
-//      Member saveUser = userRepository.save(member);
       
       CompanyDTO saveCompany = companyRepository.save(company);
+      System.out.println(saveCompany);
       
-      return saveCompany;
+      
+      DepartmentDTO department = new DepartmentDTO();
+      department.setCompany_id(saveCompany.getCompanyId());
+      department.setDepart_name("임시 부서");
+      
+      DepartmentDTO saveDepartment = departmentRepository.save(department);
+      System.out.println(saveDepartment);
+      
+      
+      TeamDTO team = new TeamDTO();
+      team.setDepart_id(saveDepartment.getDepart_id());
+      team.setTeam_name("임시 팀");
+      
+      TeamDTO saveTeam = teamRepository.save(team);
+      System.out.println(saveTeam);
+      
+      
+      MemberDTO member = new MemberDTO();
+      member.setId(joinDTO.getMemberDTO().getId());
+      member.setPwd(passwordEncoder.encode(CharBuffer.wrap(joinDTO.getMemberDTO().getPwd())));
+      member.setName(saveCompany.getManager());
+      member.setCompany_id(saveCompany.getCompanyId());
+      member.setEmail(saveCompany.getEmail());
+      member.setKey(saveCompany.getKey());
+      member.setAuthority("MANAGER");
+      member.setEnabled(saveCompany.getEnabled());
+      member.setDepart_id(saveDepartment.getDepart_id());
+      member.setTeam_id(saveTeam.getTeam_id());
+      
+      MemberDTO saveManager = memberRepository.save(member);
+      System.out.println(saveManager);
+      
+      JoinDTO saveJoin = new JoinDTO();
+      
+      saveJoin.setCompanyDTO(saveCompany);
+      saveJoin.setDepartmentDTO(saveDepartment);
+      saveJoin.setTeamDTO(saveTeam);
+      saveJoin.setMemberDTO(saveManager);
+      
+      return saveJoin;
    }
    
 }
