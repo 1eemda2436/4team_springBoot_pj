@@ -44,7 +44,7 @@ public class WebConfig {
             ));
       
       config.setMaxAge(3600L);   // 옵션 요청이 수락되는 시간 30분
-      source.registerCorsConfiguration("/**", config);   // Spring Security 필터전에 사용하기 위해 요청에 ㅓㅈㄱ용
+      source.registerCorsConfiguration("/**", config);   // Spring Security 필터전에 사용하기 위해 요청에 적용
       
       System.out.println("<<< WebConfig-3 >>>");
       FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source)); // import org.springframework.web.filter.CorsFilter

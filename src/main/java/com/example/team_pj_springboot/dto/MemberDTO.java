@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="member")
-@Builder
 @DynamicInsert
 @Data
 public class MemberDTO {
@@ -41,11 +40,12 @@ public class MemberDTO {
     private String bank; // 계좌
     private String contract; // 계약 형태(유형)
     private String sign; // 사원 사인 이미지
-    private char state; // 사원 업무상태 (1-업무중 / 2-외출 / 3-비활성화)
-    private char e_state; // 재직여부(1-재직, 0-퇴사)
+    private char state = 1; // 사원 업무상태 (1-업무중 / 2-외출 / 3-비활성화)
+    private char e_state = 1; // 재직여부(1-재직, 0-퇴사)
     private String key; // 문자인증 키
     private String authority; // 권한
-    private char enabled; // 인증여부 (Y/N)
+    private char enabled = 'N'; // 인증여부 (Y/N)
+    private String token;
 }
 
 
