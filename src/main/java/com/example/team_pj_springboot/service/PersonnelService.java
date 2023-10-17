@@ -23,4 +23,9 @@ public class PersonnelService {
 		personnelRepository.save(dto);
 	}
 	
+	public String findMaxEmployeeId() {
+        // JPA 리포지토리를 사용하여 가장 큰 ID를 검색
+        return personnelRepository.findMaxId();
+    }
+	
 }
