@@ -61,34 +61,36 @@
     </update>
 
 	<!-- 부서별 근태 현황/통계 조회 -->
-	<resultMap id="departmentAttendanceResultMap" type="com.example.team_pj_springboot.dto.DepartmentDTO">
+	<!-- <resultMap id="departmentAttendanceResultMap" type="com.example.team_pj_springboot.dto.DepartmentDTO">
+	    <result property="depart_id" column="부서번호" />
 	    <result property="depart_name" column="부서명" />
 	    <result property="name" column="사원 이름" />
 	    <result property="general_workin" column="출근 시간" />
 	    <result property="general_workout" column="퇴근 시간" />
 	    <result property="holiday_name" column="휴가 사유" />
 	    <result property="gived_holiday" column="휴가 기간" />
-	</resultMap>
+	</resultMap> -->
 	
 	<!-- 부서별 근태 현황/통계 조회 -->
-	<select id="departmentAttendanceStatus" parameterType="String" resultMap="departmentAttendanceResultMap">
-	    SELECT
-	        D.depart_name AS "부서명",
-	        M.name AS "사원 이름",
-	        MA.general_workin AS "출근 시간",
-	        MA.general_workout AS "퇴근 시간",
-	        MA.holiday_name AS "휴가 사유",
-	        MA.gived_holiday AS "휴가 기간"
-	    FROM
-	        MEMBER M
-	    INNER JOIN
-	        MEMBER_ATTENDANCE MA ON M.id = MA.id
-	    INNER JOIN
-	        department D ON M.depart_id = D.depart_id
-	    WHERE
-	        D.depart_name = '${depart_name}'
-	    ORDER BY
-	        D.depart_name, M.name;
+	<select id="departmentAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
+		SELECT
+			d.depart_id AS "부서번호",
+			d.depart_name  AS "부서명",
+		    m.name AS "사원 이름",
+		    ma.general_workin AS "출근 시간",
+		    ma.general_workout AS "퇴근 시간",
+		    ma.holiday_name AS "휴가 사유",
+		    ma.gived_holiday AS "휴가 기간"
+		FROM
+		    MEMBER m
+		INNER JOIN
+		    MEMBER_ATTENDANCE ma ON m.id = ma.id
+		INNER JOIN
+		    department d ON m.depart_id = d.depart_id
+		WHERE
+		    d.depart_id = #{depart_id}
+		ORDER BY
+		    d.depart_id, m.name;
 	</select>
 
 
