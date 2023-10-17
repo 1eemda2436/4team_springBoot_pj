@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
+import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AnnualServiceImpl;
+import com.example.team_pj_springboot.service.DepAttenService;
 
 @CrossOrigin(origins = "**", maxAge = 3600)
 @RestController
@@ -35,6 +38,7 @@ public class AttendanceController {
 	
 	@Autowired
 	private AnnualServiceImpl service;
+	private DepAttenService depservice;
 	
 	/////////////////////////////////////////////////////////////////////
 	/////////////////////////////// ADMIN ///////////////////////////////
@@ -116,44 +120,44 @@ public class AttendanceController {
 	
 	//////////////////////////////////////////////////////////////////////
 	
-	// 부서별 근태 현황/통계 조회 (Select)
-	@GetMapping("/departmentAttendanceStatus/{depart_id}")
-	public DepartmentDTO departmentAttendanceStatus (@PathVariable int depart_id) throws ServletException, IOException {
-	    logger.info("[ AttendanceController - departmentAttendanceStatus ]");
-
-	    System.out.println("depart_id : " + depart_id);
-	    
-	    return service.departmentAttendanceStatus(depart_id);
-	}
+//	// 부서별 근태 현황/통계 조회 (Select)
+//	@GetMapping("/departmentAttendanceStatus/{depart_id}")
+//	public Optional<DepAttendanceDTO> departmentAttendanceStatus (@PathVariable int depart_id) {
+//	    logger.info("[ AttendanceController - departmentAttendanceStatus ]");
+//	    
+//	    System.out.println("!@!#@!# : " + depart_id);
+//
+//	    Optional<DepAttendanceDTO> dto = depservice.departmentAttendanceStatus(depart_id);
+//	    
+//	    return dto;
+//	}
 	
-	// 부서별 근태 현황(상세) 조회 (Select)
-	@GetMapping("/departmentAtDetails/{depart_id}")
-	public DepartmentDTO departmentAtDetails (@PathVariable int depart_id) throws ServletException, IOException {
-		logger.info("[ AttendanceController - departmentAtDetails ]");
-		
-		return service.departmentAtDetails(depart_id);
-	}
-	
-	// 부서별 근태 통계(상세) 조회 (Select)
-	@GetMapping("/departmentStDetails/{depart_id}")
-	public DepartmentDTO departmentStDetails (@PathVariable int depart_id) throws ServletException, IOException {
-		logger.info("[ AttendanceController - departmentStDetails ]");
-		
-		return service.departmentStDetails(depart_id);
-	}
-	
-	// 전사 근태 현황/통계 조회 (Select)
-	@GetMapping("/companyStatus")
-	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
-		logger.info("[ AttendanceController - companyStatus ]");
-		
-		return service.companyStatus(req, model);
-	}
+//	// 부서별 근태 현황(상세) 조회 (Select)
+//	@GetMapping("/departmentAtDetails/{depart_id}")
+//	public DepartmentDTO departmentAtDetails (@PathVariable int depart_id) throws ServletException, IOException {
+//		logger.info("[ AttendanceController - departmentAtDetails ]");
+//		
+//		return service.departmentAtDetails(depart_id);
+//	}
+//	
+//	// 부서별 근태 통계(상세) 조회 (Select)
+//	@GetMapping("/departmentStDetails/{depart_id}")
+//	public DepartmentDTO departmentStDetails (@PathVariable int depart_id) throws ServletException, IOException {
+//		logger.info("[ AttendanceController - departmentStDetails ]");
+//		
+//		return service.departmentStDetails(depart_id);
+//	}
+//	
+//	// 전사 근태 현황/통계 조회 (Select)
+//	@GetMapping("/companyStatus")
+//	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+//		logger.info("[ AttendanceController - companyStatus ]");
+//		
+//		return service.companyStatus(req, model);
+//	}
 	
 	/////////////////////////////////////////////////////////////////////
 	/////////////////////////////// GUEST ///////////////////////////////
 	/////////////////////////////////////////////////////////////////////
-	
-	
 	
 }

@@ -8,10 +8,12 @@ import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepAttendanceDTO {
 	
 	@Id
@@ -22,5 +24,7 @@ public class DepAttendanceDTO {
 	private Timestamp 	general_workout;// 퇴근시간
 	private String 		holiday_name;	// 휴가 사
 	private Date 		gived_holiday;	// 휴가 기간
+	
+
 
 }

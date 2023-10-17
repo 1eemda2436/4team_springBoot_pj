@@ -72,7 +72,7 @@
 	</resultMap> -->
 	
 	<!-- 부서별 근태 현황/통계 조회 -->
-	<select id="departmentAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
+	<!-- <select id="departmentAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
 		SELECT
 			d.depart_id AS "부서번호",
 			d.depart_name  AS "부서명",
@@ -91,11 +91,11 @@
 		    d.depart_id = #{depart_id}
 		ORDER BY
 		    d.depart_id, m.name;
-	</select>
+	</select> -->
 
 
     <!-- 부서별 근태 현황(상세)[ 출근/지각/연차 률 ] -->
-    <select id="departmentAtPercent" parameterType="int" resultMap="departmentAttendanceResultMap">
+    <!-- <select id="departmentAtPercent" parameterType="int" resultMap="departmentAttendanceResultMap">
         <![CDATA[
         SELECT
             D.depart_name AS "부서명",
@@ -128,10 +128,10 @@
         ORDER BY
             D.depart_name
         ]]>
-    </select>
+    </select> -->
 
     <!-- 부서별 근태 현황(상세)[ 캘린더 ] -->
-    <select id="departmentAtCal" parameterType="int" resultMap="departmentAttendanceResultMap">
+    <!-- <select id="departmentAtCal" parameterType="int" resultMap="departmentAttendanceResultMap">
         SELECT 
             M.name AS "사원 이름",
             COUNT(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 END) AS "연차",
@@ -148,10 +148,10 @@
             D.depart_name, M.name
         ORDER BY
             D.depart_name, M.name
-    </select>
+    </select> -->
 
     <!-- 부서별 근태 현황 [ 지각자 수 / 통계 , 연차 및 휴가자 수 / 통계 ] -->
-    <select id="departmentAtCount" parameterType="int" resultMap="departmentAttendanceResultMap">
+    <!-- <select id="departmentAtCount" parameterType="int" resultMap="departmentAttendanceResultMap">
         SELECT
             D.depart_name AS "부서명",
             COUNT(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 END) AS "지각자 수",
@@ -174,10 +174,10 @@
             D.depart_name
         ORDER BY
             D.depart_name
-    </select>
+    </select> -->
 
     <!-- 부서별 근태 통계(상세) [ 이름순 / 지각순 / 사번순 / 정렬기능 ] -->
-    <select id="departmentStDetails" parameterType="int" resultMap="departmentAttendanceResultMap">
+    <!-- <select id="departmentStDetails" parameterType="int" resultMap="departmentAttendanceResultMap">
         SELECT
             M.name AS "이름",
             COUNT(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 08:59:59', 'YYYY-MM-DD HH24:MI:SS') THEN 1 END) AS "지각 횟수",
@@ -192,10 +192,10 @@
             M.name, M.id
         ORDER BY
             M.name ASC, "지각 횟수" ASC, M.id ASC
-    </select>
+    </select> -->
 
     <!-- 전사 근태 현황/통계 -->
-    <select id="companyStatus" resultMap="departmentAttendanceResultMap">
+    <!-- <select id="companyStatus" resultMap="departmentAttendanceResultMap">
         SELECT
             C.name AS "회사명",
             D.depart_name AS "부서명",
@@ -213,6 +213,6 @@
             C.name, D.depart_name
         ORDER BY
             C.name, D.depart_name
-    </select>
+    </select> -->
 
 </mapper>

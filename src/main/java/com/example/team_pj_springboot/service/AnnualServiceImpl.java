@@ -106,57 +106,57 @@ public class AnnualServiceImpl implements AnnualService {
 	}
 	
 //////////////////////////////////
-	// 부서별 근태 현황/통계 조회 (부서 하나)
-	@Override
-	public DepartmentDTO departmentAttendanceStatus(int depart_id)
-			throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → departmentAttendanceStatus ]");
-		
-		DepartmentDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
-		
-		System.out.println("DepDTO : " + DepDTO);
-		
-		return DepDTO;
-	}
-
-	// 부서별 근태 현황(상세) 조회 (부서 하나)
-	@Override
-	public DepartmentDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
-		
-		DepartmentDTO AtDto = new DepartmentDTO();
-		AtDto = dao.departmentAtPercent(depart_id);
-		AtDto = dao.departmentAtCal(depart_id);
-		AtDto = dao.departmentAtCount(depart_id);
-		
-		System.out.println("AtDto : " + AtDto);
-		
-		return AtDto;
-	}
-
-	// 부서별 근태 통계(상세) 조회 (부서 하나)
-	@Override
-	public DepartmentDTO departmentStDetails(int depart_id) throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → departmentStDetails ]");
-		
-		DepartmentDTO StDto = dao.departmentStDetails(depart_id);
-		
-		System.out.println("StDto : " + StDto);
-		
-		return StDto;
-	}
-
-	// 전사 근태 현황/통계 조회
-	@Override
-	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → companyStatus ]");
-		
-		List<CompanyDTO> ComDto = dao.companyStatus();
-		
-		System.out.println("ComDto : " + ComDto);
-		
-		return ComDto;
-	}
+//	// 부서별 근태 현황/통계 조회 (부서 하나)
+//	@Override
+//	public DepartmentDTO departmentAttendanceStatus(int depart_id)
+//			throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → departmentAttendanceStatus ]");
+//		
+//		DepartmentDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
+//		
+//		System.out.println("DepDTO : " + DepDTO);
+//		
+//		return DepDTO;
+//	}
+//
+//	// 부서별 근태 현황(상세) 조회 (부서 하나)
+//	@Override
+//	public DepartmentDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
+//		
+//		DepartmentDTO AtDto = new DepartmentDTO();
+//		AtDto = dao.departmentAtPercent(depart_id);
+//		AtDto = dao.departmentAtCal(depart_id);
+//		AtDto = dao.departmentAtCount(depart_id);
+//		
+//		System.out.println("AtDto : " + AtDto);
+//		
+//		return AtDto;
+//	}
+//
+//	// 부서별 근태 통계(상세) 조회 (부서 하나)
+//	@Override
+//	public DepartmentDTO departmentStDetails(int depart_id) throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → departmentStDetails ]");
+//		
+//		DepartmentDTO StDto = dao.departmentStDetails(depart_id);
+//		
+//		System.out.println("StDto : " + StDto);
+//		
+//		return StDto;
+//	}
+//
+//	// 전사 근태 현황/통계 조회
+//	@Override
+//	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → companyStatus ]");
+//		
+//		List<CompanyDTO> ComDto = dao.companyStatus();
+//		
+//		System.out.println("ComDto : " + ComDto);
+//		
+//		return ComDto;
+//	}
 
 
 
