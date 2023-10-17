@@ -12,10 +12,14 @@ import com.example.team_pj_springboot.repository.MemberRepository;
 import com.example.team_pj_springboot.repository.TemporaryRepository;
 import com.example.team_pj_springboot.repository.ViewRepository;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
+import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
+import com.example.team_pj_springboot.dto.ViewAndDocDTO;
 import com.example.team_pj_springboot.dto.ViewDTO;
 
 @Service
@@ -46,18 +50,18 @@ public class DocServiceImpl implements DocService{
 
 	// 기안문서함
 	@Override
-	public List<DocDTO> draftList() {
+	public List<DocAndDraftDTO> draftList() {
 		System.out.println("DocServiceImpl - draftList");
 		
-		return dao.findAll();
+		return dao.draftList();
 	}
 
 	// 회람문서함
 	@Override
-	public List<ViewDTO> viewList() {
+	public List<ViewAndDocDTO> viewList() {
 		System.out.println("DocServiceImpl - viewList");
 		
-		return viewDao.findAll();
+		return viewDao.viewList();
 	}
 
 	// 임시저장목록
@@ -70,26 +74,26 @@ public class DocServiceImpl implements DocService{
 
 	// 결재완료문서함
 	@Override
-	public List<ApprovalDTO> approvalEndList() {
+	public List<ApprovalEndAndDocDTO> approvalEndList() {
 		System.out.println("DocServiceImpl - approvalEndList");
 		
-		return approvalDao.findAll();
+		return approvalDao.ApprovalEndList();
 	}
 
 	// 결재예정문서함
 	@Override
-	public List<ApprovalDTO> approvalIngList() {
+	public List<ApprovalIngAndDocDTO> approvalIngList() {
 		System.out.println("DocServiceImpl - approvalIngList");
 		
-		return approvalDao.findAll();
+		return approvalDao.approvalIngList();
 	}
 
 	// 결재반려문서함
 	@Override
-	public List<ApprovalDTO> approvalBackList() {
+	public List<ApprovalIngAndDocDTO> approvalBackList() {
 		System.out.println("DocServiceImpl - approvalBackList");
 		
-		return approvalDao.findAll();
+		return approvalDao.approvalBackList();
 	}
 
 	// 문서작성페이지

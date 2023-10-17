@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
+import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
+import com.example.team_pj_springboot.dto.ViewAndDocDTO;
 import com.example.team_pj_springboot.dto.ViewDTO;
 import com.example.team_pj_springboot.service.DocService;
 
@@ -37,46 +41,34 @@ public class DocController {
 	private DocService service;
 	
 	// http://localhost:8081/doc/adminTotal
-	// 어드민통합문서함
+	// 어드민통합문서함 - 연결완료
 	@GetMapping("/adminTotal")
-	public List<ApprovalDTO> selectAdmin(Model model) {
+	public List<ApprovalIngAndDocDTO> selectAdmin() {
 		logger.info("<<< 컨트롤러 - selectMember >>>");
-		
-		List<ApprovalDTO> list = service.approvalIngList();
-		model.addAttribute("list", list);
 		
 		return service.approvalIngList();
 	}
 	
-	// 게스트통합문서함
+	// 게스트통합문서함 - 연결완료
 	@GetMapping("/guestTotal")
-	public List<DocDTO> selectGuest(Model model) {
+	public List<DocAndDraftDTO> selectGuest() {
 		logger.info("<<< 컨트롤러 - selectMember >>>");
-		
-		List<DocDTO> list = service.draftList();
-		model.addAttribute("list", list);
 		
 		return service.draftList();
 	}
 	
 	// 기안문서함 - 연결완료
 	@GetMapping("/draft")
-	public List<DocDTO> draftList(Model model) {
+	public List<DocAndDraftDTO> draftList() {
 		logger.info("<<< 컨트롤러 - draftList >>>");
-		
-		List<DocDTO> list = service.draftList();
-		model.addAttribute("list", list);
 		
 		return service.draftList();
 	}
 	
 	// 회람문서함 안됌
 	@GetMapping("/view")
-	public List<ViewDTO> viewList(Model model) {
+	public List<ViewAndDocDTO> viewList() {
 		logger.info("<<< 컨트롤러 - viewList >>>");
-		
-		List<ViewDTO> list = service.viewList();
-		model.addAttribute("list", list);
 		
 		return service.viewList();
 	}
@@ -92,36 +84,26 @@ public class DocController {
 		return service.temporaryList();
 	}
 	
-	// 결재완료문서함 안됌
+	// 결재완료문서함 - 연결완료
 	@GetMapping("/approvalEnd")
-	public List<ApprovalDTO> approvalEndList(Model model) {
+	public List<ApprovalEndAndDocDTO> approvalEndList() {
 		logger.info("<<< 컨트롤러 - approvalEndList >>>");
-		
-		List<ApprovalDTO> list = service.approvalEndList();
-		model.addAttribute("list", list);
-		System.out.println("list" + list);
 		
 		return service.approvalEndList();
 	}
 	
-	// 결재예정문서함 안됌
+	// 결재예정문서함 - 연결완료
 	@GetMapping("/approvalIng")
-	public List<ApprovalDTO> approvalIngList(Model model) {
+	public List<ApprovalIngAndDocDTO> approvalIngList() {
 		logger.info("<<< 컨트롤러 - approvalIngList >>>");
-		
-		List<ApprovalDTO> list = service.approvalIngList();
-		model.addAttribute("list", list);
 		
 		return service.approvalIngList();
 	}
 	
-	// 결재반려문서함 안됌
+	// 결재반려문서함 - 연결완료
 	@GetMapping("/approvalBack")
-	public List<ApprovalDTO> approvalBackList(Model model) {
+	public List<ApprovalIngAndDocDTO> approvalBackList() {
 		logger.info("<<< 컨트롤러 - approvalBackList >>>");
-		
-		List<ApprovalDTO> list = service.approvalBackList();
-		model.addAttribute("list", list);
 		
 		return service.approvalBackList();
 	}
@@ -137,10 +119,11 @@ public class DocController {
 		
 	}
 	
-	// 문서상세페이지
+	// 문서상세페이지 - 연결완료
 	@GetMapping("/detail/{doc_id}")
 	public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
 		logger.info("<<< 컨트롤러 - selectDoc >>>");
+		logger.info("Request received for doc_id: " + doc_id);
 		
 		Optional<DocAndCategoryDTO> dto = service.selectDoc(doc_id);
 		

@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
+import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
+import com.example.team_pj_springboot.dto.ViewAndDocDTO;
 import com.example.team_pj_springboot.dto.ViewDTO;
 
 public interface DocService {
@@ -16,22 +20,22 @@ public interface DocService {
 	public MemberDTO selectMember(String id);
 
 	// 기안문서함
-	public List<DocDTO> draftList();
+	public List<DocAndDraftDTO> draftList();
 	
 	// 회람문서함
-	public List<ViewDTO> viewList();
+	public List<ViewAndDocDTO> viewList();
 	
 	// 임시저장목록
 	public List<TemporaryDTO> temporaryList();
 	
 	// 결재완료문서함
-	public List<ApprovalDTO> approvalEndList();
+	public List<ApprovalEndAndDocDTO> approvalEndList();
 	
 	// 결재예정문서함
-	public List<ApprovalDTO> approvalIngList();
+	public List<ApprovalIngAndDocDTO> approvalIngList();
 	
 	// 결재반려문서함
-	public List<ApprovalDTO> approvalBackList();
+	public List<ApprovalIngAndDocDTO> approvalBackList();
 	
 	// 문서작성페이지
 	public DocDTO insertDoc(DocDTO dto);
