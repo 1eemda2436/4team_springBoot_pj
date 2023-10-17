@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import com.example.team_pj_springboot.service.SalaryService;
 
 @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL로 대체
 @RestController
-@RequestMapping("/salary") // 엔드포인트에 "/api"를 추가
+@RequestMapping("/salary") 
 public class SalaryController {
 	private static final Logger logger = LoggerFactory.getLogger(SalaryController.class);
 	
@@ -52,7 +53,7 @@ public class SalaryController {
 	
 	//급여 계산
 	@PutMapping("/calculateTaxes")
-    public void addSalary(@RequestBody SalaryDTO dto) {
+    public ResponseEntity<SalaryDTO> addSalary(@RequestBody SalaryDTO dto) {
         System.out.println("!!!" + dto);
 	    // 여기에서 복잡한 세금 및 보험료 계산을 수행하고 결과를 저장
 	    int incomeTax = calculateIncomeTax(dto.getSalary()); //소득세
@@ -79,7 +80,8 @@ public class SalaryController {
 	    salaryDTO.setFood_pay(dto.getFood_pay());			//식비
 	    salaryDTO.setT_pay(dto.getT_pay());					//교통비
 	    
-	    service.saveSalary(salaryDTO);
+	    SalaryDTO resultDTO = service.saveSalary(salaryDTO);
+	    return ResponseEntity.ok(resultDTO);
     }
     
     //소득세 계산

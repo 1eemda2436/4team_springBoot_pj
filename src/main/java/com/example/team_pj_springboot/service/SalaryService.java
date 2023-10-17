@@ -43,8 +43,8 @@ public class SalaryService {
     
     //월급 추가
     @Transactional
-    public void saveSalary(SalaryDTO dto) {
-    	salaryRepository.save(dto);
+    public SalaryDTO saveSalary(SalaryDTO dto) {
+    	return salaryRepository.save(dto);
     }
     
     //관리자 인사관리 PersonnelInfo
