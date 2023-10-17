@@ -34,21 +34,21 @@ public class UserController {
 
 		MemberDTO member = userService.login(loginDTO);
 
-		System.out.println("token : " + userAuthProvider.createToken(member.getId()));
-		userAuthProvider.createToken(member.getId());
+		member.setToken(userAuthProvider.createToken(member.getId()));
+		System.out.println(member);
 
 		return ResponseEntity.ok(member);   // 크롬 Network - Headers : 200 OK 새로운 JWT를 반환
 	}
 
 	@PostMapping("/join")
-	public ResponseEntity<CompanyDTO> Companyjoin(@RequestBody JoinDTO joinDTO) {
+	public ResponseEntity<JoinDTO> Companyjoin(@RequestBody JoinDTO joinDTO) {
 	    System.out.println("<<< AuthController - register() >>>");
 
 	    // 엔티티를 생성할 때 새 엔티티를 찾을 수 있는 URL과 함께 201HTTP 코드를 반환하는 것이 가장 좋다.
-	    CompanyDTO companyDTO = userService.companyJoin(joinDTO);//리액트에서 넘어온 정보 + 토큰 → 토큰 insert
+	    JoinDTO join = userService.companyJoin(joinDTO);//리액트에서 넘어온 정보 + 토큰 → 토큰 insert
 	    
-	    return ResponseEntity.created(URI.create("/company/" + companyDTO.getCompanyId()))
-	            .body(companyDTO); //크롬 Network - Headers : 201Created 반환
+	    return ResponseEntity.created(URI.create("/company/" + join.getCompanyDTO().getCompanyId()))
+	            .body(join); //크롬 Network - Headers : 201Created 반환
 	}
 }
 
