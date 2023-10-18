@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
@@ -68,7 +70,7 @@ public class DocController {
 	
 	// 회람문서함 안됌
 	@GetMapping("/view")
-	public List<ViewAndDocDTO> viewList() {
+	public List<ViewDTO> viewList() {
 		logger.info("<<< 컨트롤러 - viewList >>>");
 		
 		return service.viewList();
@@ -100,7 +102,7 @@ public class DocController {
 	
 	// 결재반려문서함 - 연결완료
 	@GetMapping("/approvalBack")
-	public List<ApprovalIngAndDocDTO> approvalBackList() {
+	public List<ApprovalBackAndDocDTO> approvalBackList() {
 		logger.info("<<< 컨트롤러 - approvalBackList >>>");
 		
 		return service.approvalBackList();
@@ -121,14 +123,23 @@ public class DocController {
 	@GetMapping("/detail/{doc_id}")
 	public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
 		logger.info("<<< 컨트롤러 - selectDoc >>>");
-		logger.info("Request received for doc_id: " + doc_id);
+		logger.info("doc_id: " + doc_id);
 		
 		Optional<DocAndCategoryDTO> dto = service.selectDoc(doc_id);
 		
 		return dto;
 	}
 	
-	// 어드민문서상세페이지
+	// 결재문서상세페이지
+	@GetMapping("/adminDetail/{approval_id}")
+	public Optional<ApprovalAndDocDTO> selectApp(@PathVariable int approval_id) {
+		logger.info("<<< 컨트롤러 - selectDoc >>>");
+		logger.info("approval_id: " + approval_id);
+		
+		Optional<ApprovalAndDocDTO> dto = service.selectApp(approval_id);
+		
+		return dto;
+	}
 	
 	// 문서수정페이지 안됌
 	@PutMapping("/update/{doc_id}")

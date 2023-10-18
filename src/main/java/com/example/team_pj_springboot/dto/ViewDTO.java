@@ -23,13 +23,14 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 public class ViewDTO {
 
+	
+//	@SequenceGenerator(
+//	        name = "VIEW_SEQ_GENERATOR",
+//	        sequenceName = "VIEW_SEQ",
+//	        allocationSize = 1
+//	    )
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VIEW_SEQ_GENERATOR")
 	@Id
-	@SequenceGenerator(
-	        name = "VIEW_SEQ_GENERATOR",
-	        sequenceName = "VIEW_SEQ",
-	        allocationSize = 1
-	    )
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VIEW_SEQ_GENERATOR")
 	private int doc_id;
 	private String id;
 	private String doc_title;

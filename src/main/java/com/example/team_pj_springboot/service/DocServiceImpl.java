@@ -11,6 +11,8 @@ import com.example.team_pj_springboot.repository.DocRepository;
 import com.example.team_pj_springboot.repository.MemberRepository;
 import com.example.team_pj_springboot.repository.TemporaryRepository;
 import com.example.team_pj_springboot.repository.ViewRepository;
+import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
@@ -59,10 +61,12 @@ public class DocServiceImpl implements DocService{
 
 	// 회람문서함
 	@Override
-	public List<ViewAndDocDTO> viewList() {
+	public List<ViewDTO> viewList() {
 		System.out.println("DocServiceImpl - viewList");
-		
-		return viewDao.viewList();
+		List<ViewDTO> list= viewDao.findAll();
+//		return viewDao.viewList();
+		System.out.println("!!!" + list);
+		return list;
 	}
 
 	// 임시저장목록
@@ -91,7 +95,7 @@ public class DocServiceImpl implements DocService{
 
 	// 결재반려문서함
 	@Override
-	public List<ApprovalIngAndDocDTO> approvalBackList() {
+	public List<ApprovalBackAndDocDTO> approvalBackList() {
 		System.out.println("DocServiceImpl - approvalBackList");
 		
 		return approvalDao.approvalBackList();
@@ -111,6 +115,14 @@ public class DocServiceImpl implements DocService{
 		System.out.println("DocServiceImpl - selectDoc");
 		
 		return dao.selectOneDoc(doc_id);
+	}
+	
+	// 결재문서상세페이지
+	@Override
+	public Optional<ApprovalAndDocDTO> selectApp(int approval_id) {
+		System.out.println("DocServiceImpl - selectApp");
+		
+		return approvalDao.selectApp(approval_id);
 	}
 
 	// 문서수정페이지

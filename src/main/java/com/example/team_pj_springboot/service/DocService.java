@@ -3,6 +3,8 @@ package com.example.team_pj_springboot.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
@@ -24,7 +26,7 @@ public interface DocService {
 	public List<DocAndDraftDTO> draftList();
 	
 	// 회람문서함
-	public List<ViewAndDocDTO> viewList();
+	public List<ViewDTO> viewList();
 	
 	// 임시저장목록
 	public List<DocAndTemporaryDTO> temporaryList();
@@ -36,13 +38,16 @@ public interface DocService {
 	public List<ApprovalIngAndDocDTO> approvalIngList();
 	
 	// 결재반려문서함
-	public List<ApprovalIngAndDocDTO> approvalBackList();
+	public List<ApprovalBackAndDocDTO> approvalBackList();
 	
 	// 문서작성페이지
 	public DocDTO insertDoc(DocDTO dto);
 	
 	// 문서상세페이지
 	public Optional<DocAndCategoryDTO> selectDoc(int doc_id);
+	
+	// 결재문서상세페이지
+	public Optional<ApprovalAndDocDTO> selectApp(int approval_id);
 	
 	// 문서수정페이지
 	public DocDTO updateDoc(int doc_id);
