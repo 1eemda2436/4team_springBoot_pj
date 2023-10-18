@@ -16,6 +16,7 @@ import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
+import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -66,10 +67,10 @@ public class DocServiceImpl implements DocService{
 
 	// 임시저장목록
 	@Override
-	public List<TemporaryDTO> temporaryList() {
+	public List<DocAndTemporaryDTO> temporaryList() {
 		System.out.println("DocServiceImpl - temporaryList");
 		
-		return temporaryDao.findAll();
+		return temporaryDao.temporaryList();
 	}
 
 	// 결재완료문서함

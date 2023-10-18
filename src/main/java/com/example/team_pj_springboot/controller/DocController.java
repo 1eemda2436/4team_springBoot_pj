@@ -23,6 +23,7 @@ import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
+import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -75,11 +76,8 @@ public class DocController {
 	
 	// 임시저장목록 - 연결완료
 	@GetMapping("/temporary")
-	public List<TemporaryDTO> temporaryList(Model model) {
+	public List<DocAndTemporaryDTO> temporaryList() {
 		logger.info("<<< 컨트롤러 - temporaryList >>>");
-		
-		List<TemporaryDTO> list = service.temporaryList();
-		model.addAttribute("list", list);
 		
 		return service.temporaryList();
 	}

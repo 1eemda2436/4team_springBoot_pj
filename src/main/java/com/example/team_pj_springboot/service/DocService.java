@@ -8,6 +8,7 @@ import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
+import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -26,7 +27,7 @@ public interface DocService {
 	public List<ViewAndDocDTO> viewList();
 	
 	// 임시저장목록
-	public List<TemporaryDTO> temporaryList();
+	public List<DocAndTemporaryDTO> temporaryList();
 	
 	// 결재완료문서함
 	public List<ApprovalEndAndDocDTO> approvalEndList();
