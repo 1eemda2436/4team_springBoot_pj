@@ -30,6 +30,6 @@ public class DepartmentDTO {
     private int depart_id;        // 부서 id
     private String depart_name;   // 부서명
     private String company_id;    // 회사 id (FK)
-    private char show = 'Y';            // 공개여부
+    private char show = 'Y';      // 공개여부
 }
 
