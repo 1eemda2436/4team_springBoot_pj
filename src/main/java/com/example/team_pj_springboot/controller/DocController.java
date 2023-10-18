@@ -1,7 +1,7 @@
 package com.example.team_pj_springboot.controller;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +19,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.ApprovalDTO;
+import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
+import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
+import com.example.team_pj_springboot.dto.DocAndDraftDTO;
+import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
+import com.example.team_pj_springboot.dto.ViewAndDocDTO;
 import com.example.team_pj_springboot.dto.ViewDTO;
 import com.example.team_pj_springboot.service.DocService;
 
-@CrossOrigin(origins="**", maxAge=3600)
+@CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
+@RequestMapping("/doc")
 public class DocController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocController.class);
@@ -34,113 +41,94 @@ public class DocController {
 	@Autowired
 	private DocService service;
 	
-	// http://localhost:8081/
-	// 통합문서함
-	@GetMapping("/total")
-	public List<DocDTO> selectMember(Model model) {
+	// http://localhost:8081/doc/adminTotal
+	// 어드민통합문서함 - 연결완료
+	@GetMapping("/adminTotal")
+	public List<ApprovalIngAndDocDTO> selectAdmin() {
 		logger.info("<<< 컨트롤러 - selectMember >>>");
 		
-		List<DocDTO> list = service.draftList();
-		model.addAttribute("list", list);
+		return service.approvalIngList();
+	}
+	
+	// 게스트통합문서함 - 연결완료
+	@GetMapping("/guestTotal")
+	public List<DocAndDraftDTO> selectGuest() {
+		logger.info("<<< 컨트롤러 - selectMember >>>");
 		
 		return service.draftList();
 	}
 	
-	// 기안문서함
+	// 기안문서함 - 연결완료
 	@GetMapping("/draft")
-	public List<DocDTO> draftList(Model model) {
+	public List<DocAndDraftDTO> draftList() {
 		logger.info("<<< 컨트롤러 - draftList >>>");
-		
-		List<DocDTO> list = service.draftList();
-		model.addAttribute("list", list);
 		
 		return service.draftList();
 	}
 	
 	// 회람문서함 안됌
 	@GetMapping("/view")
-	public List<ViewDTO> viewList(Model model) {
+	public List<ViewAndDocDTO> viewList() {
 		logger.info("<<< 컨트롤러 - viewList >>>");
-		
-		List<ViewDTO> list = service.viewList();
-		model.addAttribute("list", list);
 		
 		return service.viewList();
 	}
 	
-	// 임시저장목록
+	// 임시저장목록 - 연결완료
 	@GetMapping("/temporary")
-	public List<TemporaryDTO> temporaryList(Model model) {
+	public List<DocAndTemporaryDTO> temporaryList() {
 		logger.info("<<< 컨트롤러 - temporaryList >>>");
-		
-		List<TemporaryDTO> list = service.temporaryList();
-		model.addAttribute("list", list);
 		
 		return service.temporaryList();
 	}
 	
-	// 결재완료문서함 안됌
+	// 결재완료문서함 - 연결완료
 	@GetMapping("/approvalEnd")
-	public List<ApprovalDTO> approvalEndList(Model model) {
+	public List<ApprovalEndAndDocDTO> approvalEndList() {
 		logger.info("<<< 컨트롤러 - approvalEndList >>>");
-		
-		List<ApprovalDTO> list = service.approvalEndList();
-		model.addAttribute("list", list);
 		
 		return service.approvalEndList();
 	}
 	
-	// 결재예정문서함 안됌
+	// 결재예정문서함 - 연결완료
 	@GetMapping("/approvalIng")
-	public List<ApprovalDTO> approvalIngList(Model model) {
+	public List<ApprovalIngAndDocDTO> approvalIngList() {
 		logger.info("<<< 컨트롤러 - approvalIngList >>>");
-		
-		List<ApprovalDTO> list = service.approvalIngList();
-		model.addAttribute("list", list);
 		
 		return service.approvalIngList();
 	}
 	
-	// 결재반려문서함 안됌
+	// 결재반려문서함 - 연결완료
 	@GetMapping("/approvalBack")
-	public List<ApprovalDTO> approvalBackList(Model model) {
+	public List<ApprovalIngAndDocDTO> approvalBackList() {
 		logger.info("<<< 컨트롤러 - approvalBackList >>>");
-		
-		List<ApprovalDTO> list = service.approvalBackList();
-		model.addAttribute("list", list);
 		
 		return service.approvalBackList();
 	}
 	
 	// 문서작성페이지 안됌
 	@PostMapping("/insert")
-	public void insertDoc(Model model) {
+	public String insertDoc(@ModelAttribute("dto") DocDTO dto, Model model) {
 		logger.info("<<< 컨트롤러 - insertDoc >>>");
 		
-		DocDTO dto = new DocDTO();
-		model.addAttribute("dto", dto);
-		
-	}
-	
-	// 문서작성저장 안됌
-	@PutMapping("/save")
-	public String insertSave(@ModelAttribute("dto") DocDTO dto) {
-		logger.info("<<< 컨트롤러 - insertSave >>>");
-		
 		service.insertDoc(dto);
+		
 		return "redirect:/";
+		
 	}
 	
-	// 문서상세페이지
+	// 문서상세페이지 - 연결완료
 	@GetMapping("/detail/{doc_id}")
-	public DocDTO selectDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
+	public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
 		logger.info("<<< 컨트롤러 - selectDoc >>>");
+		logger.info("Request received for doc_id: " + doc_id);
 		
-		DocDTO dto = service.selectDoc(doc_id);
-		model.addAttribute("dto", dto);
+		Optional<DocAndCategoryDTO> dto = service.selectDoc(doc_id);
 		
-		return service.selectDoc(doc_id);
+		return dto;
 	}
+	
+	// 어드민문서상세페이지
 	
 	// 문서수정페이지 안됌
 	@PutMapping("/update/{doc_id}")
