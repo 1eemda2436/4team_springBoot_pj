@@ -23,4 +23,5 @@ public interface SalaryRepository extends JpaRepository<SalaryDTO, Integer> {
 		       "WHERE m.id = :memberId") // :memberId와 @Param("memberId")를 일치시킴
 	Optional<payStatementDTO> payStatementInfo(@Param("memberId") String memberId);
 
+	
 }
