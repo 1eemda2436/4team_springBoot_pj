@@ -128,6 +128,8 @@ public class DocController {
 		return dto;
 	}
 	
+	// 어드민문서상세페이지
+	
 	// 문서수정페이지 안됌
 	@PutMapping("/update/{doc_id}")
 	public void updateDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
