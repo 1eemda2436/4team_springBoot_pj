@@ -1,15 +1,23 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 public interface GuestService {
 	
 	// 연차 신청 (insert)
-	public void annualInsert (AnnualDTO dto);
+	public int annualInsert (AnnualDTO dto) throws ServletException, IOException;
+	
+	// 신청한 연차 목록
 	
 	// 휴가 신청 (insert)
-	public void vacationInsert (VacationDTO dto);
+	public int vacationInsert (VacationDTO dto) throws ServletException, IOException;
+	
+	// 신청한 휴가 목록
 	
 	// 나의 근태 현황 1(프로필 오른쪽)[ main 화면 ]
 	

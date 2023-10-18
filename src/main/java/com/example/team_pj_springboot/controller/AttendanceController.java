@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.DepAttenService;
+import com.example.team_pj_springboot.service.GuestServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +45,11 @@ public class AttendanceController {
 	
 	@Autowired
 	private AdminServiceImpl service;
+	
+	@Autowired
 	private DepAttenService depservice;
+	
+	private GuestServiceImpl gservice;
 	
 	/////////////////////////////////////////////////////////////////////
 	/////////////////////////////// ADMIN ///////////////////////////////
@@ -165,10 +171,20 @@ public class AttendanceController {
 	/////////////////////////////// GUEST ///////////////////////////////
 	/////////////////////////////////////////////////////////////////////
 	
-//	// 연차 신청서 작성 (insert)
-//	@PostMapping("/register/annualRegister")
-//	
-//	// 휴가 신청서 작성 (insert)
-//	@PostMapping("/register/vacationRegister")
+	// 연차 신청서 작성 (insert)
+	@PostMapping("/register/annualRegister")
+	public void annualRegister (@RequestBody AnnualDTO dto) throws ServletException, IOException {
+		System.out.println("[ AttendanceController - annualRegister ]");
+		
+		gservice.annualInsert(dto);
+		
+	}
 	
+	// 휴가 신청서 작성 (insert)
+	@PostMapping("/register/vacationRegister")
+	public void vacationRegister (@RequestBody VacationDTO dto) throws ServletException, IOException {
+		System.out.println("[ AttendanceController - vacationRegister ]");
+		
+		gservice.vacationInsert(dto);
+	}
 }
