@@ -1,7 +1,9 @@
 package com.example.team_pj_springboot.service;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
+import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
@@ -13,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
-public interface AnnualService {
+public interface AdminService {
 	
 	// 연차 신청 목록 조회
 	public List<AnnualDTO> annualRequestsList(HttpServletRequest req, Model model) throws ServletException, IOException;
@@ -40,15 +42,15 @@ public interface AnnualService {
 	public void vacationReturn(int vacation_id) throws ServletException, IOException;
 	
 //	// 부서별 근태 현황/통계 조회 (부서 하나)
-//	public DepartmentDTO departmentAttendanceStatus(int depart_id) throws ServletException, IOException;
-//	
-//	// 부서별 근태 현황(상세) 조회 (부서 하나)
-//	public DepartmentDTO departmentAtDetails(int depart_id) throws ServletException, IOException;
-//	
-//	// 부서별 근태 통계(상세) 조회 (부서 하나)
-//	public DepartmentDTO departmentStDetails(int depart_id) throws ServletException, IOException;
-//	
-//	// 전사 근태 현황/통계 조회
-//	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException;
+	public DepAttendanceDTO departmentAttendanceStatus(int depart_id) throws ServletException, IOException;
+
+	// 부서별 근태 현황(상세) 조회 (부서 하나)
+	public DepAttendanceDTO departmentAtDetails(int depart_id) throws ServletException, IOException;
+	
+	// 부서별 근태 통계(상세) 조회 (부서 하나) ( 정렬 )
+	public List<DepAttendanceDTO> departmentAlign(HttpServletRequest req, Model model, int depart_id) throws ServletException, IOException;
+	
+	// 전사 근태 현황/통계 조회
+	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException;
 	
 }

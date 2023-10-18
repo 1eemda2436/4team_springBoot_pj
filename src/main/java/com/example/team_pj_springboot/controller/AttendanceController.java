@@ -16,28 +16,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
-import com.example.team_pj_springboot.service.AnnualServiceImpl;
+import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.DepAttenService;
+
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "**", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/attendance")
+@RequiredArgsConstructor
 public class AttendanceController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceController.class);
 	
 	@Autowired
-	private AnnualServiceImpl service;
+	private AdminServiceImpl service;
 	private DepAttenService depservice;
 	
 	/////////////////////////////////////////////////////////////////////
@@ -81,8 +86,6 @@ public class AttendanceController {
 		service.annualReturn(annual_id);
 	}
 	
-	//////////////////////////////////////////////////////////////////////
-	
 	// 휴가 신청 목록 조회 (Select)
 	@GetMapping("/vacationRequestsList")
 	public List<VacationDTO> vacationRequestsList (HttpServletRequest req, Model model) 
@@ -118,46 +121,54 @@ public class AttendanceController {
 		service.vacationReturn(vacation_id);
 	}
 	
-	//////////////////////////////////////////////////////////////////////
+	// 부서별 근태 현황/통계 조회 (Select)
+	@GetMapping("/departmentAttendanceStatus/{depart_id}")
+	public DepAttendanceDTO departmentAttendanceStatus (@PathVariable int depart_id) throws ServletException, IOException {
+	    logger.info("[ AttendanceController - departmentAttendanceStatus ]");
+	    
+	    System.out.println("!@!#@!# : " + depart_id);
+
+	    DepAttendanceDTO dto = service.departmentAttendanceStatus(depart_id);
+	    
+	    return dto;
+	}
 	
-//	// 부서별 근태 현황/통계 조회 (Select)
-//	@GetMapping("/departmentAttendanceStatus/{depart_id}")
-//	public Optional<DepAttendanceDTO> departmentAttendanceStatus (@PathVariable int depart_id) {
-//	    logger.info("[ AttendanceController - departmentAttendanceStatus ]");
-//	    
-//	    System.out.println("!@!#@!# : " + depart_id);
-//
-//	    Optional<DepAttendanceDTO> dto = depservice.departmentAttendanceStatus(depart_id);
-//	    
-//	    return dto;
-//	}
+	// 부서별 근태 현황(상세) 조회 (Select)
+	@GetMapping("/departmentAtDetails/{depart_id}")
+	public DepAttendanceDTO departmentAtDetails (@PathVariable int depart_id) throws ServletException, IOException {
+		logger.info("[ AttendanceController - departmentAtDetails ]");
+		
+		DepAttendanceDTO dto = service.departmentAtDetails(depart_id);
+		
+		return dto;
+	}
 	
-//	// 부서별 근태 현황(상세) 조회 (Select)
-//	@GetMapping("/departmentAtDetails/{depart_id}")
-//	public DepartmentDTO departmentAtDetails (@PathVariable int depart_id) throws ServletException, IOException {
-//		logger.info("[ AttendanceController - departmentAtDetails ]");
-//		
-//		return service.departmentAtDetails(depart_id);
-//	}
-//	
-//	// 부서별 근태 통계(상세) 조회 (Select)
-//	@GetMapping("/departmentStDetails/{depart_id}")
-//	public DepartmentDTO departmentStDetails (@PathVariable int depart_id) throws ServletException, IOException {
-//		logger.info("[ AttendanceController - departmentStDetails ]");
-//		
-//		return service.departmentStDetails(depart_id);
-//	}
-//	
-//	// 전사 근태 현황/통계 조회 (Select)
-//	@GetMapping("/companyStatus")
-//	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
-//		logger.info("[ AttendanceController - companyStatus ]");
-//		
-//		return service.companyStatus(req, model);
-//	}
+	// 부서별 근태 통계(상세) 조회 (Select) [ 정렬 ]
+	@GetMapping("/departmentAlign/{depart_id}")
+	public List<DepAttendanceDTO> departmentAlign (@PathVariable int depart_id, HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - departmentAlign ]");
+		
+		List<DepAttendanceDTO> dto = service.departmentAlign(req, model, depart_id);
+		
+		return dto;
+	}
+	
+	// 전사 근태 현황/통계 조회 (Select)
+	@GetMapping("/companyStatus")
+	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - companyStatus ]");
+		
+		return service.companyStatus(req, model);
+	}
 	
 	/////////////////////////////////////////////////////////////////////
 	/////////////////////////////// GUEST ///////////////////////////////
 	/////////////////////////////////////////////////////////////////////
+	
+//	// 연차 신청서 작성 (insert)
+//	@PostMapping("/register/annualRegister")
+//	
+//	// 휴가 신청서 작성 (insert)
+//	@PostMapping("/register/vacationRegister")
 	
 }

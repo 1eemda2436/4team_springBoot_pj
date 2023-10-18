@@ -12,12 +12,14 @@ import org.springframework.ui.Model;
 
 import com.example.team_pj_springboot.mappers.AdminMapper;
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
+import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Service
-public class AnnualServiceImpl implements AnnualService {
+public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	private AdminMapper dao;
@@ -62,7 +64,6 @@ public class AnnualServiceImpl implements AnnualService {
 		
 		dao.returnAnnual(annual_id);
 	}
-//////////////////////////////////
 	
 	// 휴가 신청 목록 조회
 	@Override
@@ -105,58 +106,55 @@ public class AnnualServiceImpl implements AnnualService {
 		dao.returnVacation(vacation_id);
 	}
 	
-//////////////////////////////////
-//	// 부서별 근태 현황/통계 조회 (부서 하나)
-//	@Override
-//	public DepartmentDTO departmentAttendanceStatus(int depart_id)
-//			throws ServletException, IOException {
-//		System.out.println("[ AnnualServiceImpl → departmentAttendanceStatus ]");
-//		
-//		DepartmentDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
-//		
-//		System.out.println("DepDTO : " + DepDTO);
-//		
-//		return DepDTO;
-//	}
-//
-//	// 부서별 근태 현황(상세) 조회 (부서 하나)
-//	@Override
-//	public DepartmentDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
-//		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
-//		
-//		DepartmentDTO AtDto = new DepartmentDTO();
-//		AtDto = dao.departmentAtPercent(depart_id);
-//		AtDto = dao.departmentAtCal(depart_id);
-//		AtDto = dao.departmentAtCount(depart_id);
-//		
-//		System.out.println("AtDto : " + AtDto);
-//		
-//		return AtDto;
-//	}
-//
-//	// 부서별 근태 통계(상세) 조회 (부서 하나)
-//	@Override
-//	public DepartmentDTO departmentStDetails(int depart_id) throws ServletException, IOException {
-//		System.out.println("[ AnnualServiceImpl → departmentStDetails ]");
-//		
-//		DepartmentDTO StDto = dao.departmentStDetails(depart_id);
-//		
-//		System.out.println("StDto : " + StDto);
-//		
-//		return StDto;
-//	}
-//
-//	// 전사 근태 현황/통계 조회
-//	@Override
-//	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
-//		System.out.println("[ AnnualServiceImpl → companyStatus ]");
-//		
-//		List<CompanyDTO> ComDto = dao.companyStatus();
-//		
-//		System.out.println("ComDto : " + ComDto);
-//		
-//		return ComDto;
-//	}
+	// 부서별 근태 현황/통계 조회 (부서 하나)
+	@Override
+	public DepAttendanceDTO departmentAttendanceStatus(int depart_id)
+			throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → departmentAttendanceStatus ]");
+		
+		DepAttendanceDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
+		
+		System.out.println("DepDTO : " + DepDTO);
+		
+		return DepDTO;
+	}
+
+	// 부서별 근태 현황(상세) 조회 (부서 하나)
+	@Override
+	public DepAttendanceDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
+		
+		DepAttendanceDTO AtDto = new DepAttendanceDTO();
+		AtDto = dao.departmentAtPercent(depart_id);
+		
+		System.out.println("AtDto : " + AtDto);
+		
+		return AtDto;
+	}
+
+	// 부서별 근태 통계(상세) 조회 (부서 하나) [ 정렬 ]
+	@Override
+	public List<DepAttendanceDTO> departmentAlign(HttpServletRequest req, Model model, int depart_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → departmentStDetails ]");
+		
+		List<DepAttendanceDTO> StDto = dao.departmentAlign(depart_id);
+		
+		System.out.println("StDto : " + StDto);
+		
+		return StDto;
+	}
+
+	// 전사 근태 현황/통계 조회
+	@Override
+	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → companyStatus ]");
+		
+		List<ComAttendanceDTO> ComDto = dao.companyStatus();
+		
+		System.out.println("ComDto : " + ComDto);
+		
+		return ComDto;
+	}
 
 
 
