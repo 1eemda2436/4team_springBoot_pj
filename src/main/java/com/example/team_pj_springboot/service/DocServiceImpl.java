@@ -22,8 +22,6 @@ import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
-import com.example.team_pj_springboot.dto.ViewAndDocDTO;
-import com.example.team_pj_springboot.dto.ViewDTO;
 
 @Service
 public class DocServiceImpl implements DocService{
@@ -61,11 +59,12 @@ public class DocServiceImpl implements DocService{
 
 	// 회람문서함
 	@Override
-	public List<ViewDTO> viewList() {
+	public List<DocDTO> viewList() {
 		System.out.println("DocServiceImpl - viewList");
-		List<ViewDTO> list= viewDao.findAll();
-//		return viewDao.viewList();
-		System.out.println("!!!" + list);
+		
+		List<DocDTO> list= dao.findAll();
+		System.out.println("list" + list);
+		
 		return list;
 	}
 

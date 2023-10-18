@@ -14,8 +14,6 @@ import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
-import com.example.team_pj_springboot.dto.ViewAndDocDTO;
-import com.example.team_pj_springboot.dto.ViewDTO;
 
 public interface DocService {
 	
@@ -26,7 +24,7 @@ public interface DocService {
 	public List<DocAndDraftDTO> draftList();
 	
 	// 회람문서함
-	public List<ViewDTO> viewList();
+	public List<DocDTO> viewList();
 	
 	// 임시저장목록
 	public List<DocAndTemporaryDTO> temporaryList();

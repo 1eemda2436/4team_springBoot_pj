@@ -29,8 +29,6 @@ import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
-import com.example.team_pj_springboot.dto.ViewAndDocDTO;
-import com.example.team_pj_springboot.dto.ViewDTO;
 import com.example.team_pj_springboot.service.DocService;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
@@ -68,9 +66,9 @@ public class DocController {
 		return service.draftList();
 	}
 	
-	// 회람문서함 안됌
+	// 회람문서함 - 연결완료
 	@GetMapping("/view")
-	public List<ViewDTO> viewList() {
+	public List<DocDTO> viewList() {
 		logger.info("<<< 컨트롤러 - viewList >>>");
 		
 		return service.viewList();
