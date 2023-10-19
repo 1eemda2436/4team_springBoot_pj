@@ -4,24 +4,24 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @DynamicInsert
 @DynamicUpdate
 @Table(name="member")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class personnelMemberDTO {
+public class PersonnelMemberDTO {
 	
 	@Id
 	private String id;
@@ -46,13 +46,6 @@ public class personnelMemberDTO {
 	
 	@Column(name = "hireday")
     private Date hireday; // 입사일
-	
-//	@PrePersist
-//    public void setDefaultHireDay() {
-//        if (hireday == null) {
-//            hireday = new Date(System.currentTimeMillis()); // 현재 날짜를 기본값으로 설정
-//        }
-//    }
 	
 	@Column(name = "resignation")
     private Date resignation; // 퇴사일
@@ -94,8 +87,9 @@ public class personnelMemberDTO {
     private String key = " "; // 문자인증 키
 	
 	@Column(name = "authority")
-    private String authority = "user"; // 권한
+    private String authority = "USER"; // 권한
 	
 	@Column(name = "enabled")
     private char enabled  = 'N'; // 인증여부 (Y/N)
+	
 }

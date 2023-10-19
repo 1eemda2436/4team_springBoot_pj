@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicInsert;
 
@@ -31,5 +32,8 @@ public class DepartmentDTO {
     private String depart_name;   // 부서명
     private String company_id;    // 회사 id (FK)
     private char show = 'Y';      // 공개여부
+    
+    @Transient
+    private int teamCount;		//팀 갯수
 }
 

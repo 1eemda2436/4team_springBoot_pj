@@ -1,13 +1,18 @@
 package com.example.team_pj_springboot.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.team_pj_springboot.dto.AllPersonnelDTO;
+import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
-import com.example.team_pj_springboot.dto.personnelMemberDTO;
 import com.example.team_pj_springboot.mappers.PersonnelMapper;
+import com.example.team_pj_springboot.repository.AllPersonnelRepository;
 import com.example.team_pj_springboot.repository.PersonnelRepository;
 import com.example.team_pj_springboot.repository.SalaryRepository;
 
@@ -16,6 +21,7 @@ public class PersonnelService {
 	
 	private final PersonnelRepository personnelRepository;
 	private final SalaryRepository salaryRepository;
+	private final AllPersonnelRepository allPersonnelRepository;
 	
 	@Autowired
 	private PersonnelMapper mapper;
@@ -23,19 +29,22 @@ public class PersonnelService {
 	@Autowired
 	public PersonnelService(
 			PersonnelRepository personnelRepository,
-			SalaryRepository salaryRepository) {
+			SalaryRepository salaryRepository,
+			AllPersonnelRepository allPersonnelRepository) {
 		this.personnelRepository = personnelRepository;
 		this.salaryRepository = salaryRepository;
+		this.allPersonnelRepository = allPersonnelRepository;
 	}
 	
+	//Employee Insert
 	@Transactional
-	public void employeeInsert(personnelMemberDTO dto) {
+	public void employeeInsert(PersonnelMemberDTO dto) {
 		personnelRepository.save(dto);
 	}
 	
-	//월급 초기값
+	//Salary Initial Data
 	@Transactional
-    public SalaryDTO saveSalary(personnelMemberDTO dto) {
+    public SalaryDTO saveSalary(PersonnelMemberDTO dto) {
 		
 		SalaryDTO sadto = new SalaryDTO();
 		sadto.setId(dto.getId());
@@ -44,11 +53,33 @@ public class PersonnelService {
 		
     	return saveSalary;
     }
-	
+	//ID MAX Value Find
 	public int findMaxEmployeeId() {
-		System.out.println("서비스 - findMaxEmployeeId ");
         // JPA 리포지토리를 사용하여 가장 큰 ID를 검색
         return mapper.findMaxId();
     }
+	
+	//Employee Select-All
+	@Transactional
+	public List<AllPersonnelDTO> selectAllEmployee (){
+		return allPersonnelRepository.findPersonnelMembersWithDetails();
+	}
+	
+	//Employee Select-One
+	@Transactional
+	public Optional<PersonnelMemberDTO> selectEmployee (String id){
+		return personnelRepository.findById(id);
+	}
+	
+	//Employee Update
+	@Transactional
+	public void employeeUpdate(PersonnelMemberDTO dto) {
+		personnelRepository.save(dto);
+	}
+	
+	//Employee Delete
+	public void employeeDelete(String id) {
+		personnelRepository.deleteById(id);
+	}
 	
 }

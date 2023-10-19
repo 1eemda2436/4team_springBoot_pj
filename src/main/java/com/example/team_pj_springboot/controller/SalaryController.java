@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.SalaryAndMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
-import com.example.team_pj_springboot.dto.payStatementDTO;
+import com.example.team_pj_springboot.dto.PayStatementDTO;
 import com.example.team_pj_springboot.service.SalaryService;
 
 //http://localhost:8081/salary
@@ -36,17 +36,17 @@ public class SalaryController {
 	//급여관리 메인 페이지
 	@GetMapping("/salaryMain")
     public List<SalaryAndMemberDTO> salaryAndMemberInfo() {
-		logger.info("[salaryAndMemberInfo]");
+		logger.info("[salary - salaryAndMemberInfo]");
 		
         return service.getSalaryAndMemberInfo();
     }
 	
 	//급여 관리 명세서
 	@GetMapping("/PayStatement/{id}")
-	public Optional<payStatementDTO> payStatement(@PathVariable String id) {
-		logger.info("[payStatement]");
+	public Optional<PayStatementDTO> payStatement(@PathVariable String id) {
+		logger.info("[salary - payStatement]");
 
-		Optional<payStatementDTO> dto = service.payStatementInfo(id);
+		Optional<PayStatementDTO> dto = service.payStatementInfo(id);
 		
 		return dto;
 	}
@@ -54,7 +54,7 @@ public class SalaryController {
 	//급여 계산
 	@PutMapping("/calculateTaxes")
     public ResponseEntity<SalaryDTO> addSalary(@RequestBody SalaryDTO dto) {
-        System.out.println("!!!" + dto);
+		logger.info("[salary - addSalary]");
 	    // 여기에서 복잡한 세금 및 보험료 계산을 수행하고 결과를 저장
 	    int incomeTax = calculateIncomeTax(dto.getSalary()); //소득세
 	    int localTax = (int) (incomeTax * 0.1); // 지방소득세 10%
@@ -114,7 +114,7 @@ public class SalaryController {
 	//인사관리 메인 페이지
 	@GetMapping("/personnel")
 	public List<MemberDTO> personnelInfo(){
-		logger.info("[personnelInfo]");
+		logger.info("[salary - personnelInfo]");
 		
 		return service.getPersonnelInfo();
 	}
