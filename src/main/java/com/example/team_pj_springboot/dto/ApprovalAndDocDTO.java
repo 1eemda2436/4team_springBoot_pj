@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class ApprovalAndDocDTO {
 
 	@Id
+	private int doc_id;
 	private int approval_id;
 	private String name;
 	private Date approval_date;
@@ -26,7 +27,8 @@ public class ApprovalAndDocDTO {
 	private String id;
 	
 	// 생성자 직접 정의
-	public ApprovalAndDocDTO(int approval_id, String name, Date approval_date, String approval_content, String doc_title, String doc_content, String doc_attachment) {
+	public ApprovalAndDocDTO(int doc_id, int approval_id, String name, Date approval_date, String approval_content, String doc_title, String doc_content, String doc_attachment) {
+		this.doc_id = doc_id;
 		this.approval_id = approval_id;
 		this.name = name;
 		this.approval_date = approval_date;

@@ -38,7 +38,7 @@ import com.example.team_pj_springboot.service.DocService;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
-@RequestMapping("/doc")
+@RequestMapping("/guest/doc")
 public class DocController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocController.class);
@@ -46,16 +46,7 @@ public class DocController {
 	@Autowired
 	private DocService service;
 	
-	// http://localhost:8081/doc/adminTotal
-	// 어드민통합문서함 - 연결완료
-	@GetMapping("/adminTotal")
-	public List<ApprovalIngAndDocDTO> selectAdmin() {
-		logger.info("<<< 컨트롤러 - selectMember >>>");
-		
-		return service.approvalIngList();
-	}
-	
-	// 게스트통합문서함 - 연결완료
+	// 게스트메인 - 연결완료
 	@GetMapping("/guestTotal")
 	public List<DocAndDraftDTO> selectGuest() {
 		logger.info("<<< 컨트롤러 - selectMember >>>");
@@ -85,30 +76,6 @@ public class DocController {
 		logger.info("<<< 컨트롤러 - temporaryList >>>");
 		
 		return service.temporaryList();
-	}
-	
-	// 결재완료문서함 - 연결완료
-	@GetMapping("/approvalEnd")
-	public List<ApprovalEndAndDocDTO> approvalEndList() {
-		logger.info("<<< 컨트롤러 - approvalEndList >>>");
-		
-		return service.approvalEndList();
-	}
-	
-	// 결재예정문서함 - 연결완료
-	@GetMapping("/approvalIng")
-	public List<ApprovalIngAndDocDTO> approvalIngList() {
-		logger.info("<<< 컨트롤러 - approvalIngList >>>");
-		
-		return service.approvalIngList();
-	}
-	
-	// 결재반려문서함 - 연결완료
-	@GetMapping("/approvalBack")
-	public List<ApprovalBackAndDocDTO> approvalBackList() {
-		logger.info("<<< 컨트롤러 - approvalBackList >>>");
-		
-		return service.approvalBackList();
 	}
 	
 	// 문서작성페이지 
@@ -146,30 +113,17 @@ public class DocController {
 		return dto;
 	}
 	
-	// 결재문서상세페이지
-	@GetMapping("/adminDetail/{approval_id}")
-	public Optional<ApprovalAndDocDTO> selectApp(@PathVariable int approval_id) {
-		logger.info("<<< 컨트롤러 - selectDoc >>>");
-		logger.info("approval_id: " + approval_id);
-		
-		Optional<ApprovalAndDocDTO> dto = service.selectApp(approval_id);
-		
-		return dto;
-	}
-	
 	// 문서수정페이지 안됌
 	@PutMapping("/update/{doc_id}")
-	public void updateDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
+	public void updateDoc(@PathVariable(name="doc_id") int doc_id, @RequestParam("doc_attachment") MultipartFile file, @ModelAttribute("dto") DocDTO dto) {
 		logger.info("<<< 컨트롤러 - updateDoc >>>");
 		
-		DocDTO dto = service.updateDoc(doc_id);
-		model.addAttribute("dto", dto);
 		
 	}
 	
-	// 문서삭제페이지 안됌
+	// 문서삭제페이지 포스트맨성공
 	@DeleteMapping("/delete/{doc_id}")
-	public void deleteDoc(@PathVariable(name="id") int doc_id, Model mode) {
+	public void deleteDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
 		logger.info("<<< 컨트롤러 - updateDoc >>>");
 		
 		service.deleteDoc(doc_id); 

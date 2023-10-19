@@ -41,10 +41,10 @@ public interface ApprovalRepository extends JpaRepository<ApprovalDTO, Integer> 
 			"ORDER BY a.approval_date DESC")
 	List<ApprovalIngAndDocDTO> approvalIngList();
 	
-	@Query("SELECT new com.example.team_pj_springboot.dto.ApprovalAndDocDTO(ad.approval_id, m.name, ad.approval_date, ad.approval_content, d.doc_title, d.doc_content, d.doc_attachment) " +
-			"FROM ApprovalDTO ad " + 
-			"JOIN MemberDTO m ON ad.id = m.id " + 
-			"JOIN DocDTO d ON ad.doc_id = d.doc_id " +
-			"WHERE ad.approval_id = :approval_id")
-	Optional<ApprovalAndDocDTO> selectApp(@Param("approval_id") int approval_id);
+	@Query("SELECT new com.example.team_pj_springboot.dto.ApprovalAndDocDTO(d.doc_id, ad.approval_id, m.name, ad.approval_date, ad.approval_content, d.doc_title, d.doc_content, d.doc_attachment) " +
+			"FROM DocDTO d " + 
+			"JOIN MemberDTO m ON d.id = m.id " + 
+			"JOIN ApprovalDTO ad ON d.doc_id = ad.doc_id " +
+			"WHERE d.doc_id = :doc_id")
+	Optional<ApprovalAndDocDTO> selectApp(@Param("doc_id") int doc_id);
 }
