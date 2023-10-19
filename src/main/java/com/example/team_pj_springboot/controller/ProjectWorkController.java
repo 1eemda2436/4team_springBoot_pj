@@ -24,7 +24,7 @@ import com.example.team_pj_springboot.service.ProjectWorkServiceImpl;
 
 @CrossOrigin(origins="**", maxAge=3600)
 @RestController
-@RequestMapping(value="/projectwork") //공통경로
+@RequestMapping(value="/guest/projectwork") //공통경로
 public class ProjectWorkController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProjectWorkController.class);
