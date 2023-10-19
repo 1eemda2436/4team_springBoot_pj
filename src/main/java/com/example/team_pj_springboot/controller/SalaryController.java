@@ -65,6 +65,7 @@ public class SalaryController {
 	    
 	    // SalaryDTO 엔터티를 만들어서 데이터베이스에 저장
 	    SalaryDTO salaryDTO = new SalaryDTO();
+	    salaryDTO.setS_id(dto.getS_id());
 	    salaryDTO.setId(dto.getId());
 	    salaryDTO.setSalary(dto.getSalary());				//기본급
 	    salaryDTO.setIncome_tax(incomeTax);					//소득세
