@@ -24,4 +24,8 @@ public class AttendanceDTO {
     private Date 		gived_holiday;		// 주어진 휴가 기간
     private int 		total_annual;		// 총 연차
     private int 		used_annual;		// 사용한 연차
+    private int			annuallastcount;
+    private int			worklate;
+    private int			noworking;
+    private int			earlyout;
 }

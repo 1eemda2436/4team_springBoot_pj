@@ -6,13 +6,59 @@
 <mapper namespace="com.example.team_pj_springboot.mappers.AttenMapper">
 
 	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
-		INSERT INTO annual_board (annual_id, annual_title, annual_start, annual_end, annual_content, annual_reg_date, annual_board_file)
-		VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
+	    INSERT INTO annual_board (annual_id ,id , annual_title, annual_start, annual_end, annual_content, annual_reg_date)
+	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
+	</insert>
+
+	<insert id="insertVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+		INSERT INTO vacation_board (vacation_id, id, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
+		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
 	</insert>
 	
-	<insert id="vacationInsert" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
-		INSERT INTO vacation_board (vacation_id, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date, vacation_board_file)
-		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
-	</insert>
+	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+		UPDATE annual_board
+		SET 
+		    annual_title = #{annual_title},
+		    annual_content = #{annual_content},
+	        annual_start = #{annual_start},
+	        annual_end = #{annual_end}
+		WHERE annual_id = #{annual_id}
+	</update>
+	
+	<update id="myVacationModify" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+		UPDATE vacation_board
+		SET 
+		    vacation_title = #{vacation_title},
+		    vacation_content = #{vacation_content},
+	        vacation_start = #{vacation_start},
+	        vacation_end = #{vacation_end}
+		WHERE vacation_id = #{vacation_id}
+	</update>
+	
+<!--	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+		SELECT
+		    id,
+		    total_annual,
+		    used_annual,
+		    total_annual - used_annual as annuallastcount,
+		    sum(case
+		        when extract(hour from general_workin) >= 9 then 1
+		        else 0
+		    end) as worklate,
+		    sum(case
+		        when general_workin is null then 1
+		        else 0
+		    end) as noworking,
+		    sum(case
+		        when extract(hour from general_workout) < 17 and extract(minute from general_workout) < 30 then 1
+		        else 0
+		    end) as earlyout
+		FROM
+		    member_attendance
+		WHERE
+		    id = #{id}
+		GROUP BY
+		    ma_id, id, total_annual, used_annual
+	</select> -->
 
 </mapper>

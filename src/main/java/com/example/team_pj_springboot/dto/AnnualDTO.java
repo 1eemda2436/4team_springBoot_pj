@@ -27,7 +27,6 @@ public class AnnualDTO {
     private Date	annual_end;			// 연차 종료날짜
     private String 	annual_content;		// 글 내용
     private Date 	annual_reg_date;	// 작성 일자
-    private String 	annual_board_file;	// 파일
     private String 	confirm;			// 승인여부
     
 }

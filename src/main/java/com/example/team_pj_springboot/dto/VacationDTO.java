@@ -21,7 +21,6 @@ public class VacationDTO {
     private Date	vacation_end;			// 연차 종료날짜
     private String 	vacation_content;		// 글 내용
     private Date 	vacation_reg_date;		// 작성 일자
-    private String 	vacation_board_file;	// 파일
     private String 	confirm;				// 승인여부
     
 }

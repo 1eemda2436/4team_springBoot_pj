@@ -1,8 +1,13 @@
 package com.example.team_pj_springboot.mappers;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
