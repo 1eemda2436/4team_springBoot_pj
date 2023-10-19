@@ -181,10 +181,10 @@ public class AttendanceController {
 	}
 	
 	// 휴가 신청서 작성 (insert)
-	@PostMapping("/register/vacationRegister")
-	public void vacationRegister (@RequestBody VacationDTO dto) throws ServletException, IOException {
-		System.out.println("[ AttendanceController - vacationRegister ]");
-		
-		gservice.vacationInsert(dto);
-	}
+//	@PostMapping("/register/vacationRegister")
+//	public void vacationRegister (@RequestBody VacationDTO dto) throws ServletException, IOException {
+//		System.out.println("[ AttendanceController - vacationRegister ]");
+//		
+//		gservice.vacationInsert(dto);
+//	}
 }
