@@ -78,7 +78,7 @@ public class DocController {
 		return service.temporaryList();
 	}
 	
-	// 문서작성페이지 - 안됌
+	// 문서작성페이지 안됌
 	@PostMapping("/insert")
 	public String insertDoc(@RequestParam("doc_attachment") MultipartFile file, @ModelAttribute DocDTO dto) {
 		logger.info("<<< 컨트롤러 - insertDoc >>>");
@@ -113,7 +113,7 @@ public class DocController {
 		return dto;
 	}
 	
-	// 문서수정페이지 - 안됌
+	// 문서수정페이지 안됌
 	@PutMapping("/update/{doc_id}")
 	public void updateDoc(@PathVariable(name="doc_id") int doc_id, @RequestParam("doc_attachment") MultipartFile file, @ModelAttribute("dto") DocDTO dto) {
 		logger.info("<<< 컨트롤러 - updateDoc >>>");
