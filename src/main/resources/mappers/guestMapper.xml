@@ -35,7 +35,7 @@
 		WHERE vacation_id = #{vacation_id}
 	</update>
 	
-<!--	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+<!-- 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
 		SELECT
 		    id,
 		    total_annual,

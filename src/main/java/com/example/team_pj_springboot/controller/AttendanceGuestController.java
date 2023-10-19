@@ -39,7 +39,7 @@ public class AttendanceGuestController {
 	private GuestServiceImpl gservice;
 	
 	// 연차 신청서 작성 (insert)
-	@PostMapping("/register/annualRegister")
+	@PostMapping("/annualRegister")
 	public Map<String, Object> annualRegister (@RequestBody AnnualDTO dto) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - annualRegister ]");
 		
@@ -68,7 +68,7 @@ public class AttendanceGuestController {
 	}
 	
 	// 휴가 신청서 작성 (insert)
-	@PostMapping("/register/vacationRegister")
+	@PostMapping("/vacationRegister")
 	public Map<String, Object> vacationRegister (@RequestBody VacationDTO dto) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - vacationRegister ]");
 		
@@ -96,7 +96,7 @@ public class AttendanceGuestController {
 	}
 	
 	// 연차계 수정 (update)
-	@PutMapping("/guest/annualDetail/{annual_id}")
+	@PutMapping("/annualDetail/{annual_id}")
 	public void modifyAnnual (@PathVariable int annual_id, @RequestBody AnnualDTO dto) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - modifyAnnual ]");
 		
@@ -104,7 +104,7 @@ public class AttendanceGuestController {
 	}
 	
 	// 휴가계 수정 (update)
-	@PutMapping("/guest/vacationDetail/{vacation_id}")
+	@PutMapping("/vacationDetail/{vacation_id}")
 	public void modifyAnnual (@PathVariable int vacation_id, @RequestBody VacationDTO dto) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - modifyAnnual ]");
 		
@@ -112,7 +112,7 @@ public class AttendanceGuestController {
 	}
 	
 	// 총 연차 / 사용 연차 / 잔여 연차 / 지각계 / 결근계 / 조퇴계
-	@GetMapping("/guest/myAttenCount/{id}")
+	@GetMapping("/myAttenCount/{id}")
 	public AttendanceDTO myAttenCount (@PathVariable String id) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - myAttenCount ]");
 		
