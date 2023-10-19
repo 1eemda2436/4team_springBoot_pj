@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.team_pj_springboot.dto.SalaryAndMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
 import com.example.team_pj_springboot.dto.payStatementDTO;
+import com.example.team_pj_springboot.dto.personnelMemberDTO;
 
 public interface SalaryRepository extends JpaRepository<SalaryDTO, Integer> {
 	@Query("SELECT new com.example.team_pj_springboot.dto.SalaryAndMemberDTO(s.s_id, m.id, m.name, m.resident, m.contract, m.depart_id, m.rank, m.state, m.e_state, s.salary) " +
@@ -23,5 +24,4 @@ public interface SalaryRepository extends JpaRepository<SalaryDTO, Integer> {
 		       "WHERE m.id = :memberId") // :memberId와 @Param("memberId")를 일치시킴
 	Optional<payStatementDTO> payStatementInfo(@Param("memberId") String memberId);
 
-	
 }

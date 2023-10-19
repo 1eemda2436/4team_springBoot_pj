@@ -12,6 +12,7 @@ import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.SalaryAndMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
 import com.example.team_pj_springboot.dto.payStatementDTO;
+import com.example.team_pj_springboot.dto.personnelMemberDTO;
 import com.example.team_pj_springboot.mappers.UserMapper;
 
 import javax.transaction.Transactional;

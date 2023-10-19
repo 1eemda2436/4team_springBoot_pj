@@ -5,6 +5,7 @@ import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicInsert;
 
@@ -45,6 +46,7 @@ public class MemberDTO {
     private String key; // 문자인증 키
     private String authority; // 권한
     private char enabled = 'N'; // 인증여부 (Y/N)
+    @Transient
     private String token;
 }
 

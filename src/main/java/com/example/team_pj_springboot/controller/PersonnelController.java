@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.personnelMemberDTO;
 import com.example.team_pj_springboot.service.PersonnelService;
+import com.example.team_pj_springboot.service.SalaryService;
 
 @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL로 대체
 @RestController
@@ -32,11 +33,15 @@ public class PersonnelController {
 		logger.info("[ personnelController - employeeInsert ]");
 		
 		service.employeeInsert(dto);
+		service.saveSalary(dto);
 	}
 	
 	@GetMapping("/maxId")
     public String findMaxEmployeeId() {
-        return service.findMaxEmployeeId();
+		
+		String sid = String.valueOf(service.findMaxEmployeeId());
+		
+        return sid;
     }
 	
 	
