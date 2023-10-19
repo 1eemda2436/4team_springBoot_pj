@@ -19,4 +19,6 @@ public interface AttenMapper {
 	
 	public AttendanceDTO myAttenCount(String id);		// 총 연차 / 사용 연차 / 잔여 연차 / 지각계 / 결근계 / 조퇴계
 	
+	public AttendanceDTO weekWorkTime(String id);		// 주간 총 근무시간 / 주간 총 야근 시간 / 남은 총 근무시간
+	
 }

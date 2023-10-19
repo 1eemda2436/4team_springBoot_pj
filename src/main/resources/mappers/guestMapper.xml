@@ -35,30 +35,69 @@
 		WHERE vacation_id = #{vacation_id}
 	</update>
 	
-<!-- 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+ 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+ 		<![CDATA[
+			SELECT
+			    id,
+			    total_annual,
+			    used_annual,
+			    total_annual - used_annual,
+			    sum(case
+			        when extract(hour from general_workin) >= 9 then 1
+			        else 0
+			    end),
+			    sum(case
+			        when general_workin is null then 1
+			        else 0
+			    end),
+			    sum(case
+			        when extract(hour from general_workout) < 17 and extract(minute from general_workout) < 30 then 1
+			        else 0
+			    end)
+			FROM
+			    member_attendance
+			WHERE
+			    id = #{id}
+			GROUP BY
+			    ma_id, id, total_annual, used_annual
+		]]>
+	</select> 
+	
+	<select id="weekWorkTime" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
 		SELECT
-		    id,
-		    total_annual,
-		    used_annual,
-		    total_annual - used_annual as annuallastcount,
-		    sum(case
-		        when extract(hour from general_workin) >= 9 then 1
-		        else 0
-		    end) as worklate,
-		    sum(case
-		        when general_workin is null then 1
-		        else 0
-		    end) as noworking,
-		    sum(case
-		        when extract(hour from general_workout) < 17 and extract(minute from general_workout) < 30 then 1
-		        else 0
-		    end) as earlyout
+		    MA_ID,
+		    ID,
+		    SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+		            ELSE
+		                0
+		        END
+		    ) AS totalWeekWork,
+			SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                GREATEST(EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60 - 8.5, 0)
+		            ELSE
+		                0
+		        END
+		    ) AS totalWeekOver,
+		    40 - SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+		            ELSE
+		                0
+		        END
+		    ) AS remainWeekTime
 		FROM
-		    member_attendance
+		    MEMBER_ATTENDANCE
 		WHERE
-		    id = #{id}
+		    ID = #{id}
+		    AND TRUNC(GENERAL_WORKIN) BETWEEN TRUNC(SYSDATE) - 4 AND TRUNC(SYSDATE)
 		GROUP BY
-		    ma_id, id, total_annual, used_annual
-	</select> -->
+		    MA_ID, ID
+	</select>
 
 </mapper>
