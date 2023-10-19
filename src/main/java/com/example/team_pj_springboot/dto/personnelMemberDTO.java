@@ -16,10 +16,10 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Data;
 
+@Entity
 @DynamicInsert
 @DynamicUpdate
 @Table(name="member")
-@Entity
 @Data
 public class personnelMemberDTO {
 	
