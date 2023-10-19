@@ -1,7 +1,10 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
@@ -39,7 +42,7 @@ public interface DocService {
 	public List<ApprovalBackAndDocDTO> approvalBackList();
 	
 	// 문서작성페이지
-	public DocDTO insertDoc(DocDTO dto);
+	public DocDTO insertDoc(DocDTO dto) throws IOException;
 	
 	// 문서상세페이지
 	public Optional<DocAndCategoryDTO> selectDoc(int doc_id);
@@ -52,5 +55,8 @@ public interface DocService {
 	
 	// 문서삭제페이지
 	public void deleteDoc(int doc_id); 
+	
+	// 파일업로드
+	public String uploadFile(MultipartFile doc_attachment) throws IOException;
 	
 }

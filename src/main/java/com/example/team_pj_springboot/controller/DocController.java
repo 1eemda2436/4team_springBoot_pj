@@ -1,5 +1,6 @@
 package com.example.team_pj_springboot.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +16,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
@@ -106,15 +111,28 @@ public class DocController {
 		return service.approvalBackList();
 	}
 	
-	// 문서작성페이지 안됌
+	// 문서작성페이지 
 	@PostMapping("/insert")
-	public String insertDoc(@ModelAttribute("dto") DocDTO dto, Model model) {
+	public String insertDoc(@RequestParam("doc_attachment") MultipartFile file, @ModelAttribute DocDTO dto) {
 		logger.info("<<< 컨트롤러 - insertDoc >>>");
 		
-		service.insertDoc(dto);
+		 try {
+		        // 파일 업로드하고 파일 경로를 받아옴
+		        String filePath = service.uploadFile(file);
+		        System.out.println("file: " + file);
+
+		        // DTO 객체에 파일 경로 설정
+		        dto.setDoc_attachment(filePath);
+		        System.out.println("filePath: " + filePath);
+
+		        // 서비스로 DTO 객체 전달하여 저장
+		        service.insertDoc(dto);
+		    } catch (IOException e) {
+		        // 파일 업로드 중 예외가 발생할 경우 처리
+		        e.printStackTrace();
+		    }
 		
 		return "redirect:/";
-		
 	}
 	
 	// 문서상세페이지 - 연결완료
