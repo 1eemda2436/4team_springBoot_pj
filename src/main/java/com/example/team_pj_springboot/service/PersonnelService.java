@@ -12,7 +12,6 @@ import com.example.team_pj_springboot.dto.AllPersonnelDTO;
 import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
 import com.example.team_pj_springboot.mappers.PersonnelMapper;
-import com.example.team_pj_springboot.repository.AllPersonnelRepository;
 import com.example.team_pj_springboot.repository.PersonnelRepository;
 import com.example.team_pj_springboot.repository.SalaryRepository;
 
@@ -21,7 +20,6 @@ public class PersonnelService {
 	
 	private final PersonnelRepository personnelRepository;
 	private final SalaryRepository salaryRepository;
-	private final AllPersonnelRepository allPersonnelRepository;
 	
 	@Autowired
 	private PersonnelMapper mapper;
@@ -29,11 +27,9 @@ public class PersonnelService {
 	@Autowired
 	public PersonnelService(
 			PersonnelRepository personnelRepository,
-			SalaryRepository salaryRepository,
-			AllPersonnelRepository allPersonnelRepository) {
+			SalaryRepository salaryRepository) {
 		this.personnelRepository = personnelRepository;
 		this.salaryRepository = salaryRepository;
-		this.allPersonnelRepository = allPersonnelRepository;
 	}
 	
 	//Employee Insert
@@ -59,10 +55,9 @@ public class PersonnelService {
         return mapper.findMaxId();
     }
 	
-	//Employee Select-All
-	@Transactional
+	//Employee Select-All///////////////////////////////////////////
 	public List<AllPersonnelDTO> selectAllEmployee (){
-		return allPersonnelRepository.findPersonnelMembersWithDetails();
+		return mapper.findPersonnelMembersWithDetails();
 	}
 	
 	//Employee Select-One

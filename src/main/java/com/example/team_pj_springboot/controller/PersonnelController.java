@@ -24,7 +24,7 @@ import com.example.team_pj_springboot.service.PersonnelService;
 
 @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL로 대체
 @RestController
-@RequestMapping("/personnel") 
+@RequestMapping("/admin/personnel") 
 public class PersonnelController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PersonnelController.class);

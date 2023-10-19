@@ -12,11 +12,11 @@ public interface DepartmentRepository extends JpaRepository<DepartmentDTO, Integ
 	
 //	List<DepartmentDTO> findByDepartId(int departId);
 	
-	@Query("SELECT d.depart_id, d.depart_name, COUNT(t.team_id) AS teamCount " +
+	@Query("SELECT d.depart_id, d.depart_name, COUNT(t.team_id) AS teamCount, d.company_id " +
 	           "FROM DepartmentDTO d " +
 	           "LEFT JOIN TeamDTO t " +
 	           "ON d.depart_id = t.depart_id " +
-	           "GROUP BY d.depart_id, d.depart_name ")
+	           "GROUP BY d.depart_id, d.depart_name, d.company_id ")
 	List<Object[]> findDepartmentsWithTeamCount();
 	
 }
