@@ -14,6 +14,7 @@ import com.example.team_pj_springboot.mappers.AdminMapper;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Service
 public class AnnualServiceImpl implements AnnualService {
@@ -48,70 +49,115 @@ public class AnnualServiceImpl implements AnnualService {
 
 	// 연차 상세페이지 승인 및 조회
 	@Override
-	public void annualConfirm(AnnualDTO dto) throws ServletException, IOException {
+	public void annualConfirm(int annual_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → annualConfirm ]");
 		
-		dao.confirmAnnual(dto);
+		dao.confirmAnnual(annual_id);
 	}
 
 	// 연차 상세페이지 반려 및 조회
 	@Override
-	public void annualReturn(AnnualDTO dto) throws ServletException, IOException {
+	public void annualReturn(int annual_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → annualReturn ]");
 		
-		dao.returnAnnual(dto);
+		dao.returnAnnual(annual_id);
 	}
-
-	// 부서별 근태 현황/통계 조회 (부서 하나)
+//////////////////////////////////
+	
+	// 휴가 신청 목록 조회
 	@Override
-	public DepartmentDTO departmentAttendanceStatus(int depart_id)
+	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model)
 			throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → departmentAttendanceStatus ]");
+		System.out.println("[ AnnualServiceImpl → vacationRequestsList ]");
 		
-		DepartmentDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
+		List<VacationDTO> VacationList = dao.vacationRequestsList();
 		
-		System.out.println("DepDTO : " + DepDTO);
+		System.out.println("VacationList : " + VacationList);
 		
-		return DepDTO;
+		return VacationList;
 	}
 
-	// 부서별 근태 현황(상세) 조회 (부서 하나)
+	// 휴가 상세페이지
 	@Override
-	public DepartmentDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
+	public VacationDTO vacationDetail(int vacation_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationDetail ]");
 		
-		DepartmentDTO AtDto = new DepartmentDTO();
-		AtDto = dao.departmentAtPercent(depart_id);
-		AtDto = dao.departmentAtCal(depart_id);
-		AtDto = dao.departmentAtCount(depart_id);
+		VacationDTO VcDto = dao.vacationDetail(vacation_id);
 		
-		System.out.println("AtDto : " + AtDto);
+		System.out.println("VcDto : " + VcDto);
 		
-		return AtDto;
+		return VcDto;
 	}
 
-	// 부서별 근태 통계(상세) 조회 (부서 하나)
+	// 휴가 상세페이지 승인 및 조회
 	@Override
-	public DepartmentDTO departmentStDetails(int depart_id) throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → departmentStDetails ]");
+	public void vacationConfirm(int vacation_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationConfirm ]");
 		
-		DepartmentDTO StDto = dao.departmentStDetails(depart_id);
-		
-		System.out.println("StDto : " + StDto);
-		
-		return StDto;
+		dao.confirmVacation(vacation_id);
 	}
 
-	// 전사 근태 현황/통계 조회
+	// 휴가 상세페이지 반려 및 조회
 	@Override
-	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
-		System.out.println("[ AnnualServiceImpl → companyStatus ]");
+	public void vacationReturn(int vacation_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → vacationReturn ]");
 		
-		List<CompanyDTO> ComDto = dao.companyStatus();
-		
-		System.out.println("ComDto : " + ComDto);
-		
-		return ComDto;
+		dao.returnVacation(vacation_id);
 	}
+	
+//////////////////////////////////
+//	// 부서별 근태 현황/통계 조회 (부서 하나)
+//	@Override
+//	public DepartmentDTO departmentAttendanceStatus(int depart_id)
+//			throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → departmentAttendanceStatus ]");
+//		
+//		DepartmentDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
+//		
+//		System.out.println("DepDTO : " + DepDTO);
+//		
+//		return DepDTO;
+//	}
+//
+//	// 부서별 근태 현황(상세) 조회 (부서 하나)
+//	@Override
+//	public DepartmentDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
+//		
+//		DepartmentDTO AtDto = new DepartmentDTO();
+//		AtDto = dao.departmentAtPercent(depart_id);
+//		AtDto = dao.departmentAtCal(depart_id);
+//		AtDto = dao.departmentAtCount(depart_id);
+//		
+//		System.out.println("AtDto : " + AtDto);
+//		
+//		return AtDto;
+//	}
+//
+//	// 부서별 근태 통계(상세) 조회 (부서 하나)
+//	@Override
+//	public DepartmentDTO departmentStDetails(int depart_id) throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → departmentStDetails ]");
+//		
+//		DepartmentDTO StDto = dao.departmentStDetails(depart_id);
+//		
+//		System.out.println("StDto : " + StDto);
+//		
+//		return StDto;
+//	}
+//
+//	// 전사 근태 현황/통계 조회
+//	@Override
+//	public List<CompanyDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+//		System.out.println("[ AnnualServiceImpl → companyStatus ]");
+//		
+//		List<CompanyDTO> ComDto = dao.companyStatus();
+//		
+//		System.out.println("ComDto : " + ComDto);
+//		
+//		return ComDto;
+//	}
+
+
 
 }
