@@ -32,7 +32,8 @@ public class TeamAspect {
 
         try {
             Object result = joinPoint.proceed();
-            long endTime = System.currentTimeMillis(); // 메서드 종료 시간 기록
+            long endTime = System.
+            		currentTimeMillis(); // 메서드 종료 시간 기록
             long executionTime = endTime - startTime; // 메서드 실행 시간 계산
             log.info("Around after: " + joinPoint.getSignature().getName());
             log.info("Time of " + joinPoint.getSignature().getName() + ": " + executionTime + " ms");
