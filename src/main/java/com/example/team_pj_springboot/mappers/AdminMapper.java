@@ -1,11 +1,18 @@
 package com.example.team_pj_springboot.mappers;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
+import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
@@ -26,14 +33,13 @@ public interface AdminMapper {
 	public void confirmVacation(int vacation_id);		// 휴가 승인
 	public void returnVacation(int vacation_id);		// 휴가 반려
 	
-//	public DepartmentDTO departmentAttendanceStatus(int depart_id);	// 부서별 근태 현황/통계 조회 (부서 하나)
-//	
-//	public DepartmentDTO departmentAtPercent(int depart_id);	// 부서별 근태 현황(상세)[ 출근/지각/연차 률 ]
-//	public DepartmentDTO departmentAtCount(int depart_id);		// 부서별 근태 현황(상세)[ 지각자 수 / 통계 , 연차 및 휴가자 수 / 통계 ]
+	public DepAttendanceDTO departmentAttendanceStatus(int depart_id);	// 부서별 근태 현황/통계 조회 (부서 하나)
+	
+	public DepAttendanceDTO departmentAtPercent(int depart_id);	// 부서별 근태 현황(상세)[ 출근/지각/연차 률, 지각자/연차 및 휴가자 수 ]
 //	public DepartmentDTO departmentAtCal(int depart_id);		// 부서별 근태 현황 [ 캘린더 ]
-//	
-//	public DepartmentDTO departmentStDetails(int depart_id);	// 부서별 근태 통계(상세) [ 이름순 / 지각순 	/ 사번순 / 정렬기능 ]
-//	
-//	public List<CompanyDTO> companyStatus();					// 전사 근태 현황/통계
+	
+	public List<DepAttendanceDTO> departmentAlign(int depart_id);	// 부서별 근태 통계(상세) [ 이름순 / 지각순 	/ 사번순 / 정렬기능 ]
+	
+	public List<ComAttendanceDTO> companyStatus();					// 전사 근태 현황/통계
 
 }

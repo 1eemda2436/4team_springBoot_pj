@@ -6,11 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="annual_board")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AnnualDTO {
 	
 	@Id
@@ -21,7 +27,6 @@ public class AnnualDTO {
     private Date	annual_end;			// 연차 종료날짜
     private String 	annual_content;		// 글 내용
     private Date 	annual_reg_date;	// 작성 일자
-    private String 	annual_board_file;	// 파일
     private String 	confirm;			// 승인여부
     
 }

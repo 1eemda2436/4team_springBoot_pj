@@ -24,6 +24,15 @@ public class DepAttendanceDTO {
 	private Timestamp 	general_workout;// 퇴근시간
 	private String 		holiday_name;	// 휴가 사
 	private Date 		gived_holiday;	// 휴가 기간
+    private int 		annualCount; 	// 연차/휴가 여부를 저장할 필드
+    private Double		averageWorkin; 	// 출근 시간 평균을 저장할 필드
+    private Double		averageWorkout; // 퇴근 시간 평균을 저장할 필드
+    private String 		workinRate;		// 출근율
+    private String 		timelate;		// 지각률
+    private String 		annualRate;		// 연차률
+    private int 		lateCount;		// 지각자 수
+    private int 		holidayCount;	// 쉬는사람 수
+    private int			latedCount;		// 지각 횟수
 	
 
 

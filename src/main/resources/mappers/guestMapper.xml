@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.team_pj_springboot.mappers.AttenMapper">
+
+	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+	    INSERT INTO annual_board (annual_id ,id , annual_title, annual_start, annual_end, annual_content, annual_reg_date)
+	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
+	</insert>
+
+	<insert id="insertVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+		INSERT INTO vacation_board (vacation_id, id, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
+		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
+	</insert>
+	
+	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+		UPDATE annual_board
+		SET 
+		    annual_title = #{annual_title},
+		    annual_content = #{annual_content},
+	        annual_start = #{annual_start},
+	        annual_end = #{annual_end}
+		WHERE annual_id = #{annual_id}
+	</update>
+	
+	<update id="myVacationModify" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+		UPDATE vacation_board
+		SET 
+		    vacation_title = #{vacation_title},
+		    vacation_content = #{vacation_content},
+	        vacation_start = #{vacation_start},
+	        vacation_end = #{vacation_end}
+		WHERE vacation_id = #{vacation_id}
+	</update>
+	
+ 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+ 		<![CDATA[
+			SELECT
+			    id,
+			    total_annual,
+			    used_annual,
+			    total_annual - used_annual,
+			    sum(case
+			        when extract(hour from general_workin) >= 9 then 1
+			        else 0
+			    end),
+			    sum(case
+			        when general_workin is null then 1
+			        else 0
+			    end),
+			    sum(case
+			        when extract(hour from general_workout) < 17 and extract(minute from general_workout) < 30 then 1
+			        else 0
+			    end)
+			FROM
+			    member_attendance
+			WHERE
+			    id = #{id}
+			GROUP BY
+			    ma_id, id, total_annual, used_annual
+		]]>
+	</select> 
+	
+	<select id="weekWorkTime" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+		SELECT
+		    MA_ID,
+		    ID,
+		    SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+		            ELSE
+		                0
+		        END
+		    ) AS totalWeekWork,
+			SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                GREATEST(EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60 - 8.5, 0)
+		            ELSE
+		                0
+		        END
+		    ) AS totalWeekOver,
+		    40 - SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+		            ELSE
+		                0
+		        END
+		    ) AS remainWeekTime
+		FROM
+		    MEMBER_ATTENDANCE
+		WHERE
+		    ID = #{id}
+		    AND TRUNC(GENERAL_WORKIN) BETWEEN TRUNC(SYSDATE) - 4 AND TRUNC(SYSDATE)
+		GROUP BY
+		    MA_ID, ID
+	</select>
+
+</mapper>
