@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.team_pj_springboot.dto.ProjectWorkDTO;
 import com.example.team_pj_springboot.service.ProjectWorkServiceImpl;
 
-@CrossOrigin(origins="**", maxAge=3600)
+@CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
-@RequestMapping(value="/guest/projectwork") //공통경로
+@RequestMapping("/guest/projectwork")
 public class ProjectWorkController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProjectWorkController.class);
