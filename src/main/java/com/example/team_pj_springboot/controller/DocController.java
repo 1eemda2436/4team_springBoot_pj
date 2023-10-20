@@ -101,7 +101,7 @@ public class DocController {
 		
 		return "redirect:/";
 	}
-	
+	 
 	// 문서상세페이지 - 연결완료
 	@GetMapping("/detail/{doc_id}")
 	public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
