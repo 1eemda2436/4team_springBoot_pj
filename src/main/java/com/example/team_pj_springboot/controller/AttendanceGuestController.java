@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.AttendanceDTO;
+import com.example.team_pj_springboot.dto.MyAttendanceDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.DepAttenService;
@@ -113,10 +114,50 @@ public class AttendanceGuestController {
 	
 	// 총 연차 / 사용 연차 / 잔여 연차 / 지각계 / 결근계 / 조퇴계
 	@GetMapping("/myAttenCount/{id}")
-	public AttendanceDTO myAttenCount (@PathVariable String id) throws ServletException, IOException {
+	public MyAttendanceDTO myAttenCount (@PathVariable String id) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - myAttenCount ]");
 		
-		AttendanceDTO dto = gservice.myAttenCount(id);
+		MyAttendanceDTO dto = gservice.myAttenCount(id);
+		
+		return dto;
+	}
+	
+	// 주간 총 근무시간 / 주간 총 야근 시간 / 남은 총 근무시간
+	@GetMapping("/weeklyWorkTime/{id}")
+	public MyAttendanceDTO weeklyWorkTime (@PathVariable String id) throws ServletException, IOException {
+		System.out.println("[ AttendanceController - weeklyWorkTime ]");
+		
+		MyAttendanceDTO dto = gservice.weeklyWorkTime(id);
+		
+		return dto;
+	}
+	
+	// 나의 근태 현황 (상세)[ 내 근태 현황 상세페이지 ]
+	@GetMapping("/myWorkDetail/{id}")
+	public MyAttendanceDTO myWorkDetail (@PathVariable String id) throws ServletException, IOException {
+		System.out.println("[ AttendanceController - myWorkDetail ]");
+		
+		MyAttendanceDTO dto = gservice.myWorkDetail(id);
+		
+		return dto;
+	}
+	
+	// 나의 근태 현황 (상세) [ 총연차 / 사용연차 / 잔여연차 ]
+	@GetMapping("/myCurrentAnnual/{id}")
+	public MyAttendanceDTO myCurrentAnnual (@PathVariable String id) throws ServletException, IOException {
+		System.out.println("[ AttendanceController - myCurrentAnnual ]");
+		
+		MyAttendanceDTO dto = gservice.myCurrentAnnual(id);
+		
+		return dto;
+	}
+	
+	// 휴가계 정보 [ 휴가계(제목) / 휴가 시작 / 휴가 종료 / 휴가 기간 / 휴가 사유(제목) ]  [ 내 근태 현황 상세페이지 ]
+	@GetMapping("/myVacationPre/{id}")
+	public MyAttendanceDTO myVacationPre (@PathVariable String id) throws ServletException, IOException {
+		System.out.println("[ AttendanceController - myVacationPre ]");
+		
+		MyAttendanceDTO dto = gservice.myVacationPre(id);
 		
 		return dto;
 	}
