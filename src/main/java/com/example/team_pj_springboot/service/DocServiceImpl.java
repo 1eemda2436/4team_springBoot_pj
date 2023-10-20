@@ -1,16 +1,24 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.repository.ApprovalRepository;
 import com.example.team_pj_springboot.repository.DocRepository;
 import com.example.team_pj_springboot.repository.MemberRepository;
 import com.example.team_pj_springboot.repository.TemporaryRepository;
 import com.example.team_pj_springboot.repository.ViewRepository;
+import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
@@ -20,8 +28,6 @@ import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
-import com.example.team_pj_springboot.dto.ViewAndDocDTO;
-import com.example.team_pj_springboot.dto.ViewDTO;
 
 @Service
 public class DocServiceImpl implements DocService{
@@ -59,10 +65,13 @@ public class DocServiceImpl implements DocService{
 
 	// 회람문서함
 	@Override
-	public List<ViewAndDocDTO> viewList() {
+	public List<DocDTO> viewList() {
 		System.out.println("DocServiceImpl - viewList");
 		
-		return viewDao.viewList();
+		List<DocDTO> list= dao.findAll();
+		System.out.println("list" + list);
+		
+		return list;
 	}
 
 	// 임시저장목록
@@ -91,7 +100,7 @@ public class DocServiceImpl implements DocService{
 
 	// 결재반려문서함
 	@Override
-	public List<ApprovalIngAndDocDTO> approvalBackList() {
+	public List<ApprovalBackAndDocDTO> approvalBackList() {
 		System.out.println("DocServiceImpl - approvalBackList");
 		
 		return approvalDao.approvalBackList();
@@ -99,10 +108,41 @@ public class DocServiceImpl implements DocService{
 
 	// 문서작성페이지
 	@Override
-	public DocDTO insertDoc(DocDTO dto) {
+	public DocDTO insertDoc(DocDTO dto) throws IOException{
 		System.out.println("DocServiceImpl - insertDoc");
 		
+		// 현재 날짜를 가져와서 1년을 더한 날짜 계산
+	    LocalDate currentDate = LocalDate.now();
+	    LocalDate endDate = currentDate.plusYears(1);
+	    
+	    // endDate를 데이터베이스에 저장하기 위해 java.sql.Date로 변환
+	    java.sql.Date sqlEndDate = java.sql.Date.valueOf(endDate);
+	    
+	    // DTO에 날짜 설정
+	    dto.setDoc_endDate(sqlEndDate); // 1년을 더한 날짜로 설정
+	    
 		return dao.save(dto);
+	}
+	
+	// 파일업로드
+	@Override
+	public String uploadFile(MultipartFile doc_attachment) throws IOException {
+
+		String upload = "./src/main/webapp/resources/upload/";
+		
+		// 업로드 디렉토리가 존재하지 않으면 생성
+        Files.createDirectories(Paths.get(upload));
+
+        // 파일명
+        String fileName = doc_attachment.getOriginalFilename();
+
+        // 파일 저장 경로 설정
+        Path filePath = Paths.get(upload + fileName);
+
+        // 파일을 저장하고 파일명을 반환
+        Files.write(filePath, doc_attachment.getBytes());
+        
+        return fileName;
 	}
 	
 	// 문서상세페이지
@@ -111,6 +151,14 @@ public class DocServiceImpl implements DocService{
 		System.out.println("DocServiceImpl - selectDoc");
 		
 		return dao.selectOneDoc(doc_id);
+	}
+	
+	// 결재문서상세페이지
+	@Override
+	public Optional<ApprovalAndDocDTO> selectApp(int approval_id) {
+		System.out.println("DocServiceImpl - selectApp");
+		
+		return approvalDao.selectApp(approval_id);
 	}
 
 	// 문서수정페이지
