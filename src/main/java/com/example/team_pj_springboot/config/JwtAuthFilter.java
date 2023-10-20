@@ -34,6 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter{ // 요청당 한번만 
          if(elements.length == 2 && "Bearer".equals(elements[0])) {
             try {
                SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateToken(elements[1]));
+               System.out.println("제발2");
             } catch(RuntimeException e) {
                SecurityContextHolder.clearContext(); // 문제가 발생하면 보안 컨텍스트를 지우고 오류를 발생시킨다.
                throw e;

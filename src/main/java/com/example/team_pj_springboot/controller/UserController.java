@@ -36,6 +36,9 @@ public class UserController {
 
 		member.setToken(userAuthProvider.createToken(member.getId()));
 		System.out.println(member);
+		
+		//토큰 확인
+		userAuthProvider.decodeToken("!!" + member.getToken());
 
 		return ResponseEntity.ok(member);   // 크롬 Network - Headers : 200 OK 새로운 JWT를 반환
 	}
