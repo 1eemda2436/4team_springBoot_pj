@@ -1,20 +1,23 @@
 package com.example.team_pj_springboot.repository;
 
+
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 
-@Repository
 public interface DepartmentRepository extends JpaRepository<DepartmentDTO, Integer> {
 	
 //	List<DepartmentDTO> findByDepartId(int departId);
+	
+	@Query("SELECT d.depart_id, d.depart_name, COUNT(t.team_id) AS teamCount, d.company_id " +
+	           "FROM DepartmentDTO d " +
+	           "LEFT JOIN TeamDTO t " +
+	           "ON d.depart_id = t.depart_id " +
+	           "GROUP BY d.depart_id, d.depart_name, d.company_id ")
+	List<Object[]> findDepartmentsWithTeamCount();
 	
 }
 

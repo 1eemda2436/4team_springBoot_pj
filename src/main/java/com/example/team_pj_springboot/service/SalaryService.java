@@ -11,8 +11,8 @@ import com.example.team_pj_springboot.repository.SalaryRepository;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.SalaryAndMemberDTO;
 import com.example.team_pj_springboot.dto.SalaryDTO;
-import com.example.team_pj_springboot.dto.payStatementDTO;
-import com.example.team_pj_springboot.dto.personnelMemberDTO;
+import com.example.team_pj_springboot.dto.PayStatementDTO;
+import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.mappers.UserMapper;
 
 import javax.transaction.Transactional;
@@ -38,7 +38,7 @@ public class SalaryService {
     
     //관리자 월급 명세서
     @Transactional
-    public Optional<payStatementDTO> payStatementInfo(String id) {
+    public Optional<PayStatementDTO> payStatementInfo(String id) {
     	return salaryRepository.payStatementInfo(id);
     }
     

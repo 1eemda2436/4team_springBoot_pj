@@ -10,5 +10,38 @@
     <select id="findMaxId" resultType="Integer">
         SELECT MAX(CAST(id AS NUMBER)) AS id FROM MEMBER
     </select>
+    
+    <!-- findAll -->
+    <select id="findPersonnelMembersWithDetails" resultType="com.example.team_pj_springboot.dto.AllPersonnelDTO">
+    	SELECT
+		    M.id,
+		    M.name,
+		    M.company_id,
+		    M.pwd,
+		    M.email,
+		    M.tel,
+		    M.profile,
+		    M.hireday,
+		    M.Resignation,
+		    M.birthday,
+		    M.resident,
+		    M.depart_id,
+		    D.depart_name,
+		    M.team_id,
+		    T.team_name,
+		    M.rank,
+		    M.salary,
+		    M.bank,
+		    M.contract,
+		    M.sign,
+		    M.state,
+		    M.e_state,
+		    M.KEY,
+		    M.authoriry,
+		    M.enabled
+		FROM MEMBER M
+		LEFT JOIN department D ON M.depart_id = D.depart_id
+		LEFT JOIN team T ON M.team_id = T.team_id
+    </select>
 
 </mapper>

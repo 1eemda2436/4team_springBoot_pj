@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @AllArgsConstructor
-public class payStatementDTO {
+public class PayStatementDTO {
 	
 	@Id
 	private int s_id;			//순번
