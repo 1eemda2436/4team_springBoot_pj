@@ -35,25 +35,25 @@
 		WHERE vacation_id = #{vacation_id}
 	</update>
 	
- 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+ 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
  		<![CDATA[
 			SELECT
 			    id,
 			    total_annual,
 			    used_annual,
-			    total_annual - used_annual,
+			    total_annual - used_annual as annuallastcount,
 			    sum(case
 			        when extract(hour from general_workin) >= 9 then 1
 			        else 0
-			    end),
+			    end) as worklate,
 			    sum(case
 			        when general_workin is null then 1
 			        else 0
-			    end),
+			    end) as noworking,
 			    sum(case
 			        when extract(hour from general_workout) < 17 and extract(minute from general_workout) < 30 then 1
 			        else 0
-			    end)
+			    end) as earlyout
 			FROM
 			    member_attendance
 			WHERE
@@ -63,7 +63,7 @@
 		]]>
 	</select> 
 	
-	<select id="weekWorkTime" parameterType="String" resultType="com.example.team_pj_springboot.dto.AttendanceDTO">
+	<select id="weeklyWorkTime" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
 		SELECT
 		    MA_ID,
 		    ID,
@@ -98,6 +98,66 @@
 		    AND TRUNC(GENERAL_WORKIN) BETWEEN TRUNC(SYSDATE) - 4 AND TRUNC(SYSDATE)
 		GROUP BY
 		    MA_ID, ID
+	</select>
+	
+	<select id="myWorkDetail" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		<![CDATA[
+			SELECT
+			    M.ID,
+			    M.DEPART_ID,
+			    D.DEPART_NAME,
+			    M.NAME,
+			    A.GENERAL_WORKIN,
+			    A.GENERAL_WORKOUT,
+			    (CASE
+			        WHEN EXTRACT(HOUR FROM (A.GENERAL_WORKOUT - TO_TIMESTAMP(TO_CHAR(A.GENERAL_WORKOUT, 'YYYY-MM-DD') || ' 17:41:00', 'YYYY-MM-DD HH24:MI:SS'))) > 0 THEN
+			            EXTRACT(HOUR FROM (A.GENERAL_WORKOUT - TO_TIMESTAMP(TO_CHAR(A.GENERAL_WORKOUT, 'YYYY-MM-DD') || ' 17:41:00', 'YYYY-MM-DD HH24:MI:SS')))
+			        ELSE
+			            0
+			    END) AS todaymyOT,
+			    ROUND(EXTRACT(HOUR FROM (A.GENERAL_WORKOUT - A.GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (A.GENERAL_WORKOUT - A.GENERAL_WORKIN))/60, 1) AS totalmyWork
+			FROM
+			    MEMBER M
+			INNER JOIN
+			    MEMBER_ATTENDANCE A ON M.ID = A.ID
+			INNER JOIN
+			    DEPARTMENT D ON M.DEPART_ID = D.DEPART_ID
+			WHERE
+			    M.ID = #{id}
+			    AND TRUNC(A.GENERAL_WORKIN) = TRUNC(SYSDATE)
+	    ]]>
+	</select>
+	
+ 	<select id="myCurrentAnnual" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		SELECT
+		    id,
+		    total_annual,
+		    used_annual,
+		    total_annual - used_annual as annuallastcount
+		FROM
+		    member_attendance
+		WHERE
+		    id = #{id}
+		GROUP BY
+		    ma_id, id, total_annual, used_annual
+	</select> 
+	
+	<select id="myVacationPre" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		SELECT
+		    MA.ID,
+		    VB.vacation_start,
+		    VB.vacation_end,
+		    VB.vacation_title,
+		    ROUND(MONTHS_BETWEEN(VB.vacation_end, VB.vacation_start)) AS vacationTerm
+		FROM
+		    MEMBER_ATTENDANCE MA
+		LEFT JOIN
+		    vacation_board VB ON MA.ID = VB.ID
+		WHERE
+		    MA.show_annual = 'Y'
+		    AND MA.ID = #{id}
+		GROUP BY
+		    MA.ID, VB.vacation_start, VB.vacation_end, VB.vacation_title	
 	</select>
 
 </mapper>
