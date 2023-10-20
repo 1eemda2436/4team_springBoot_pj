@@ -38,3 +38,4 @@ public class SecurityConfig {
 }
 
 //.antMatchers(HttpMethod.POST, "/", "/join").permitAll()
+//.antMatchers("/**").permitAll()
