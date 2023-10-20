@@ -29,9 +29,9 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests((requests) -> requests
-            		.antMatchers("/guest/*").hasAnyRole("USER") // user 권한이 있는 사용자만 액세스 가능
-            		.antMatchers("/admin/*", "/guest/*").hasAuthority("MANAGER") // manager 권한이 있는 사용자만 액세스 가능
-            	.antMatchers("/", "/join").permitAll() // 공개 엔드포인트
+            	.antMatchers("/guest/**").hasAnyRole("USER") // user 권한이 있는 사용자만 액세스 가능
+            	.antMatchers("/admin/**", "/guest/**").hasAuthority("MANAGER") // manager 권한이 있는 사용자만 액세스 가능
+            	.antMatchers("/", "/join", "/all/**").permitAll() // 공개 엔드포인트
                 .anyRequest().authenticated());
         return http.build();
     }
