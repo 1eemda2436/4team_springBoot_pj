@@ -106,12 +106,12 @@
 			    d.depart_name,
 			    CASE 
 			        WHEN COUNT(ma.id) > 0 THEN 
-			            TO_CHAR(ROUND((SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') > '09:00:00' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			            TO_CHAR(ROUND((SUM(CASE WHEN ma.general_workin IS NOT NULL THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
 			        ELSE '0%'
 			    END AS workinRate,
 			    CASE 
 			        WHEN COUNT(ma.id) > 0 THEN 
-			            TO_CHAR(ROUND((SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') <= '09:00:00' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			            TO_CHAR(ROUND((SUM(CASE WHEN ma.general_workin IS NULL THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
 			        ELSE '0%'
 			    END AS timelate,
 			    CASE 
@@ -119,14 +119,14 @@
 			            TO_CHAR(ROUND((SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
 			        ELSE '0%'
 			    END AS annualRate,
-			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') > '09:00:00' THEN 1 ELSE 0 END) AS lateCount,
+			    SUM(CASE WHEN ma.general_workin IS NULL THEN 1 ELSE 0 END) AS lateCount,
 			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount
 			FROM
 			    department d
 			LEFT JOIN
 			    MEMBER_ATTENDANCE ma ON d.depart_id = ma.id
 			WHERE
-			    d.depart_id = #{depart_id}
+				d.depart_id = #{depart_id}
 			GROUP BY
 			    d.depart_id, d.depart_name
         ]]>

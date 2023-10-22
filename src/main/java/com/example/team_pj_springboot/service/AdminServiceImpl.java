@@ -119,7 +119,7 @@ public class AdminServiceImpl implements AdminService {
 		return DepDTO;
 	}
 
-	// 부서별 근태 현황(상세) 조회 (부서 하나)
+	// 부서별 근태 현황(상세) 조회 (부서 하나)	[ 출근/지각/연차 률 ]
 	@Override
 	public DepAttendanceDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → departmentAtDetails ]");
