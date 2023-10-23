@@ -31,11 +31,11 @@ import com.example.team_pj_springboot.dto.TemporaryDTO;
 
 @Service
 public class DocServiceImpl implements DocService{
-	
-	@Autowired
-	private DocRepository dao;
-	
-	@Autowired
+   
+   @Autowired
+   private DocRepository dao;
+   
+   @Autowired
     private TemporaryRepository temporaryDao;
 
     @Autowired
@@ -49,133 +49,134 @@ public class DocServiceImpl implements DocService{
     
     // 통합문서함
     @Override
-	public MemberDTO selectMember(String id) {
-    	System.out.println("DocServiceImpl - selectMember");
-    	
-		return memberDao.findById(id).get();
-	}
+   public MemberDTO selectMember(String id) {
+       System.out.println("DocServiceImpl - selectMember");
+       
+      return memberDao.findById(id).get();
+   }
 
-	// 기안문서함
-	@Override
-	public List<DocAndDraftDTO> draftList() {
-		System.out.println("DocServiceImpl - draftList");
-		
-		return dao.draftList();
-	}
+   // 기안문서함
+   @Override
+   public List<DocAndDraftDTO> draftList() {
+      System.out.println("DocServiceImpl - draftList");
+      
+      return dao.draftList();
+   }
 
-	// 회람문서함
-	@Override
-	public List<DocDTO> viewList() {
-		System.out.println("DocServiceImpl - viewList");
-		
-		List<DocDTO> list= dao.findAll();
-		System.out.println("list" + list);
-		
-		return list;
-	}
+   // 회람문서함
+   @Override
+   public List<DocDTO> viewList() {
+      System.out.println("DocServiceImpl - viewList");
+      
+      List<DocDTO> list= dao.findAll();
+      System.out.println("list" + list);
+      
+      return list;
+   }
 
-	// 임시저장목록
-	@Override
-	public List<DocAndTemporaryDTO> temporaryList() {
-		System.out.println("DocServiceImpl - temporaryList");
-		
-		return temporaryDao.temporaryList();
-	}
+   // 임시저장목록
+   @Override
+   public List<DocAndTemporaryDTO> temporaryList() {
+      System.out.println("DocServiceImpl - temporaryList");
+      
+      return temporaryDao.temporaryList();
+   }
 
-	// 결재완료문서함
-	@Override
-	public List<ApprovalEndAndDocDTO> approvalEndList() {
-		System.out.println("DocServiceImpl - approvalEndList");
-		
-		return approvalDao.ApprovalEndList();
-	}
+   // 결재완료문서함
+   @Override
+   public List<ApprovalEndAndDocDTO> approvalEndList() {
+      System.out.println("DocServiceImpl - approvalEndList");
+      
+      return approvalDao.ApprovalEndList();
+   }
 
-	// 결재예정문서함
-	@Override
-	public List<ApprovalIngAndDocDTO> approvalIngList() {
-		System.out.println("DocServiceImpl - approvalIngList");
-		
-		return approvalDao.approvalIngList();
-	}
+   // 결재예정문서함
+   @Override
+   public List<ApprovalIngAndDocDTO> approvalIngList() {
+      System.out.println("DocServiceImpl - approvalIngList");
+      
+      return approvalDao.approvalIngList();
+   }
 
-	// 결재반려문서함
-	@Override
-	public List<ApprovalBackAndDocDTO> approvalBackList() {
-		System.out.println("DocServiceImpl - approvalBackList");
-		
-		return approvalDao.approvalBackList();
-	}
+   // 결재반려문서함
+   @Override
+   public List<ApprovalBackAndDocDTO> approvalBackList() {
+      System.out.println("DocServiceImpl - approvalBackList");
+      
+      return approvalDao.approvalBackList();
+   }
 
-	// 문서작성페이지
-	@Override
-	public DocDTO insertDoc(DocDTO dto) throws IOException{
-		System.out.println("DocServiceImpl - insertDoc");
-		
-		// 현재 날짜를 가져와서 1년을 더한 날짜 계산
-	    LocalDate currentDate = LocalDate.now();
-	    LocalDate endDate = currentDate.plusYears(1);
-	    
-	    // endDate를 데이터베이스에 저장하기 위해 java.sql.Date로 변환
-	    java.sql.Date sqlEndDate = java.sql.Date.valueOf(endDate);
-	    
-	    // DTO에 날짜 설정
-	    dto.setDoc_endDate(sqlEndDate); // 1년을 더한 날짜로 설정
-	    
-		return dao.save(dto);
-	}
-	
-	// 파일업로드
-	@Override
-	public String uploadFile(MultipartFile doc_attachment) throws IOException {
+   // 문서작성페이지
+   @Override
+   public DocDTO insertDoc(DocDTO dto) throws IOException{
+      System.out.println("DocServiceImpl - insertDoc");
+      
+      // 현재 날짜를 가져와서 1년을 더한 날짜 계산
+      LocalDate currentDate = LocalDate.now();
+      LocalDate endDate = currentDate.plusYears(1);
+       
+      // endDate를 데이터베이스에 저장하기 위해 java.sql.Date로 변환
+      java.sql.Date sqlEndDate = java.sql.Date.valueOf(endDate);
+       
+      // DTO에 날짜 설정
+      dto.setDoc_endDate(sqlEndDate); // 1년을 더한 날짜로 설정
+       
+      return dao.save(dto);
+   }
+      
+   // 파일업로드
+   @Override
+   public String uploadFile(MultipartFile doc_attachment) throws IOException {
+      
+         String upload = "./src/main/webapp/resources/upload/";
+               
+      // 업로드 디렉토리가 존재하지 않으면 생성
+      Files.createDirectories(Paths.get(upload));
+      
+      // 파일명
+      String fileName = doc_attachment.getOriginalFilename();
+      
+      // 파일 저장 경로 설정
+      Path filePath = Paths.get(upload + fileName);
+      
+      // 파일을 저장하고 파일명을 반환
+      Files.write(filePath, doc_attachment.getBytes());
+      
+      return fileName;
+   }
 
-		String upload = "./src/main/webapp/resources/upload/";
-		
-		// 업로드 디렉토리가 존재하지 않으면 생성
-        Files.createDirectories(Paths.get(upload));
+   
+   // 문서상세페이지
+   @Override
+   public Optional<DocAndCategoryDTO> selectDoc(int doc_id) {
+      System.out.println("DocServiceImpl - selectDoc");
+      
+      return dao.selectOneDoc(doc_id);
+   }
+   
+   // 결재문서상세페이지
+   @Override
+   public Optional<ApprovalAndDocDTO> selectApp(int approval_id) {
+      System.out.println("DocServiceImpl - selectApp");
+      
+      return approvalDao.selectApp(approval_id);
+   }
 
-        // 파일명
-        String fileName = doc_attachment.getOriginalFilename();
+   // 문서수정페이지
+   @Override
+   public DocDTO updateDoc(int doc_id) {
+      System.out.println("DocServiceImpl - updateDoc");
+      
+      
+      return dao.findById(doc_id).get();
+   }
 
-        // 파일 저장 경로 설정
-        Path filePath = Paths.get(upload + fileName);
-
-        // 파일을 저장하고 파일명을 반환
-        Files.write(filePath, doc_attachment.getBytes());
-        
-        return fileName;
-	}
-	
-	// 문서상세페이지
-	@Override
-	public Optional<DocAndCategoryDTO> selectDoc(int doc_id) {
-		System.out.println("DocServiceImpl - selectDoc");
-		
-		return dao.selectOneDoc(doc_id);
-	}
-	
-	// 결재문서상세페이지
-	@Override
-	public Optional<ApprovalAndDocDTO> selectApp(int approval_id) {
-		System.out.println("DocServiceImpl - selectApp");
-		
-		return approvalDao.selectApp(approval_id);
-	}
-
-	// 문서수정페이지
-	@Override
-	public DocDTO updateDoc(int doc_id) {
-		System.out.println("DocServiceImpl - updateDoc");
-		
-		
-		return dao.findById(doc_id).get();
-	}
-
-	// 문서삭제페이지
-	@Override
-	public void deleteDoc(int doc_id) {
-		System.out.println("DocServiceImpl - deleteDoc");
-		
-		dao.deleteById(doc_id);;
-	}
+   // 문서삭제페이지
+   @Override
+   public void deleteDoc(int doc_id) {
+      System.out.println("DocServiceImpl - deleteDoc");
+      
+      dao.deleteById(doc_id);;
+   }
 
 }

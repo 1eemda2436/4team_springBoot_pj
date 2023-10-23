@@ -19,7 +19,7 @@ public interface ApprovalRepository extends JpaRepository<ApprovalDTO, Integer> 
 			"JOIN CategoryDTO c ON d.category_id = c.category_id " + 
 			"JOIN MemberDTO m ON d.id = m.id " + 
 			"JOIN ApprovalDTO a ON d.doc_id = a.doc_id " + 
-			"WHERE d.doc_status = 'E' " + 
+			"WHERE d.doc_status = '완료' " + 
 			"ORDER BY a.approval_date DESC")
 	List<ApprovalEndAndDocDTO> ApprovalEndList();
 	
@@ -28,7 +28,7 @@ public interface ApprovalRepository extends JpaRepository<ApprovalDTO, Integer> 
 			"JOIN CategoryDTO c ON d.category_id = c.category_id " + 
 			"JOIN MemberDTO m ON d.id = m.id " + 
 			"JOIN ApprovalDTO a ON d.doc_id = a.doc_id " + 
-			"WHERE d.doc_status = 'N' " + 
+			"WHERE d.doc_status = '반려' " + 
 			"ORDER BY a.approval_date DESC")
 	List<ApprovalBackAndDocDTO> approvalBackList();
 	
@@ -37,7 +37,7 @@ public interface ApprovalRepository extends JpaRepository<ApprovalDTO, Integer> 
 			"JOIN CategoryDTO c ON d.category_id = c.category_id " + 
 			"JOIN MemberDTO m ON d.id = m.id " + 
 			"JOIN ApprovalDTO a ON d.doc_id = a.doc_id " + 
-			"WHERE d.doc_status = 'G' " + 
+			"WHERE d.doc_status = '진행' " + 
 			"ORDER BY a.approval_date DESC")
 	List<ApprovalIngAndDocDTO> approvalIngList();
 	
