@@ -19,6 +19,7 @@ public class DepAttendanceDTO {
 	@Id
 	private int 		depart_id;		// 부서번호
 	private String 		depart_name;	// 부서명
+	private String		id;
 	private String 		name;			// 사원이름
 	private Timestamp 	general_workin;	// 출근시간
 	private Timestamp 	general_workout;// 퇴근시간
