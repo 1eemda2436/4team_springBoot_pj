@@ -41,93 +41,120 @@ import com.example.team_pj_springboot.service.DocService;
 @RequestMapping("/guest/doc")
 public class DocController {
 
-	private static final Logger logger = LoggerFactory.getLogger(DocController.class);
-	
-	@Autowired
-	private DocService service;
-	
-	// 게스트메인 - 연결완료
-	@GetMapping("/guestTotal")
-	public List<DocAndDraftDTO> selectGuest() {
-		logger.info("<<< 컨트롤러 - selectMember >>>");
-		
-		return service.draftList();
-	}
-	
-	// 기안문서함 - 연결완료
-	@GetMapping("/draft")
-	public List<DocAndDraftDTO> draftList() {
-		logger.info("<<< 컨트롤러 - draftList >>>");
-		
-		return service.draftList();
-	}
-	
-	// 회람문서함 - 연결완료
-	@GetMapping("/view")
-	public List<DocDTO> viewList() {
-		logger.info("<<< 컨트롤러 - viewList >>>");
-		
-		return service.viewList();
-	}
-	
-	// 임시저장목록 - 연결완료
-	@GetMapping("/temporary")
-	public List<DocAndTemporaryDTO> temporaryList() {
-		logger.info("<<< 컨트롤러 - temporaryList >>>");
-		
-		return service.temporaryList();
-	}
-	
-	// 문서작성페이지 안됌
-	@PostMapping("/insert")
-	public String insertDoc(@RequestParam("doc_attachment") MultipartFile file, @ModelAttribute DocDTO dto) {
-		logger.info("<<< 컨트롤러 - insertDoc >>>");
-		
-		 try {
-		        // 파일 업로드하고 파일 경로를 받아옴
-		        String filePath = service.uploadFile(file);
-		        System.out.println("file: " + file);
+   private static final Logger logger = LoggerFactory.getLogger(DocController.class);
+   
+   @Autowired
+   private DocService service;
+   
+   // 게스트메인 - 연결완료
+   @GetMapping("/guestTotal")
+   public List<DocAndDraftDTO> selectGuest() {
+      logger.info("<<< 컨트롤러 - selectMember >>>");
+      
+      return service.draftList();
+   }
+   
+   // 기안문서함 - 연결완료
+   @GetMapping("/draft")
+   public List<DocAndDraftDTO> draftList() {
+      logger.info("<<< 컨트롤러 - draftList >>>");
+      
+      return service.draftList();
+   }
+   
+   // 회람문서함 - 연결완료
+   @GetMapping("/view")
+   public List<DocDTO> viewList() {
+      logger.info("<<< 컨트롤러 - viewList >>>");
+      
+      return service.viewList();
+   }
+   
+   // 임시저장목록 - 연결완료
+   @GetMapping("/temporary")
+   public List<DocAndDraftDTO> temporaryList() {
+      logger.info("<<< 컨트롤러 - temporaryList >>>");
+      
+      return service.temporaryList();
+   }
+   
+   // 임시저장
+   @PostMapping("/temporarySave")
+   public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - temporarySave >>>");
+      
+      try {
+              // 파일 업로드하고 파일 경로를 받아옴
+              String filePath = service.uploadFile(file);
+              System.out.println("file: " + file);
 
-		        // DTO 객체에 파일 경로 설정
-		        dto.setDoc_attachment(filePath);
-		        System.out.println("filePath: " + filePath);
+              // DTO 객체에 파일 경로 설정
+              dto.setDoc_attachment(filePath);
+              System.out.println("filePath: " + filePath);
 
-		        // 서비스로 DTO 객체 전달하여 저장
-		        service.insertDoc(dto);
-		    } catch (IOException e) {
-		        // 파일 업로드 중 예외가 발생할 경우 처리
-		        e.printStackTrace();
-		    }
-		
-		return "redirect:/";
-	}
-	
-	// 문서상세페이지 - 연결완료
-	@GetMapping("/detail/{doc_id}")
-	public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
-		logger.info("<<< 컨트롤러 - selectDoc >>>");
-		logger.info("doc_id: " + doc_id);
-		
-		Optional<DocAndCategoryDTO> dto = service.selectDoc(doc_id);
-		
-		return dto;
-	}
-	
-	// 문서수정페이지 안됌
-	@PutMapping("/update/{doc_id}")
-	public void updateDoc(@PathVariable(name="doc_id") int doc_id, @RequestParam("doc_attachment") MultipartFile file, @ModelAttribute("dto") DocDTO dto) {
-		logger.info("<<< 컨트롤러 - updateDoc >>>");
-		
-		
-	}
-	
-	// 문서삭제페이지 포스트맨성공
-	@DeleteMapping("/delete/{doc_id}")
-	public void deleteDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
-		logger.info("<<< 컨트롤러 - updateDoc >>>");
-		
-		service.deleteDoc(doc_id); 
-		
-	}
-	
-}	
+              // 서비스로 DTO 객체 전달하여 저장
+              service.insertDoc(dto);
+             } catch (IOException e) {
+              // 파일 업로드 중 예외가 발생할 경우 처리
+              e.printStackTrace();
+             }
+      
+      return service.temporaryList();
+   }
+   
+   
+   // 문서작성페이지 - 연결완료
+   @PostMapping("/insert")
+   public String insertDoc(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - insertDoc >>>");
+      
+      try {
+              // 파일 업로드하고 파일 경로를 받아옴
+              String filePath = service.uploadFile(file);
+              System.out.println("file: " + file);
+
+              // DTO 객체에 파일 경로 설정
+              dto.setDoc_attachment(filePath);
+              System.out.println("filePath: " + filePath);
+
+              // 서비스로 DTO 객체 전달하여 저장
+              service.insertDoc(dto);
+             } catch (IOException e) {
+              // 파일 업로드 중 예외가 발생할 경우 처리
+              e.printStackTrace();
+             }
+      
+      return "redirect:/";
+   }
+   
+   // 문서수정페이지 - 진행중
+   @PutMapping("/update/{doc_id}")
+   public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - updateDoc >>>");
+      
+      service.updateDoc(doc_id, dto);
+      
+   }
+
+    
+   // 문서상세페이지 - 연결완료
+   @GetMapping("/detail/{doc_id}")
+   public Optional<DocAndCategoryDTO> selectDoc(@PathVariable int doc_id) {
+      logger.info("<<< 컨트롤러 - selectDoc >>>");
+      logger.info("doc_id: " + doc_id);
+      
+      Optional<DocAndCategoryDTO> dto = service.selectDoc(doc_id);
+      
+      return dto;
+   }
+   
+   // 문서삭제페이지 포스트맨성공
+   @DeleteMapping("/delete/{doc_id}")
+   public void deleteDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
+      logger.info("<<< 컨트롤러 - updateDoc >>>");
+      
+      service.deleteDoc(doc_id); 
+      
+   }
+   
+}   
