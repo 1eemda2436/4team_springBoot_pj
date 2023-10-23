@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team_pj_springboot.dto.ProjectAndTeamDTO;
 import com.example.team_pj_springboot.dto.ProjectDTO;
 import com.example.team_pj_springboot.service.ProjectServiceImpl;
 
@@ -34,7 +35,7 @@ public class ProjectController {
 	
 	// 프로젝트 리스트
 	@GetMapping
-	public List<ProjectDTO> ProjectList(HttpServletRequest req, Model model) 
+	public List<ProjectAndTeamDTO> ProjectList(HttpServletRequest req, Model model) 
 			throws ServletException, IOException {
 		logger.info("[ url - ProjectList ]");
 		

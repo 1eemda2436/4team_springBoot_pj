@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.example.team_pj_springboot.repository.ProjectRepository;
+import com.example.team_pj_springboot.dto.ProjectAndTeamDTO;
 import com.example.team_pj_springboot.dto.ProjectDTO;
 
 @Service
@@ -21,9 +22,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	// List
 	@Override
-	public List<ProjectDTO> listAll(HttpServletRequest req, Model model) 
+	public List<ProjectAndTeamDTO> listAll(HttpServletRequest req, Model model) 
 			throws ServletException, IOException {
-		return dao.findAll();
+		return dao.ProjectList();
 	}
 
 	// Insert : PK가 존재하지 않을때는 신규, PK가 존재할 때는 해당키의 데이터를 update
