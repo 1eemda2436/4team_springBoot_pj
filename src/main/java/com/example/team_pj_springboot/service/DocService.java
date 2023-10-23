@@ -30,7 +30,7 @@ public interface DocService {
    public List<DocDTO> viewList();
    
    // 임시저장목록
-   public List<DocAndTemporaryDTO> temporaryList();
+   public List<DocAndDraftDTO> temporaryList();
    
    // 결재완료문서함
    public List<ApprovalEndAndDocDTO> approvalEndList();
@@ -51,7 +51,7 @@ public interface DocService {
    public Optional<ApprovalAndDocDTO> selectApp(int approval_id);
    
    // 문서수정페이지
-   public DocDTO updateDoc(int doc_id);
+   public DocDTO updateDoc(int doc_id, DocDTO dto);
    
    // 문서삭제페이지
    public void deleteDoc(int doc_id); 

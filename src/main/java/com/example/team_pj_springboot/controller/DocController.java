@@ -72,7 +72,7 @@ public class DocController {
    
    // 임시저장목록 - 연결완료
    @GetMapping("/temporary")
-   public List<DocAndTemporaryDTO> temporaryList() {
+   public List<DocAndDraftDTO> temporaryList() {
       logger.info("<<< 컨트롤러 - temporaryList >>>");
       
       return service.temporaryList();
@@ -80,7 +80,7 @@ public class DocController {
    
    // 임시저장
    @PostMapping("/temporarySave")
-   public List<DocAndTemporaryDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+   public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - temporarySave >>>");
       
       try {
@@ -127,11 +127,12 @@ public class DocController {
       return "redirect:/";
    }
    
-      // 문서수정페이지 안됌
+   // 문서수정페이지
    @PutMapping("/update/{doc_id}")
-   public void updateDoc(@PathVariable(name="doc_id") int doc_id, @RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+   public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
       
+      service.updateDoc(doc_id, dto);
       
    }
 

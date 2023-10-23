@@ -76,10 +76,10 @@ public class DocServiceImpl implements DocService{
 
    // 임시저장목록
    @Override
-   public List<DocAndTemporaryDTO> temporaryList() {
+   public List<DocAndDraftDTO> temporaryList() {
       System.out.println("DocServiceImpl - temporaryList");
       
-      return temporaryDao.temporaryList();
+      return dao.temporaryList();
    }
 
    // 결재완료문서함
@@ -164,9 +164,21 @@ public class DocServiceImpl implements DocService{
 
    // 문서수정페이지
    @Override
-   public DocDTO updateDoc(int doc_id) {
+   public DocDTO updateDoc(int doc_id, DocDTO dto) {
       System.out.println("DocServiceImpl - updateDoc");
       
+      // 문서 id를 사용해 해당 문서 찾기
+      Optional<DocDTO> optionalDto = dao.findById(doc_id);
+      if(optionalDto.isPresent()) {
+    	  DocDTO realDto = optionalDto.get();
+    	  
+    	  // 기존 문서 업데이트
+    	  realDto.setDoc_title(dto.getDoc_title());
+    	  realDto.setDoc_content(dto.getDoc_content());
+    	  realDto.setDoc_status(dto.getDoc_status());
+          
+          return dao.save(realDto);
+      }
       
       return dao.findById(doc_id).get();
    }
