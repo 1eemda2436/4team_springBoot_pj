@@ -35,6 +35,5 @@ public class CompanyDTO {
 	private Timestamp work_in; //회사 근무내규 _ 출근시간
 	private Timestamp work_out; //회사 근무내규 _ 퇴근시간
 	private String key; //이메일 인증 키
-	private String authoriry; //권한
 	private char enabled; //인증여부 
 }
