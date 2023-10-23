@@ -127,7 +127,7 @@ public class DocController {
       return "redirect:/";
    }
    
-   // 문서수정페이지
+   // 문서수정페이지 - 진행중
    @PutMapping("/update/{doc_id}")
    public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
