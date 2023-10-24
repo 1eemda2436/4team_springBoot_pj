@@ -113,7 +113,7 @@ public class AttendanceAdminController {
 	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
 		logger.info("[ AttendanceController - companyStatus ]");
 		
-		return service.companyStatus(req, model);
+		return service.companyStatus(req, model); 
 	}
 
 }

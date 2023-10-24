@@ -158,7 +158,7 @@ public class AttendanceGuestController {
 		System.out.println("[ AttendanceController - myVacationPre ]");
 		
 		MyAttendanceDTO dto = gservice.myVacationPre(id);
-		
+		System.out.println(dto);
 		return dto;
 	}
 
