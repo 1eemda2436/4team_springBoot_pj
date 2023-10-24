@@ -30,6 +30,7 @@ public interface DepartmentRepository extends JpaRepository<DepartmentDTO, Integ
 	           "LEFT JOIN TeamDTO t " +
 	           "ON d.depart_id = t.depart_id " +
 	           "WHERE d.show = 'Y' " +
+	           "AND t.show = 'Y' " +
 	           "GROUP BY d.depart_id, d.depart_name, d.company_id ")
 	List<Object[]> findDepartmentsWithTeamCount();
 		

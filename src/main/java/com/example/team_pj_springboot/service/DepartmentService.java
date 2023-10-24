@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.TeamDTO;
 import com.example.team_pj_springboot.repository.DepartmentRepository;
+import com.example.team_pj_springboot.repository.TeamRepository;
 
 @Service
 public class DepartmentService {
 	
 	@Autowired
 	private DepartmentRepository departmentRepository;
+	
+	@Autowired
+	private TeamRepository teamRepository;
 	
 	//Department select
 	public List<Object[]> departmentManagement () {
@@ -25,7 +30,13 @@ public class DepartmentService {
 	//Department insert
 	public void DepartmentInsert(DepartmentDTO dto) {
 		System.out.println(dto);
-		departmentRepository.save(dto);
+		DepartmentDTO departmentDTO = departmentRepository.save(dto);
+		
+		// 기본 팀 추가
+        TeamDTO defaultTeam = new TeamDTO();
+        defaultTeam.setDepart_id(departmentDTO.getDepart_id());
+        teamRepository.save(defaultTeam);
+		
 	}
 
 	//Department Update
