@@ -2,10 +2,12 @@ package com.example.team_pj_springboot.dto;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -42,11 +44,16 @@ public class DocDTO {
       private Date doc_endDate;      // 마감일
       private int category_id;      // 카테고리번호
       private String doc_status;      // 문서상태
-      private char doc_read;         // 회람여부
+      private String doc_read;         // 회람여부
       private String name;         // 이름
+      private int approval_id;
+      private String company_id;
+      
+//      @OneToOne(mappedBy = "doc", cascade = CascadeType.ALL)
+//      private ApprovalDTO approval_id;
    
    
-   public DocDTO(int doc_id, Date doc_date, String id, String doc_title, String doc_content, String doc_attachment, Date doc_endDate, int category_id, String doc_status, char doc_read, String name) {
+   public DocDTO(int doc_id, Date doc_date, String id, String doc_title, String doc_content, String doc_attachment, Date doc_endDate, int category_id, String doc_status, String doc_read, String name, int approval_id, String company_id) {
        this.doc_id = doc_id;
        this.doc_date = doc_date;
        this.id = id;
@@ -58,6 +65,8 @@ public class DocDTO {
        this.doc_status = doc_status;
        this.doc_read = doc_read;
        this.name = name;
+//       this.approval_id = approval_id;
+//       this.company_id = company_id;
    }
 
 }

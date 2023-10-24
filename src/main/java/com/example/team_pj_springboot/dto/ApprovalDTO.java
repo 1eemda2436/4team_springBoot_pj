@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -33,6 +34,8 @@ public class ApprovalDTO {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "APPROVAL_SEQ_GENERATOR")
 	private int approval_id;
 	private String approval_name;
+//	@OneToOne
+//	@JoinColumn(name = "doc_id", referencedColumnName = "doc_id")
 	private int doc_id;
 	private String approval_content;
 	private Date approval_date;
