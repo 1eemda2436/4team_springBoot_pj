@@ -15,7 +15,7 @@ public class DepartmentListServiceImpl implements DepartmentListService {
    private DepartmentRepository dao;
 	
 	@Override
-	public List<DepartmentListDTO> listAll() {
+	public List<Object[]> listAll() {
 		return dao.departList();
 	}
 
