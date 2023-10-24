@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +26,6 @@ public class ProjectAndTeamDTO {
     private Integer team_id;    // 팀 id
     private String team_name;    // 팀명
     private Integer depart_id;    // 부서 id (FK)
+    private String depart_name;  // 부서명
 
 }

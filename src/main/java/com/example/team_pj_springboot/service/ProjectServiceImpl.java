@@ -22,9 +22,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	// List
 	@Override
-	public List<ProjectAndTeamDTO> listAll(HttpServletRequest req, Model model) 
+	public List<ProjectDTO> listAll(HttpServletRequest req, Model model) 
 			throws ServletException, IOException {
-		return dao.ProjectList();
+		return dao.findAll();
 	}
 
 	// Insert : PK가 존재하지 않을때는 신규, PK가 존재할 때는 해당키의 데이터를 update

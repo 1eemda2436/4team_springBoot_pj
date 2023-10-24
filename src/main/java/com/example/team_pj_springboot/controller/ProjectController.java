@@ -35,19 +35,23 @@ public class ProjectController {
 	
 	// 프로젝트 리스트
 	@GetMapping
-	public List<ProjectAndTeamDTO> ProjectList(HttpServletRequest req, Model model) 
+	public List<ProjectDTO> ProjectList(HttpServletRequest req, Model model) 
 			throws ServletException, IOException {
 		logger.info("[ url - ProjectList ]");
 		
 		return service.listAll(req, model);
 	}
 	
-	// 프로젝트 생성 또는 수정
+	// 프로젝트 생성
 	@PostMapping
-	public void ProjectInsert(@RequestBody ProjectDTO dto)
+	public void save(@RequestBody ProjectDTO dto)
 			throws ServletException, IOException {
 		logger.info("[ url - ProjectInsert ]");
 
+		ProjectDTO pjdto = new ProjectDTO();
+		pjdto.setDepart_id(dto.getDepart_id());
+		
+		System.out.println(dto);
 		service.save(dto);
 	}
 	
@@ -60,18 +64,17 @@ public class ProjectController {
 		ProjectDTO dto = service.get(pj_id);
 		return dto;
 
-		
 	}
 	
 	// 프로젝트 삭제
 	@DeleteMapping("/{pj_id}")
-	public void ProjectDelete(@PathVariable(name="pj_id") int pj_id, Model model) 
+	public void ProjectWorkDelete(@PathVariable(name="pj_id") int pj_id, Model model) 
 			throws ServletException, IOException {
-		logger.info("[ url - ProjectDelete ]");
+		logger.info("[ url - ProjectWorkDelete ]");
 		
 		service.delete(pj_id);
 	}
-	
+
 	
 	
 

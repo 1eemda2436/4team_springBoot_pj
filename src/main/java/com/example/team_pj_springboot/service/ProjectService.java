@@ -13,7 +13,7 @@ import com.example.team_pj_springboot.dto.ProjectDTO;
 
 public interface ProjectService  {
 	
-	public List<ProjectAndTeamDTO> listAll(HttpServletRequest req, Model model)
+	public List<ProjectDTO> listAll(HttpServletRequest req, Model model)
 			throws ServletException, IOException;
 	
 	public void save(ProjectDTO dto)
