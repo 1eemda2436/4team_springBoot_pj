@@ -37,6 +37,15 @@ public class NoticeController {
 		
 		return service.listAll();
 	}
+	@GetMapping("/guest/notice/noticeFind/{notice_id}")
+	public List<NoticeDTO> noticeFind(@PathVariable int notice_id, Model model) {
+		logger.info("NoticeController - noticeFind");
+		
+		List<NoticeDTO> dto = service.noticeFind(notice_id);
+		model.addAttribute("dto", dto);
+	
+		return dto;
+	}
 	
 	// Insert
 	@PostMapping("/admin/notice/addNotice")
