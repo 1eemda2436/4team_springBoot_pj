@@ -42,5 +42,6 @@ public class MyAttendanceDTO {
     private Date		vacation_start;		// 휴가 시작날짜
     private Date		vacation_end;		// 휴가 종료날짜
     private int			vacationTerm;		// 휴가 기간
+    private String 		vacation_content;	// 글 내용
 
 }

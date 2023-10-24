@@ -146,10 +146,10 @@ public class AdminServiceImpl implements AdminService {
 
 	// 전사 근태 현황/통계 조회
 	@Override
-	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → companyStatus ]");
 		
-		List<ComAttendanceDTO> ComDto = dao.companyStatus();
+		List<ComAttendanceDTO> ComDto = dao.companyStatus(company_id);
 		
 		System.out.println("ComDto : " + ComDto);
 		
