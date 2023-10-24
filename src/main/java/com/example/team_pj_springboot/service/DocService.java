@@ -53,6 +53,12 @@ public interface DocService {
    // 문서수정페이지
    public DocDTO updateDoc(int doc_id, DocDTO dto);
    
+   // 문서결재요청
+//   public DocDTO updateApproval(int doc_id, DocDTO dto);
+   
+   // 문서읽음여부수정페이지
+//   public DocDTO updateReadDoc(int doc_id, DocDTO dto);
+   
    // 문서삭제페이지
    public void deleteDoc(int doc_id); 
    

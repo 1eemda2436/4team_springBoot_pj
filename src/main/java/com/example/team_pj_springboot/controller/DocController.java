@@ -127,7 +127,7 @@ public class DocController {
       return "redirect:/";
    }
    
-   // 문서수정페이지 - 진행중
+   // 문서수정페이지 - 연결완료
    @PutMapping("/update/{doc_id}")
    public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
@@ -135,6 +135,23 @@ public class DocController {
       service.updateDoc(doc_id, dto);
       
    }
+   
+   // 문서결재요청
+//   @PutMapping("/updateApproval/{doc_id}")
+//   public void updateApproval(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+//      logger.info("<<< 컨트롤러 - updateDoc >>>");
+//      
+//      service.updateDoc(doc_id, dto);
+//      
+//   }
+   
+//   // 문서읽음여부수정페이지 - 진행중
+//   @PutMapping("/updateReadDoc/{doc_id}")
+//   public void updateReadDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+//	   logger.info("<<< 컨트롤러 - updateReadDoc >>>");
+//	   
+//	   service.updateReadDoc(doc_id, dto);
+//   }
 
     
    // 문서상세페이지 - 연결완료
