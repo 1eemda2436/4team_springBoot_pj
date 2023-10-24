@@ -11,8 +11,8 @@
 	</insert>
 
 	<insert id="insertVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
-		INSERT INTO vacation_board (vacation_id, id, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
-		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
+		INSERT INTO vacation_board (vacation_id, id, name, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
+		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{name}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
 	</insert>
 	
 	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
@@ -147,20 +147,28 @@
 	
 	<select id="myVacationPre" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
 		SELECT
-		    MA.ID,
-		    VB.vacation_start,
-		    VB.vacation_end,
-		    VB.vacation_title,
-		    ROUND(MONTHS_BETWEEN(VB.vacation_end, VB.vacation_start)) AS vacationTerm
+		    M.id,
+		    V.vacation_title,
+		    V.vacation_start,
+		    V.vacation_end,
+		    V.vacation_content,
+		    ROUND(MONTHS_BETWEEN(V.vacation_end, V.vacation_start)) AS vacationTerm
 		FROM
-		    MEMBER_ATTENDANCE MA
-		LEFT JOIN
-		    vacation_board VB ON MA.ID = VB.ID
+		    MEMBER M
+		JOIN
+		    VACATION_BOARD V
+		ON
+		    M.id = V.id
 		WHERE
-		    MA.show_annual = 'Y'
-		    AND MA.ID = #{id}
-		GROUP BY
-		    MA.ID, VB.vacation_start, VB.vacation_end, VB.vacation_title	
+		    M.id = #{id}
 	</select>
 
 </mapper>
+
+
+
+
+
+
+
+

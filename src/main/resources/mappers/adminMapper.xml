@@ -106,12 +106,12 @@
 			    d.depart_name,
 			    CASE 
 			        WHEN COUNT(ma.id) > 0 THEN 
-			            TO_CHAR(ROUND((SUM(CASE WHEN ma.general_workin IS NOT NULL THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			            TO_CHAR(ROUND((SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') < '09:00:00' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
 			        ELSE '0%'
 			    END AS workinRate,
 			    CASE 
 			        WHEN COUNT(ma.id) > 0 THEN 
-			            TO_CHAR(ROUND((SUM(CASE WHEN ma.general_workin IS NULL THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			            TO_CHAR(ROUND((SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
 			        ELSE '0%'
 			    END AS timelate,
 			    CASE 
@@ -119,14 +119,16 @@
 			            TO_CHAR(ROUND((SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
 			        ELSE '0%'
 			    END AS annualRate,
-			    SUM(CASE WHEN ma.general_workin IS NULL THEN 1 ELSE 0 END) AS lateCount,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) AS lateCount,
 			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount
 			FROM
 			    department d
 			LEFT JOIN
-			    MEMBER_ATTENDANCE ma ON d.depart_id = ma.id
+			    MEMBER m ON d.depart_id = m.depart_id
+			LEFT JOIN
+			    MEMBER_ATTENDANCE ma ON m.id = ma.id
 			WHERE
-				d.depart_id = #{depart_id}
+			    d.depart_id = #{depart_id}
 			GROUP BY
 			    d.depart_id, d.depart_name
         ]]>
@@ -154,44 +156,59 @@
 
     <!-- 부서별 근태 통계(상세) [ 이름순 / 지각순 / 사번순 / 정렬기능 ] -->
     <select id="departmentAlign" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
-		SELECT
-		    d.depart_id,
-		    d.depart_name,
-		    m.id,
-		    m.name,
-		    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') > '09:00:00' THEN 1 ELSE 0 END) AS latedCount
-		FROM
-		    department d
-		LEFT JOIN
-		    MEMBER m ON d.depart_id = m.depart_id
-		LEFT JOIN
-		    MEMBER_ATTENDANCE ma ON m.id = ma.id
-		WHERE
-		    d.depart_id = #{depart_id}
-		GROUP BY
-		    d.depart_id, d.depart_name, m.id, m.name
+    	<![CDATA[
+			SELECT
+			    d.depart_id,
+			    d.depart_name,
+			    m.id,
+			    m.name,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') > '09:00:00' THEN 1 ELSE 0 END) AS latedCount
+			FROM
+			    department d
+			LEFT JOIN
+			    MEMBER m ON d.depart_id = m.depart_id
+			LEFT JOIN
+			    MEMBER_ATTENDANCE ma ON m.id = ma.id
+			WHERE
+			    d.depart_id = #{depart_id}
+			GROUP BY
+			    d.depart_id, d.depart_name, m.id, m.name
+	    ]]>
     </select>
 
-    <select id="companyStatus" resultType="com.example.team_pj_springboot.dto.ComAttendanceDTO">
-		SELECT
-		    C.company_id,
-		    C.name AS,
-		    D.depart_id,
-		    D.depart_name,
-		    SUM(CASE WHEN MA.GENERAL_WORKIN > TO_TIMESTAMP('2023-10-06 09:00:00', 'YYYY-MM-DD HH24:MI:SS') THEN 1 ELSE 0 END) AS lateCount,
-		    SUM(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 ELSE 0 END) AS holidayCount
-		FROM
-		    company C
-		INNER JOIN
-		    department D ON C.company_id = D.company_id
-		LEFT JOIN
-		    MEMBER M ON D.depart_id = M.depart_id
-		LEFT JOIN
-		    MEMBER_ATTENDANCE MA ON M.id = MA.ID
-		GROUP BY
-		    C.company_id, C.name, D.depart_id, D.depart_name
-		ORDER BY
-		    C.company_id, D.depart_id
+    <select id="companyStatus" parameterType="String" resultType="com.example.team_pj_springboot.dto.ComAttendanceDTO">
+	  	<![CDATA[
+			SELECT
+			    c.company_id,
+			    c.name,
+			    d.depart_id,
+			    d.depart_name,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) AS lateCount,
+			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount
+			FROM
+			    company c
+			LEFT JOIN
+			    department d ON c.company_id = d.company_id
+			LEFT JOIN
+			    MEMBER m ON d.depart_id = m.depart_id AND c.company_id = m.company_id
+			LEFT JOIN
+			    MEMBER_ATTENDANCE ma ON m.id = ma.id
+			WHERE 
+				c.company_id = #{company_id}
+			GROUP BY
+			    c.company_id, c.name, d.depart_id, d.depart_name
+			ORDER BY d.depart_id ASC
+		]]>
     </select>
-
 </mapper>
+
+
+
+
+
+
+
+
+
+
+

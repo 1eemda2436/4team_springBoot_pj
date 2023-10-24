@@ -31,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "**", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/guest/attendance")
-@RequiredArgsConstructor
 public class AttendanceGuestController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AttendanceGuestController.class);
@@ -43,6 +42,8 @@ public class AttendanceGuestController {
 	@PostMapping("/annualRegister")
 	public Map<String, Object> annualRegister (@RequestBody AnnualDTO dto) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - annualRegister ]");
+		
+		System.out.println(dto);
 		
 		String resultCode = "";
 		String resultMsg = "";
