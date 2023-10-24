@@ -25,7 +25,7 @@ import com.example.team_pj_springboot.service.TeamServiceImpl;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
-@RequestMapping("/guest/team")
+@RequestMapping
 public class TeamController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
@@ -34,7 +34,7 @@ public class TeamController {
 	private TeamServiceImpl teamService;
 	
 	// 팀 리스트
-	@GetMapping
+	@GetMapping("/guest/team")
 	public List<TeamDTO> TeamList(HttpServletRequest req, Model model)
 			throws ServletException, IOException {
 		logger.info("[ url - TeamList ]");
@@ -42,14 +42,14 @@ public class TeamController {
 		return teamService.listAll(req, model);
 	}
    
-   @GetMapping("/select/{depart_id}")
+   @GetMapping("/admin/team/select/{depart_id}")
    public List<TeamDTO> teamSelect(@PathVariable int depart_id){
       System.out.println(teamService.teamSelect(depart_id));
       return teamService.teamSelect(depart_id);
    }
    
    //team insert
-   @PostMapping("/add")
+   @PostMapping("/admin/team/add")
    public TeamDTO teamAdd (@RequestBody TeamDTO dto) {
       TeamDTO teamDTO = new TeamDTO();
       teamDTO.setDepart_id(dto.getDepart_id());
@@ -58,13 +58,13 @@ public class TeamController {
    }
    
    //teamUpdate
-   @PutMapping("/TeamUpdate")
+   @PutMapping("/admin/team/TeamUpdate")
    public void TeamUpdate(@RequestBody TeamDTO dto) {
 	   teamService.TeamUpdate(dto);
    }
    
    //teamDelete-Update show = 'N'
-   @PutMapping("/delete/{team_id}")
+   @PutMapping("/admin/team/delete/{team_id}")
    public void TeamDelete(@PathVariable int team_id) {
 	   teamService.teamDelete(team_id);
    }
