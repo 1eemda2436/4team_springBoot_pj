@@ -57,7 +57,7 @@ public class PersonnelMemberDTO {
     private int resident = 1111111111; // 주민 번호
 	
 	@Column(name = "depart_id")
-    private int depart_id = 1; // 부서 id(소속)
+    private int depart_id; // 부서 id(소속)
 	
 	@Column(name = "team_id")
     private Integer team_id; // 팀 id (Nullable)
