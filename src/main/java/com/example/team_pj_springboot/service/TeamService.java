@@ -1,7 +1,11 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.ui.Model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,9 @@ public class TeamService {
 
    @Autowired
    private TeamRepository teamRepository;
+  
+   public List<TeamDTO> listAll(HttpServletRequest req, Model model)
+			throws ServletException, IOException;
    
    //teamSelect
    public List<TeamDTO> teamSelect(int depart_id){

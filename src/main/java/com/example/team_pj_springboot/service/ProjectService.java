@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
+import com.example.team_pj_springboot.dto.ProjectAndTeamDTO;
 import com.example.team_pj_springboot.dto.ProjectDTO;
 
 public interface ProjectService  {
