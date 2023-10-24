@@ -35,4 +35,9 @@ public class NoticeServiceImpl implements NoticeService{
 		dao.deleteById(notice_id);
 	}
 
+	@Override
+	public List<NoticeDTO> noticeFind(int notice_id) {
+		return dao.findNoticeByNoticeID(notice_id);
+	}
+
 }
