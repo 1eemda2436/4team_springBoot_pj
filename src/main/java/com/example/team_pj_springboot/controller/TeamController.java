@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.TeamDTO;
+import com.example.team_pj_springboot.service.TeamService;
 import com.example.team_pj_springboot.service.TeamServiceImpl;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
@@ -30,7 +31,7 @@ public class TeamController {
 	private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 	
 	@Autowired
-	private TeamServiceImpl service;
+	private TeamServiceImpl teamService;
 	
 	// 팀 리스트
 	@GetMapping
@@ -38,7 +39,7 @@ public class TeamController {
 			throws ServletException, IOException {
 		logger.info("[ url - TeamList ]");
 		
-		return service.listAll(req, model);
+		return teamService.listAll(req, model);
 	}
    
    @GetMapping("/select/{depart_id}")
