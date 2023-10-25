@@ -44,7 +44,7 @@ public class MemberDTO {
     private char state = 1; // 사원 업무상태 (1-업무중 / 2-외출 / 3-비활성화)
     private char e_state = 1; // 재직여부(1-재직, 0-퇴사)
     private String key; // 문자인증 키
-    private String authoriry; // 권한
+    private String authority; // 권한
     private char enabled = 'N'; // 인증여부 (Y/N)
     @Transient
     private String token;
