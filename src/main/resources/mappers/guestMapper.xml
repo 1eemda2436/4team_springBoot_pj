@@ -4,15 +4,34 @@
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.team_pj_springboot.mappers.AttenMapper">
-
+	
+	<!-- 연차목록 -->
+    <select id="annualGuestList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT annual_id
+              ,annual_title
+              ,confirm
+          FROM annual_board
+         WHERE id = #{id}
+         ORDER BY annual_id ASC
+    </select>
+	<!-- 휴가목록 -->
+    <select id="vacationGuestList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT vacation_id
+              ,vacation_title
+              ,confirm
+          FROM vacation_board
+         WHERE id = #{id}
+         ORDER BY vacation_id ASC
+    </select>
+    
 	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
-	    INSERT INTO annual_board (annual_id ,id , annual_title, annual_start, annual_end, annual_content, annual_reg_date)
-	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
+	    INSERT INTO annual_board (annual_id ,id ,name ,annual_title , annual_start, annual_end, annual_content, annual_reg_date)
+	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{name},#{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
 	</insert>
 
 	<insert id="insertVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
-		INSERT INTO vacation_board (vacation_id, id, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
-		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
+		INSERT INTO vacation_board (vacation_id, id, name, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
+		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{name}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
 	</insert>
 	
 	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
@@ -38,28 +57,31 @@
  	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
  		<![CDATA[
 			SELECT
-			    id,
-			    total_annual,
-			    used_annual,
-			    total_annual - used_annual as annuallastcount,
-			    sum(case
-			        when extract(hour from general_workin) >= 9 then 1
-			        else 0
-			    end) as worklate,
-			    sum(case
-			        when general_workin is null then 1
-			        else 0
-			    end) as noworking,
-			    sum(case
-			        when extract(hour from general_workout) < 17 and extract(minute from general_workout) < 30 then 1
-			        else 0
-			    end) as earlyout
+			    M.ID,
+			    M.NAME,
+			    MA.TOTAL_ANNUAL,
+			    MA.USED_ANNUAL,
+			    MA.TOTAL_ANNUAL - MA.USED_ANNUAL AS annuallastcount,
+			    SUM(CASE
+			        WHEN EXTRACT(HOUR FROM MA.GENERAL_WORKIN) >= 9 THEN 1
+			        ELSE 0
+			    END) AS worklate,
+			    SUM(CASE
+			        WHEN MA.GENERAL_WORKIN IS NULL THEN 1
+			        ELSE 0
+			    END) AS noworking,
+			    SUM(CASE
+			        WHEN EXTRACT(HOUR FROM MA.GENERAL_WORKOUT) < 17 AND EXTRACT(MINUTE FROM MA.GENERAL_WORKOUT) < 30 THEN 1
+			        ELSE 0
+			    END) AS earlyout
 			FROM
-			    member_attendance
+			    MEMBER M
+			JOIN
+			    MEMBER_ATTENDANCE MA ON M.ID = MA.ID
 			WHERE
-			    id = #{id}
+			    M.ID = #{id}
 			GROUP BY
-			    ma_id, id, total_annual, used_annual
+			    M.ID, M.NAME, MA.TOTAL_ANNUAL, MA.USED_ANNUAL
 		]]>
 	</select> 
 	
@@ -144,20 +166,52 @@
 	
 	<select id="myVacationPre" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
 		SELECT
-		    MA.ID,
-		    VB.vacation_start,
-		    VB.vacation_end,
-		    VB.vacation_title,
-		    ROUND(MONTHS_BETWEEN(VB.vacation_end, VB.vacation_start)) AS vacationTerm
+		    M.id,
+		    V.vacation_title,
+		    V.vacation_start,
+		    V.vacation_end,
+		    V.vacation_content,
+		    ROUND(MONTHS_BETWEEN(V.vacation_end, V.vacation_start)) AS vacationTerm
 		FROM
-		    MEMBER_ATTENDANCE MA
-		LEFT JOIN
-		    vacation_board VB ON MA.ID = VB.ID
+		    MEMBER M
+		JOIN
+		    VACATION_BOARD V
+		ON
+		    M.id = V.id
 		WHERE
-		    MA.show_annual = 'Y'
-		    AND MA.ID = #{id}
-		GROUP BY
-		    MA.ID, VB.vacation_start, VB.vacation_end, VB.vacation_title	
+		    M.id = #{id}
+	</select>
+	
+	<!-- 승인된 연차 목록 -->
+	<select id="anComfirmList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+		SELECT annual_id
+			  ,name
+			  ,annual_title
+			  ,annual_start
+			  ,annual_end
+			  ,confirm
+		  FROM annual_board
+		 WHERE confirm = 'Y'
+	</select>
+	
+	<!-- 승인된 휴가 목록 -->
+	<select id="vaComfirmList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+		SELECT vacation_id
+			  ,name
+			  ,vacation_title
+			  ,vacation_start
+			  ,vacation_end
+			  ,confirm
+		  FROM vacation_board
+		 WHERE confirm = 'Y'
 	</select>
 
 </mapper>
+
+
+
+
+
+
+
+

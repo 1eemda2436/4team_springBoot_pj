@@ -40,6 +40,6 @@ public interface AdminMapper {
 	
 	public List<DepAttendanceDTO> departmentAlign(int depart_id);	// 부서별 근태 통계(상세) [ 이름순 / 지각순 	/ 사번순 / 정렬기능 ]
 	
-	public List<ComAttendanceDTO> companyStatus();					// 전사 근태 현황/통계
+	public List<ComAttendanceDTO> companyStatus(String company_id);					// 전사 근태 현황/통계
 
 }

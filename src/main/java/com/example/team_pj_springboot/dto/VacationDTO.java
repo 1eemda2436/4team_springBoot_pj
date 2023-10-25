@@ -16,6 +16,7 @@ public class VacationDTO {
 	@Id
     private int 	vacation_id;			// 글 번호
     private String 	id;						// 사원번호
+    private String	name;					// 이름
     private String 	vacation_title;			// 글 제목
     private Date	vacation_start;			// 휴가 시작날짜
     private Date	vacation_end;			// 휴가 종료날짜

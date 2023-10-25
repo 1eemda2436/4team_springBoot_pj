@@ -182,6 +182,46 @@ public class DocServiceImpl implements DocService{
       
       return dao.findById(doc_id).get();
    }
+   
+   // 문서결재요청
+//   @Override
+//   public DocDTO updateApproval(int doc_id, DocDTO dto) {
+//      System.out.println("DocServiceImpl - updateDoc");
+//      
+//      // 문서 id를 사용해 해당 문서 찾기
+//      Optional<DocDTO> optionalDto = dao.findById(doc_id);
+//      if(optionalDto.isPresent()) {
+//    	  DocDTO realDto = optionalDto.get();
+//    	  
+//    	  // 기존 문서 업데이트
+//    	  realDto.setDoc_status(dto.getDoc_status());
+//    	  realDto.setApproval_id(dto.getApproval_id());
+//          
+//          return dao.save(realDto);
+//      }
+//      
+//      return dao.findById(doc_id).get();
+//   }
+   
+   
+   // 문서읽음여부수정페이지
+//   @Override
+//   public DocDTO updateReadDoc(int doc_id, DocDTO dto) {
+//      System.out.println("DocServiceImpl - updateDoc");
+//      
+//      // 문서 id를 사용해 해당 문서 찾기
+//      Optional<DocDTO> optionalDto = dao.findById(doc_id);
+//      if(optionalDto.isPresent()) {
+//    	  DocDTO realDto = optionalDto.get();
+//    	  
+//    	  // 기존 문서 업데이트
+//    	  realDto.setDoc_read("Y");
+//          
+//          return dao.save(realDto);
+//      }
+//      
+//      return dao.findById(doc_id).get();
+//   }
 
    // 문서삭제페이지
    @Override

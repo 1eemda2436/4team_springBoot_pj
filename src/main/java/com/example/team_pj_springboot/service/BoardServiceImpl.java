@@ -35,4 +35,9 @@ public class BoardServiceImpl implements BoardService{
 		dao.deleteById(board_id);
 	}
 
+	@Override
+	public List<BoardDTO> boardFind(int board_id) {
+		return dao.findBoardByBoardID(board_id);
+	}
+
 }

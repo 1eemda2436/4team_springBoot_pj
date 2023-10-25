@@ -109,11 +109,13 @@ public class AttendanceAdminController {
 	}
 	
 	// 전사 근태 현황/통계 조회 (Select)
-	@GetMapping("/companyStatus")
-	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException {
+	@GetMapping("/companyStatus/{company_id}")
+	public List<ComAttendanceDTO> companyStatus(@PathVariable String company_id, HttpServletRequest req, Model model) throws ServletException, IOException {
 		logger.info("[ AttendanceController - companyStatus ]");
 		
-		return service.companyStatus(req, model); 
+		List<ComAttendanceDTO> dto = service.companyStatus(req, model, company_id);
+		
+		return dto;
 	}
 
 }

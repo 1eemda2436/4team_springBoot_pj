@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
+import com.example.team_pj_springboot.service.GuestServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +33,9 @@ public class AttendanceAllController {
 	
 	@Autowired
 	private AdminServiceImpl service;
+	
+	@Autowired 
+	private GuestServiceImpl gservice;
 	
 	// 연차 신청 목록 조회 (Select)
 	@GetMapping("/annualRequestsList")
@@ -67,6 +71,22 @@ public class AttendanceAllController {
 		logger.info("[ AttendanceController - vacationDetail ]");
 		
 		return service.vacationDetail(vacation_id);
+	}
+	
+	// 승인된 연차 목록
+	@GetMapping("/anConfirmList")
+	public List<AnnualDTO> anConfirmList (HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - anConfirmList ]");
+		
+		return gservice.confirmAnnualLs(req, model);
+	}
+	
+	// 승인된 휴가 목록
+	@GetMapping("/vaConfirmList")
+	public List<VacationDTO> vaConfirmList (HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - vaConfirmList ]");
+		
+		return gservice.confirmVacaLs(req, model);
 	}
 
 }

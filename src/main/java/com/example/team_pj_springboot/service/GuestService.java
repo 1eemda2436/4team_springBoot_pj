@@ -1,8 +1,12 @@
 package com.example.team_pj_springboot.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.ui.Model;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.AttendanceDTO;
@@ -10,6 +14,12 @@ import com.example.team_pj_springboot.dto.MyAttendanceDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 public interface GuestService {
+	
+	// 연차 신청 목록 조회
+	public List<AnnualDTO> annualGuestList(HttpServletRequest req, Model model, String id) throws ServletException, IOException;
+	
+	// 휴가 신청 목록 조회
+	public List<VacationDTO> vacationGuestList(HttpServletRequest req, Model model, String id) throws ServletException, IOException;
 	
 	// 연차 신청 (insert)
 	public int annualInsert (AnnualDTO dto) throws ServletException, IOException;
@@ -38,5 +48,9 @@ public interface GuestService {
 	// 휴가계 정보 [ 휴가계(제목) / 휴가 시작 / 휴가 종료 / 휴가 기간 / 휴가 사유(제목) ]  [ 내 근태 현황 상세페이지 ]
 	public MyAttendanceDTO myVacationPre (String id) throws ServletException, IOException;
 	
-	// 나의 연차 현황 [ 내 근태 현황 상세페이지 ]
+	// 승인된 연차 목록
+	public List<AnnualDTO> confirmAnnualLs (HttpServletRequest req, Model model) throws ServletException, IOException;
+	
+	// 승인된 연차 목록
+	public List<VacationDTO> confirmVacaLs (HttpServletRequest req, Model model) throws ServletException, IOException;
 }
