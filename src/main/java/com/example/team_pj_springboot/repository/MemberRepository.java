@@ -3,6 +3,7 @@ package com.example.team_pj_springboot.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,7 @@ public interface MemberRepository extends JpaRepository<MemberDTO, String> {
          "WHERE m.id = :id ")
    Optional<String> findCompanyIdByUserId(@Param("id") String id);
    
+	@Modifying
+    @Query("UPDATE MemberDTO m SET m.rank = :rank WHERE m.id = :id")
+    void updateRank(@Param("id") String id, @Param("rank") String rank);
 }
