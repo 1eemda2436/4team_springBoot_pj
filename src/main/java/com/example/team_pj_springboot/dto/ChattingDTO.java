@@ -12,7 +12,7 @@ import lombok.Data;
 public class ChattingDTO {
 	
 	@Id
-	private int chat_id;
-    private String chat_name;
+	private int 	chat_id;		// 채팅방 ID [ 구분용 ]
+    private String 	chat_name;		// 채팅방 이름
 
 }

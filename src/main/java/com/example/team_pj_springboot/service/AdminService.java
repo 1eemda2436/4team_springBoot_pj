@@ -5,6 +5,7 @@ import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 import java.io.IOException;
@@ -41,8 +42,11 @@ public interface AdminService {
 	// 휴가 상세페이지 반려 및 조회
 	public void vacationReturn(int vacation_id) throws ServletException, IOException;
 	
-//	// 부서별 근태 현황/통계 조회 (부서 하나)
+	// 부서별 근태 현황/통계 조회 (부서 하나)
 	public DepAttendanceDTO departmentAttendanceStatus(int depart_id) throws ServletException, IOException;
+	
+	// 팀별 근태 현황/통계 조회(부서내 팀)
+	public TeamAndAttenDTO teamAttendanceStatus(int team_id) throws ServletException, IOException;
 
 	// 부서별 근태 현황(상세) 조회 (부서 하나)
 	public DepAttendanceDTO departmentAtDetails(int depart_id) throws ServletException, IOException;

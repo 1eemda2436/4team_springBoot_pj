@@ -12,7 +12,7 @@ import lombok.Data;
 public class ChattingMemberDTO {
 	
 	@Id
-	private int cm_id;
-    private String id; // 사원 id
-    private int chat_id; // 채팅방 id
+	private int 	cm_id;		// 참가자 ID [ 구분용 ]
+    private String 	id; 		// 사원 ID
+    private int 	chat_id; 	// 채팅방 ID [ 구분용 ]
 }

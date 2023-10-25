@@ -96,6 +96,42 @@
 		    department d
 		WHERE d.depart_id = #{depart_id}
 	</select>
+	
+	<select id="teamAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.TeamAndAttenDTO">
+		SELECT
+		    t.team_id,
+		    t.team_name,
+		    (
+		        SELECT COUNT(*) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.show_annual = 'Y' AND subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = t.depart_id
+		        )
+		    ) AS annualCount,
+		    (
+		        SELECT AVG(EXTRACT(HOUR FROM subma.general_workin)) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = t.depart_id
+		        )
+		    ) AS averageWorkin,
+		    (
+		        SELECT AVG(EXTRACT(HOUR FROM subma.general_workout)) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = t.depart_id
+		        )
+		    ) AS averageWorkout
+		FROM
+		    team t
+		WHERE t.team_id = #{team_id}
+	</select>
 
 
     <!-- 부서별 근태 현황(상세)[ 출근/지각/연차 률 ] -->
@@ -134,26 +170,6 @@
         ]]>
     </select>
 
-    <!-- 부서별 근태 현황(상세)[ 캘린더 ] -->
-    <!-- <select id="departmentAtCal" parameterType="int" resultMap="departmentAttendanceResultMap">
-        SELECT 
-            M.name AS "사원 이름",
-            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'Y' THEN 1 END) AS "연차",
-            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'N' AND MA.HOLIDAY_NAME IS NOT NULL THEN 1 END) AS "휴가",
-            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'N' AND MA.HOLIDAY_NAME IS NULL AND MA.GENERAL_WORKIN IS NOT NULL THEN 1 END) AS "결근",
-            COUNT(CASE WHEN MA.SHOW_ANNUAL = 'N' AND MA.GENERAL_WORKIN IS NOT NULL AND EXTRACT(HOUR FROM (MA.GENERAL_WORKIN - TO_TIMESTAMP(TO_CHAR(MA.GENERAL_WORKIN, 'YYYY-MM-DD') || ' 08:59:59', 'YYYY-MM-DD HH24:MI:SS'))) > 0 THEN 1 END) AS "지각"
-        FROM
-            MEMBER M
-        INNER JOIN
-            MEMBER_ATTENDANCE MA ON M.id = MA.ID
-        INNER JOIN
-            department D ON M.depart_id = D.depart_id
-        GROUP BY
-            D.depart_name, M.name
-        ORDER BY
-            D.depart_name, M.name
-    </select> -->
-
     <!-- 부서별 근태 통계(상세) [ 이름순 / 지각순 / 사번순 / 정렬기능 ] -->
     <select id="departmentAlign" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
     	<![CDATA[
@@ -184,7 +200,8 @@
 			    d.depart_id,
 			    d.depart_name,
 			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) AS lateCount,
-			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount
+			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') THEN 1 ELSE 0 END) AS workinCount
 			FROM
 			    company c
 			LEFT JOIN
@@ -194,12 +211,14 @@
 			LEFT JOIN
 			    MEMBER_ATTENDANCE ma ON m.id = ma.id
 			WHERE 
-				c.company_id = #{company_id}
+			    c.company_id = #{company_id}
+			  AND d.SHOW = 'Y'
 			GROUP BY
 			    c.company_id, c.name, d.depart_id, d.depart_name
 			ORDER BY d.depart_id ASC
 		]]>
     </select>
+    
 </mapper>
 
 
