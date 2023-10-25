@@ -48,7 +48,7 @@ public interface DocService {
    public Optional<DocAndCategoryDTO> selectDoc(int doc_id);
    
    // 결재문서상세페이지
-   public Optional<ApprovalAndDocDTO> selectApp(int approval_id);
+   public Optional<DocDTO> selectApp(int approval_id);
    
    // 문서수정페이지
    public DocDTO updateDoc(int doc_id, DocDTO dto);
