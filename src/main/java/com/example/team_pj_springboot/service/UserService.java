@@ -106,7 +106,7 @@ public class UserService {
 		member.setCompany_id(saveCompany.getCompanyId());
 		member.setEmail(saveCompany.getEmail());
 		member.setKey(saveCompany.getKey());
-		member.setAuthority("ROLE_ADMIN");
+		member.setAuthoriry("ROLE_ADMIN");
 		member.setEnabled(saveCompany.getEnabled());
 		member.setDepart_id(saveDepartment.getDepart_id());
 		member.setTeam_id(saveTeam.getTeam_id());

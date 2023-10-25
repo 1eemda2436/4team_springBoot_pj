@@ -61,7 +61,7 @@ public class UserAuthProvider {
 				.withIssuer(id)
 				.withIssuedAt(now)
 				.withExpiresAt(validity)
-				.withClaim("authority", member.get().getAuthority())
+				.withClaim("authority", member.get().getAuthoriry())
 				.sign(Algorithm.HMAC256(secretKey));
 	}
 
