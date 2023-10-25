@@ -1,11 +1,14 @@
 package com.example.team_pj_springboot.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.AttendanceDTO;
@@ -18,6 +21,28 @@ public class GuestServiceImpl implements GuestService {
 	
 	@Autowired
 	private AttenMapper dao;
+	
+	// 연차 신청 목록 조회(GUEST)
+	@Override
+	public List<AnnualDTO> annualGuestList(HttpServletRequest req, Model model, String id) 
+			throws ServletException, IOException {
+		System.out.println("[ GuestServiceImpl → annualGuestList ]");
+		
+		List<AnnualDTO> anGuestList = dao.annualGuestList(id);
+		
+		return anGuestList;
+	}
+
+	// 연차 신청 목록 조회(GUEST)
+	@Override
+	public List<VacationDTO> vacationGuestList(HttpServletRequest req, Model model, String id)
+			throws ServletException, IOException {
+		System.out.println("[ GuestServiceImpl → vacationGuestList ]");
+		
+		List<VacationDTO> vaGuestList = dao.vacationGuestList(id);
+		
+		return vaGuestList;
+	}
 
 	// 연차계 신청
 	@Override
@@ -122,6 +147,23 @@ public class GuestServiceImpl implements GuestService {
 		
 		return myVcDto;
 	}
-	
+
+	@Override
+	public List<AnnualDTO> confirmAnnualLs(HttpServletRequest req, Model model) throws ServletException, IOException {
+		System.out.println("[ GuestServiceImpl - confirmAnnualLs ]");
+		
+		List<AnnualDTO> cfAnnual = dao.anComfirmList();
+		
+		return cfAnnual;
+	}
+
+	@Override
+	public List<VacationDTO> confirmVacaLs(HttpServletRequest req, Model model) throws ServletException, IOException {
+		System.out.println("[ GuestServiceImpl - confirmVacaLs ]");
+		
+		List<VacationDTO> cfVaca = dao.vaComfirmList();
+		
+		return cfVaca;
+	}
 	
 }

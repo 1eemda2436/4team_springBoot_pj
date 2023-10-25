@@ -4,7 +4,26 @@
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.team_pj_springboot.mappers.AttenMapper">
-
+	
+	<!-- 연차목록 -->
+    <select id="annualGuestList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT annual_id
+              ,annual_title
+              ,confirm
+          FROM annual_board
+         WHERE id = #{id}
+         ORDER BY annual_id ASC
+    </select>
+	<!-- 휴가목록 -->
+    <select id="vacationGuestList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT vacation_id
+              ,vacation_title
+              ,confirm
+          FROM vacation_board
+         WHERE id = #{id}
+         ORDER BY vacation_id ASC
+    </select>
+    
 	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
 	    INSERT INTO annual_board (annual_id ,id ,name ,annual_title , annual_start, annual_end, annual_content, annual_reg_date)
 	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{name},#{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
@@ -161,6 +180,30 @@
 		    M.id = V.id
 		WHERE
 		    M.id = #{id}
+	</select>
+	
+	<!-- 승인된 연차 목록 -->
+	<select id="anComfirmList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+		SELECT annual_id
+			  ,name
+			  ,annual_title
+			  ,annual_start
+			  ,annual_end
+			  ,confirm
+		  FROM annual_board
+		 WHERE confirm = 'Y'
+	</select>
+	
+	<!-- 승인된 휴가 목록 -->
+	<select id="vaComfirmList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+		SELECT vacation_id
+			  ,name
+			  ,vacation_title
+			  ,vacation_start
+			  ,vacation_end
+			  ,confirm
+		  FROM vacation_board
+		 WHERE confirm = 'Y'
 	</select>
 
 </mapper>
