@@ -1,6 +1,7 @@
 package com.example.team_pj_springboot.service;
 
 import java.nio.CharBuffer;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -129,6 +130,10 @@ public class UserService {
 		System.out.println(roleDTO);
 		userRoleRepository.save(roleDTO);
 		memberRepository.updateRank(roleDTO.getId(), roleDTO.getRank());
-	} 
+	}
+	
+	public Optional<UserRoleDTO> userRoleGet(String id) {
+		return userRoleRepository.findById(id);
+	}
 
 }

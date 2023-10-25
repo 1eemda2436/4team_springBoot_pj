@@ -25,6 +25,6 @@ public interface MemberRepository extends JpaRepository<MemberDTO, String> {
    Optional<String> findCompanyIdByUserId(@Param("id") String id);
    
 	@Modifying
-    @Query("UPDATE MemberDTO m SET m.rank = :rank WHERE m.id = :id")
+    @Query("UPDATE MemberDTO m SET m.rank = :rank, m.authority = 'ROLE_MANAGER' WHERE m.id = :id")
     void updateRank(@Param("id") String id, @Param("rank") String rank);
 }

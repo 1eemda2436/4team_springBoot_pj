@@ -1,6 +1,7 @@
 package com.example.team_pj_springboot.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,9 +53,14 @@ public class UserController {
 	            .body(join); //크롬 Network - Headers : 201Created 반환
 	}
 	
-	@PostMapping("/admin/auth")
+	@PostMapping("/admin/auth/update")
 	public void UserRole(@RequestBody UserRoleDTO userRoleDTO) {
 		userService.userRole(userRoleDTO);
+	}
+	
+	@GetMapping("/admin/auth/{id}")
+	public Optional<UserRoleDTO> UserRoleGet(@PathVariable String id) {
+		return userService.userRoleGet(id);
 	}
 }
 
