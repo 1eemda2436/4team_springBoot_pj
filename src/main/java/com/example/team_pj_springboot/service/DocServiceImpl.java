@@ -194,4 +194,20 @@ public class DocServiceImpl implements DocService{
       dao.deleteById(doc_id);;
    }
 
+    // 사원목록
+	@Override
+	public List<MemberDTO> memberAll() {
+		System.out.println("DocServiceImpl - memberAll");
+		
+		return memberDao.findAll();
+	}
+
+	// 특정사원
+	@Override
+	public Optional<MemberDTO> memberOne(String id) {
+		System.out.println("DocServiceImpl - memberOne");
+		
+		return memberDao.findById(id);
+	}
+
 }

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.team_pj_springboot.dto.AllPersonnelDTO;
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
@@ -40,8 +41,10 @@ import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
+import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
 import com.example.team_pj_springboot.service.DocService;
+import com.example.team_pj_springboot.service.PersonnelService;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
@@ -85,7 +88,7 @@ public class DocController {
       return service.temporaryList();
    }
    
-   // 임시저장
+   // 임시저장 - 연결완료
    @PostMapping("/temporarySave")
    public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - temporarySave >>>");
@@ -134,7 +137,7 @@ public class DocController {
       return "redirect:/";
    }
    
-   // 파일 다운로드
+   // 파일 다운로드 - 연결완료
    @GetMapping("/download/{fileName:.+}") // download뒤에 원하는 파일이름 입력, 뒤에 .+는 확장자
    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) throws IOException {
 	   logger.info("<<< 컨트롤러 - downloadFile >>>");
@@ -178,7 +181,7 @@ public class DocController {
       return dto;
    }
    
-   // 문서삭제페이지 포스트맨성공
+   // 문서삭제페이지 - 연결완료
    @DeleteMapping("/delete/{doc_id}")
    public void deleteDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
@@ -186,5 +189,26 @@ public class DocController {
       service.deleteDoc(doc_id); 
       
    }
+   
+   // 사원목록
+   @GetMapping("/memberAll/{company_id}")
+	public List<MemberDTO> selectAllEmployee(@PathVariable String company_id){
+	   logger.info("<<< 컨트롤러 - updateDoc >>>");
+		
+		return service.memberAll();
+	}
+   
+   // 특정사원
+   @GetMapping("/memberOne/{id}")
+   public Optional<MemberDTO> selectEmployee(@PathVariable String id){
+	   logger.info("<<< 컨트롤러 - updateDoc >>>");
+		
+	   Optional<MemberDTO> dto = service.memberOne(id);
+	   
+	   return dto;
+ 	}
+   
+   // 사인추가
+   //@PostMapping()
    
 }   
