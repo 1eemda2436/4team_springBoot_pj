@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.BoardDTO;
+import com.example.team_pj_springboot.dto.CommentDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.service.BoardServiceImpl;
 
@@ -38,6 +39,15 @@ public class BoardController {
 		
 		return service.listAll();
 	}
+	@GetMapping("/boardFind/{board_id}")
+	public List<BoardDTO> boardFind(@PathVariable int board_id, Model model) {
+		logger.info("CommentController - commentList");
+
+		List<BoardDTO> dto = service.boardFind(board_id);
+		model.addAttribute("dto", dto);
+		
+		return dto;
+	}
 	
 	//Insert
 	@PostMapping("/add")
@@ -55,14 +65,12 @@ public class BoardController {
 	}
 	 
 	// Delete
-	@DeleteMapping("/boardDelete/{board_id}")
-	public void boardDelete(@PathVariable("board_id") int board_id) {
-		logger.info("BoardController - boardDelete");
-		System.out.println("!!!" + board_id);
-		
-		service.deleteBoard(board_id);
-		
+	@DeleteMapping("/boardDelete")
+	public void boardDelete(@RequestBody List<Integer> board_id) {
+	    logger.info("BoardController - boardDelete");
+
+	    for (Integer boardId : board_id) {
+	        service.deleteBoard(boardId);
+	    }
 	}
-	
-	
 }

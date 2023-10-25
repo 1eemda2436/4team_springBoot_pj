@@ -25,7 +25,7 @@ public class DepartmentListController {
 	
 	//부서별 사원 리스트
 	@GetMapping
-	public List<DepartmentListDTO> DepartList() {
+	public List<Object[]> DepartList() {
 		logger.info("[ url - DepartList]");
 		
 		return service.listAll();

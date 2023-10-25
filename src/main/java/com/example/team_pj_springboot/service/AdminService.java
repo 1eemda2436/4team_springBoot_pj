@@ -51,6 +51,6 @@ public interface AdminService {
 	public List<DepAttendanceDTO> departmentAlign(HttpServletRequest req, Model model, int depart_id) throws ServletException, IOException;
 	
 	// 전사 근태 현황/통계 조회
-	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model) throws ServletException, IOException;
+	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException;
 	
 }

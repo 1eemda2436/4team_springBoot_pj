@@ -22,6 +22,7 @@ public class AnnualDTO {
 	@Id
     private int 	annual_id;			// 글 번호
     private String 	id;					// 사원번호
+    private String	name;				// 이름
     private String 	annual_title;		// 글 제목
     private Date	annual_start;		// 연차 시작날짜
     private Date	annual_end;			// 연차 종료날짜

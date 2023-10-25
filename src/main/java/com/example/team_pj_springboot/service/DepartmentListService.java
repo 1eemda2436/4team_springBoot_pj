@@ -7,7 +7,7 @@ import com.example.team_pj_springboot.dto.DepartmentListDTO;
 
 public interface DepartmentListService {
    
-   public List<DepartmentListDTO> listAll();
+   public List<Object[]> listAll();
 
 
 }
