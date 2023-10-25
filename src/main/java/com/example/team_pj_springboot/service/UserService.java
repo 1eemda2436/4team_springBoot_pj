@@ -20,7 +20,6 @@ import com.example.team_pj_springboot.repository.CompanyRepository;
 import com.example.team_pj_springboot.repository.DepartmentRepository;
 import com.example.team_pj_springboot.repository.MemberRepository;
 import com.example.team_pj_springboot.repository.TeamRepository;
-import com.example.team_pj_springboot.repository.UserRepository;
 import com.example.team_pj_springboot.repository.UserRoleRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
 
-	private final UserRepository userRepository;
 	private final CompanyRepository companyRepository;
 	private final DepartmentRepository departmentRepository;
 	private final TeamRepository teamRepository;
@@ -41,7 +39,7 @@ public class UserService {
 	public MemberDTO findById(String id) {
 		System.out.println("UserService - findById()");
 
-		MemberDTO memberDTO = userRepository.findById(id)
+		MemberDTO memberDTO = memberRepository.findById(id)
 				.orElseThrow(() -> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
 
 		return userMapper.toMemberDTO(memberDTO);
@@ -50,7 +48,7 @@ public class UserService {
 	public MemberDTO login(LoginDTO loginDTO) {
 		System.out.println("UserService - login()");
 
-		MemberDTO member = userRepository.findById(loginDTO.getId())
+		MemberDTO member = memberRepository.findById(loginDTO.getId())
 				.orElseThrow(() -> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
 
 		// 비밀번호 인코더를 사용하여 비밀번호가 일반 텍스트로 저장되는 것을 방지하지만 해시된 비밀번호는 읽을 수 없다.
@@ -108,7 +106,7 @@ public class UserService {
 		member.setCompany_id(saveCompany.getCompanyId());
 		member.setEmail(saveCompany.getEmail());
 		member.setKey(saveCompany.getKey());
-		member.setAuthority("MANAGER");
+		member.setAuthority("ROLE_ADMIN");
 		member.setEnabled(saveCompany.getEnabled());
 		member.setDepart_id(saveDepartment.getDepart_id());
 		member.setTeam_id(saveTeam.getTeam_id());
@@ -125,11 +123,12 @@ public class UserService {
 
 		return saveJoin;
 	}
-
+	
+	@Transactional
 	public void userRole(UserRoleDTO roleDTO) {
 		System.out.println(roleDTO);
-
 		userRoleRepository.save(roleDTO);
+		memberRepository.updateRank(roleDTO.getId(), roleDTO.getRank());
 	} 
 
 }
