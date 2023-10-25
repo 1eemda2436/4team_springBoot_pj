@@ -115,17 +115,21 @@ public class DocController {
    
    // 문서작성페이지 - 연결완료
    @PostMapping("/insert")
-   public String insertDoc(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+   public String insertDoc(@RequestParam("doc_attachment2") MultipartFile file, @RequestParam("sign2") MultipartFile sign, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - insertDoc >>>");
       
       try {
               // 파일 업로드하고 파일 경로를 받아옴
               String filePath = service.uploadFile(file);
-              System.out.println("file: " + file);
+              String filePath2 = service.uploadFile(sign);
+              System.out.println("file : " + file);
+              System.out.println("sign : " + sign);
 
               // DTO 객체에 파일 경로 설정
               dto.setDoc_attachment(filePath);
+              dto.setSign(filePath2);
               System.out.println("filePath: " + filePath);
+              System.out.println("filePath2: " + filePath2);
 
               // 서비스로 DTO 객체 전달하여 저장
               service.insertDoc(dto);

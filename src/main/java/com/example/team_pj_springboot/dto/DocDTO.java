@@ -43,6 +43,7 @@ public class DocDTO {
       private String doc_title;      // 문서제목
       private String doc_content;      // 문서내용
       private String doc_attachment;   // 첨부파일
+      private String sign;   // sign 첨부파일
       @DateTimeFormat(pattern = "yyyy-MM-dd")
       private Date doc_endDate;      // 마감일
       private int category_id;      // 카테고리번호
