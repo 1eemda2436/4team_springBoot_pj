@@ -16,7 +16,7 @@ import com.example.team_pj_springboot.service.ExcelUploadService;
 @RestController
 @RequestMapping("/admin/excel")
 public class ExcelUploadController {
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(ExcelUploadController.class);
 	
     @Autowired
@@ -24,6 +24,7 @@ public class ExcelUploadController {
 
     @PostMapping("/upload")
     public String uploadExcelFile(@RequestParam("excelFile") MultipartFile file) {
+    	logger.info("[uploadExcelFile]");
         return excelUploadService.uploadExcelData(file);
     }
 }

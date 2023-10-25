@@ -20,7 +20,6 @@ public class ExcelUtils {
 
         // 엑셀 파일의 첫 번째 시트를 선택
         Sheet sheet = workbook.getSheetAt(0);
-        
 
         for (Row row : sheet) {
             if (row.getRowNum() == 0) {
@@ -54,34 +53,12 @@ public class ExcelUtils {
             dto.setState(charValue);
             //dto.setE_state(row.getCell(19).getStringCellValue().charAt(0));
             double numericValue2 = row.getCell(19).getNumericCellValue();
-            char charValue2 = (char) (int) numericValue; // 숫자를 char로 변환
+            char charValue2 = (char) (int) numericValue2; // 숫자를 char로 변환
             dto.setE_state(charValue2);
             dto.setKey(row.getCell(20).getStringCellValue());
             dto.setAuthority(row.getCell(21).getStringCellValue());
             dto.setEnabled(row.getCell(22).getStringCellValue().charAt(0));
 
-//         // 문자열로 읽어오기
-//        dto.setId(row.getCell(0).getStringCellValue());
-//        dto.setCompany_id(row.getCell(1).getStringCellValue());
-//        dto.setPwd(row.getCell(2).getStringCellValue());
-//        dto.setTel(row.getCell(5).getStringCellValue());
-//
-//        // 날짜로 읽어오기
-//        dto.setHireday(row.getCell(7).getDateCellValue());
-//        dto.setResignation(row.getCell(8).getDateCellValue());
-//        dto.setBirthday(row.getCell(9).getDateCellValue());
-//
-//        // 숫자로 읽어오기
-//        dto.setResident((int) row.getCell(10).getNumericCellValue());
-//        dto.setDepart_id((int) row.getCell(11).getNumericCellValue());
-//        dto.setTeam_id((int) row.getCell(12).getNumericCellValue());
-//        dto.setSalary((int) row.getCell(14).getNumericCellValue());
-//
-//        // 문자 또는 문자(char)로 읽어오기
-//        dto.setState(row.getCell(18).getStringCellValue().charAt(0));
-//        dto.setE_state(row.getCell(19).getStringCellValue().charAt(0));
-//        dto.setEnabled(row.getCell(22).getStringCellValue().charAt(0));
-            
             dataList.add(dto);
         }
 
