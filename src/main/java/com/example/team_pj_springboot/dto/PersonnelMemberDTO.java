@@ -1,6 +1,6 @@
 package com.example.team_pj_springboot.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,13 +24,13 @@ import lombok.NoArgsConstructor;
 public class PersonnelMemberDTO {
 	
 	@Id
-	private String id;
+	private String id;////////////////////
 	
 	@Column(name = "company_id")
-    private String company_id; // 회사 id
+    private String company_id; // 회사 id////////////////////
 	
 	@Column(name = "pwd")
-    private String pwd = "1234"; // 사원 비밀번호
+    private String pwd = "1234"; // 사원 비밀번호////////////////////
 	
 	@Column(name = "name")
     private String name; // 사원 이름
@@ -39,7 +39,7 @@ public class PersonnelMemberDTO {
     private String email = "1"; // 사원 이메일
 	
 	@Column(name = "tel")
-    private String tel; // 사원 전화번호
+    private String tel; // 사원 전화번호////////////////////
 	
 	@Column(name = "profile")
     private String profile; // 프로필 사진
@@ -91,5 +91,5 @@ public class PersonnelMemberDTO {
 	
 	@Column(name = "enabled")
     private char enabled  = 'N'; // 인증여부 (Y/N)
-	
+
 }
