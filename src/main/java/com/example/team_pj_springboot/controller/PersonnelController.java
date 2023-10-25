@@ -52,11 +52,11 @@ public class PersonnelController {
     }
 	
 	//Employee Select all
-	@GetMapping("/employeeSelectAll")
-	public List<AllPersonnelDTO> selectAllEmployee(){
+	@GetMapping("/employeeSelectAll/{company_id}")
+	public List<AllPersonnelDTO> selectAllEmployee(@PathVariable String company_id){
 		logger.info("[ personnelController - selectEmployee ]");
 		
-		return service.selectAllEmployee();
+		return service.selectAllEmployee(company_id);
 	}
 	
 	//Employee Select One
@@ -71,6 +71,7 @@ public class PersonnelController {
 	//Employee Update
 	@PutMapping("/EmployeeUpdate/{id}")
 	public void employeeUpdate(@PathVariable String id, @RequestBody PersonnelMemberDTO dto) {
+		
 		service.employeeUpdate(dto);
 	}
 	
