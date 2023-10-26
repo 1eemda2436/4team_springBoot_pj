@@ -52,7 +52,7 @@ public class DepartmentService {
 	}
 	
 	//company_id 기준 select find id
-	public Optional<DepartmentDTO> departmentFind(String company_id) {
+	public List<DepartmentDTO> departmentFind(String company_id) {
 		return departmentRepository.findByCompany_id(company_id);
 	}
 	

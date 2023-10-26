@@ -65,13 +65,14 @@ public class DepartmentController {
 	
 	//company_id 기준 select find id
 	@GetMapping("/find/{company_id}")
-	public Optional<DepartmentDTO> departmentFind(@PathVariable String company_id) {
+	public List<DepartmentDTO> departmentFind(@PathVariable String company_id) {
 		return departmentService.departmentFind(company_id);
 	}
 	
-	//company_id 기준 select find id
-	@GetMapping("/teamsFind/{selectedDepartmentId}")
+	//depart_id 기준 select find id
+	@GetMapping("/teamsFind/{depart_id}")
 	public List<TeamDTO> teamsFind(@PathVariable int depart_id) {
+		System.out.println("!@#" + depart_id);
 		return departmentService.teamsFind(depart_id);
 	}
 	

@@ -42,7 +42,7 @@ public interface DepartmentRepository extends JpaRepository<DepartmentDTO, Integ
 	@Query("UPDATE DepartmentDTO d SET d.show = 'N' WHERE d.depart_id = :depart_id")
 	void DepartmentDeleteQuery(@Param("depart_id") int depart_id);
 
-	@Query("SELECT depart_id, depart_name, company_id, show FROM DepartmentDTO WHERE company_id = :company_id")
-	Optional<DepartmentDTO> findByCompany_id(@Param("company_id") String company_id);
-}
+	@Query("SELECT d FROM DepartmentDTO d WHERE d.company_id = :company_id")
+	List<DepartmentDTO> findByCompany_id(@Param("company_id") String company_id);
 
+}
