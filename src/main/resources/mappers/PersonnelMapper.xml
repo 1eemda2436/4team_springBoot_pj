@@ -42,6 +42,7 @@
 		FROM MEMBER M
 		LEFT JOIN department D ON M.depart_id = D.depart_id
 		LEFT JOIN team T ON M.team_id = T.team_id
+		WHERE M.company_id = #{company_id}
     </select>
 
 </mapper>
