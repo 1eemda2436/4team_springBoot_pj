@@ -100,10 +100,10 @@ public class ExcelUploadService {
 				uniqueIds.add(id);
 			}
 		}
-
 		return duplicateIds;
 	}
 
+	//회원 추가시 월급상세 추가를 위한 메서드
 	@Transactional
 	public SalaryDTO saveSalary(PersonnelMemberDTO dto) {
 		SalaryDTO sadto = new SalaryDTO();
