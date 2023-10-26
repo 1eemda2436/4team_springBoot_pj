@@ -1,12 +1,19 @@
 package com.example.team_pj_springboot.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.team_pj_springboot.dto.AllPersonnelDTO;
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
@@ -33,8 +41,10 @@ import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
+import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
 import com.example.team_pj_springboot.service.DocService;
+import com.example.team_pj_springboot.service.PersonnelService;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
@@ -78,7 +88,7 @@ public class DocController {
       return service.temporaryList();
    }
    
-   // 임시저장
+   // 임시저장 - 연결완료
    @PostMapping("/temporarySave")
    public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - temporarySave >>>");
@@ -105,17 +115,21 @@ public class DocController {
    
    // 문서작성페이지 - 연결완료
    @PostMapping("/insert")
-   public String insertDoc(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+   public String insertDoc(@RequestParam("doc_attachment2") MultipartFile file, @RequestParam("sign2") MultipartFile sign, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - insertDoc >>>");
       
       try {
               // 파일 업로드하고 파일 경로를 받아옴
               String filePath = service.uploadFile(file);
-              System.out.println("file: " + file);
+              String filePath2 = service.uploadFile(sign);
+              System.out.println("file : " + file);
+              System.out.println("sign : " + sign);
 
               // DTO 객체에 파일 경로 설정
               dto.setDoc_attachment(filePath);
+              dto.setSign(filePath2);
               System.out.println("filePath: " + filePath);
+              System.out.println("filePath2: " + filePath2);
 
               // 서비스로 DTO 객체 전달하여 저장
               service.insertDoc(dto);
@@ -127,6 +141,29 @@ public class DocController {
       return "redirect:/";
    }
    
+   // 파일 다운로드 - 연결완료
+   @GetMapping("/download/{fileName:.+}") // download뒤에 원하는 파일이름 입력, 뒤에 .+는 확장자
+   public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) throws IOException {
+	   logger.info("<<< 컨트롤러 - downloadFile >>>");
+	   
+	   // 파일 경로 설정 (doc_attachment 기준)
+       String filePath = "./src/main/webapp/resources/upload/" + fileName;
+
+       // 파일을 byte 배열로 읽어오기
+       Path path = Paths.get(filePath);
+       byte[] fileContent = Files.readAllBytes(path);
+       
+       // 응답 헤더 설정 (파일 다운로드를 위한 설정)
+       HttpHeaders headers = new HttpHeaders();
+       // 다운로드할 파일이 바이너리 파일임을 나타내기 위해 APPLICATION_OCTET_STREAM 사용
+       headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+       headers.setContentLength(fileContent.length);
+       // 브라우저에게 파일을 다운로드하라는 헤더 설정
+       headers.setContentDispositionFormData("attachment", fileName); // 다운로드되는 파일명 설정
+       
+       return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+   }
+   
    // 문서수정페이지 - 연결완료
    @PutMapping("/update/{doc_id}")
    public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
@@ -135,23 +172,6 @@ public class DocController {
       service.updateDoc(doc_id, dto);
       
    }
-   
-   // 문서결재요청
-//   @PutMapping("/updateApproval/{doc_id}")
-//   public void updateApproval(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
-//      logger.info("<<< 컨트롤러 - updateDoc >>>");
-//      
-//      service.updateDoc(doc_id, dto);
-//      
-//   }
-   
-//   // 문서읽음여부수정페이지 - 진행중
-//   @PutMapping("/updateReadDoc/{doc_id}")
-//   public void updateReadDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
-//	   logger.info("<<< 컨트롤러 - updateReadDoc >>>");
-//	   
-//	   service.updateReadDoc(doc_id, dto);
-//   }
 
     
    // 문서상세페이지 - 연결완료
@@ -165,7 +185,7 @@ public class DocController {
       return dto;
    }
    
-   // 문서삭제페이지 포스트맨성공
+   // 문서삭제페이지 - 연결완료
    @DeleteMapping("/delete/{doc_id}")
    public void deleteDoc(@PathVariable(name="doc_id") int doc_id, Model model) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
@@ -173,5 +193,26 @@ public class DocController {
       service.deleteDoc(doc_id); 
       
    }
+   
+   // 사원목록
+   @GetMapping("/memberAll/{company_id}")
+	public List<MemberDTO> selectAllEmployee(@PathVariable String company_id){
+	   logger.info("<<< 컨트롤러 - updateDoc >>>");
+		
+		return service.memberAll();
+	}
+   
+   // 특정사원
+   @GetMapping("/memberOne/{id}")
+   public Optional<MemberDTO> selectEmployee(@PathVariable String id){
+	   logger.info("<<< 컨트롤러 - updateDoc >>>");
+		
+	   Optional<MemberDTO> dto = service.memberOne(id);
+	   
+	   return dto;
+ 	}
+   
+   // 사인추가
+   //@PostMapping()
    
 }   
