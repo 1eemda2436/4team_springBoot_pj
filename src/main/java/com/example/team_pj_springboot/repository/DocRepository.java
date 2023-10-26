@@ -22,7 +22,7 @@ public interface DocRepository extends JpaRepository<DocDTO, Integer>{
          "JOIN MemberDTO m ON d.id = m.id")
    List<DocAndDraftDTO> draftList();
 
-   @Query("SELECT new com.example.team_pj_springboot.dto.DocAndCategoryDTO(d.doc_id, d.doc_date, m.name, d.doc_title, d.doc_content, d.doc_attachment, c.category_name) " +
+   @Query("SELECT new com.example.team_pj_springboot.dto.DocAndCategoryDTO(d.doc_id, d.doc_date, m.name, d.doc_title, d.doc_content, d.doc_attachment, c.category_name, d.sign) " +
          "FROM DocDTO d " + 
          "JOIN MemberDTO m ON d.id = m.id " + 
          "JOIN CategoryDTO c ON d.category_id = c.category_id " +

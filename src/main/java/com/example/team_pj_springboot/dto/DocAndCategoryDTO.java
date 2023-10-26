@@ -22,12 +22,13 @@ public class DocAndCategoryDTO {
 	private String doc_content;
 	private String doc_attachment;
 	private String category_name;
+	private String sign;
 	private int category_id;
 	private String id;
 	
 	// 생성자 직접 정의
     public DocAndCategoryDTO(int doc_id, Date doc_date, String name, String doc_title, String doc_content, String doc_attachment,
-            String category_name) {
+            String category_name, String sign) {
         this.doc_id = doc_id;
         this.doc_date = doc_date;
         this.name = name;
@@ -35,6 +36,7 @@ public class DocAndCategoryDTO {
         this.doc_content = doc_content;
         this.doc_attachment = doc_attachment;
         this.category_name = category_name;
+        this.sign = sign;
     }
 
 }
