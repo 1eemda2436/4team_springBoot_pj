@@ -14,11 +14,11 @@ import lombok.Data;
 public class ChattingMessagesDTO {
 	
 	@Id
-	private int m_id;
-    private String sender; // 보낸 이 사원 id 참조
-    private int chat_id; // 채팅방 id
-    private String m_text; // 메시지 내용
-    private char read; // 'Y' 또는 'N'
-    private Timestamp send_date; // 보낸 시간
+	private int 		m_id;		// 메세지 ID [ 구분용 ]
+    private String 		sender; 	// 메세지 발신자
+    private int 		chat_id; 	// 채팅방 ID [ 구분용 ]
+    private String 		m_text; 	// 메시지 내용
+    private char 		read; 		// 'Y' 또는 'N'
+    private Timestamp 	send_date; 	// 보낸 시간
 
 }

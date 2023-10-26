@@ -23,5 +23,6 @@ public class ComAttendanceDTO {
 	private String 	depart_name;	// 부서명
 	private int 	lateCount;		// 지각 횟수
 	private int 	holidayCount;	// 연차 휴가자 수
+	private int		workinCount;	// 출근자 수
 
 }
