@@ -96,17 +96,21 @@ public class DocController {
    
    // 임시저장 - 연결완료
    @PostMapping("/temporarySave")
-   public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+   public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @RequestParam("sign2") MultipartFile sign, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - temporarySave >>>");
       
       try {
               // 파일 업로드하고 파일 경로를 받아옴
               String filePath = service.uploadFile(file);
               System.out.println("file: " + file);
+              String filePath2 = service.uploadImageFile(sign);
+              System.out.println("sign : " + sign);
 
               // DTO 객체에 파일 경로 설정
               dto.setDoc_attachment(filePath);
               System.out.println("filePath: " + filePath);
+              dto.setSign(filePath2);
+              System.out.println("filePath2: " + filePath2);
 
               // 서비스로 DTO 객체 전달하여 저장
               service.insertDoc(dto);
@@ -127,7 +131,7 @@ public class DocController {
       try {
               // 파일 업로드하고 파일 경로를 받아옴
               String filePath = service.uploadFile(file);
-              String filePath2 = service.uploadFile(sign);
+              String filePath2 = service.uploadImageFile(sign);
               System.out.println("file : " + file);
               System.out.println("sign : " + sign);
 

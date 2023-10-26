@@ -63,6 +63,6 @@ public interface DocService {
    public String uploadFile(MultipartFile doc_attachment) throws IOException;
 
    // 이미지 가져오기
-   
+   public String uploadImageFile(MultipartFile doc_attachment) throws IOException;
    
 }

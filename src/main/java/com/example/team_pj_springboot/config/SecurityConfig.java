@@ -21,6 +21,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	//http.authorizeRequests().antMatchers("/myimage/**").permitAll();
+    	
         http
             .exceptionHandling().authenticationEntryPoint(userAuthenticationEntryPoint)
             .and()

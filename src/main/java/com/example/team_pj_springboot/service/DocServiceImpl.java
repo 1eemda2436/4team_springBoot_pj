@@ -155,7 +155,27 @@ public class DocServiceImpl implements DocService{
       return fileName;
    }
    
-   // 이미지 가져오기
+   
+	// 이미지파일업로드
+	@Override
+	public String uploadImageFile(MultipartFile doc_attachment) throws IOException {
+	   
+	      String upload = "./src/main/resources/static/img/";
+	            
+	   // 업로드 디렉토리가 존재하지 않으면 생성
+	   Files.createDirectories(Paths.get(upload));
+	   
+	   // 파일명
+	   String fileName = doc_attachment.getOriginalFilename();
+	   
+	   // 파일 저장 경로 설정
+	   Path filePath = Paths.get(upload + fileName);
+	   
+	   // 파일을 저장하고 파일명을 반환
+	   Files.write(filePath, doc_attachment.getBytes());
+	   
+	   return fileName;
+	}
    
    
    // 문서상세페이지
@@ -186,6 +206,9 @@ public class DocServiceImpl implements DocService{
          
          // 기존 문서 업데이트
          realDto.setDoc_status(dto.getDoc_status());
+         realDto.setApproval_content(dto.getApproval_content());
+         realDto.setApproval_date(dto.getApproval_date());
+         //realDto.setSign(dto.getSign());
           return dao.save(realDto);
       }
       
