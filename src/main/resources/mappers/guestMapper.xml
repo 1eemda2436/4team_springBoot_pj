@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.team_pj_springboot.mappers.AttenMapper">
+	
+	<!-- 연차목록 -->
+    <select id="annualGuestList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT annual_id
+              ,annual_title
+              ,confirm
+          FROM annual_board
+         WHERE id = #{id}
+         ORDER BY annual_id ASC
+    </select>
+	<!-- 휴가목록 -->
+    <select id="vacationGuestList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT vacation_id
+              ,vacation_title
+              ,confirm
+          FROM vacation_board
+         WHERE id = #{id}
+         ORDER BY vacation_id ASC
+    </select>
+    
+	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+	    INSERT INTO annual_board (annual_id ,id ,name ,annual_title , annual_start, annual_end, annual_content, annual_reg_date)
+	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{name},#{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
+	</insert>
+
+	<insert id="insertVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+		INSERT INTO vacation_board (vacation_id, id, name, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
+		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{name}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
+	</insert>
+	
+	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+		UPDATE annual_board
+		SET 
+		    annual_title = #{annual_title},
+		    annual_content = #{annual_content},
+	        annual_start = #{annual_start},
+	        annual_end = #{annual_end}
+		WHERE annual_id = #{annual_id}
+	</update>
+	
+	<update id="myVacationModify" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+		UPDATE vacation_board
+		SET 
+		    vacation_title = #{vacation_title},
+		    vacation_content = #{vacation_content},
+	        vacation_start = #{vacation_start},
+	        vacation_end = #{vacation_end}
+		WHERE vacation_id = #{vacation_id}
+	</update>
+	
+ 	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+ 		<![CDATA[
+			SELECT
+			    M.ID,
+			    M.NAME,
+			    MA.TOTAL_ANNUAL,
+			    MA.USED_ANNUAL,
+			    MA.TOTAL_ANNUAL - MA.USED_ANNUAL AS annuallastcount,
+			    SUM(CASE
+			        WHEN EXTRACT(HOUR FROM MA.GENERAL_WORKIN) >= 9 THEN 1
+			        ELSE 0
+			    END) AS worklate,
+			    SUM(CASE
+			        WHEN MA.GENERAL_WORKIN IS NULL THEN 1
+			        ELSE 0
+			    END) AS noworking,
+			    SUM(CASE
+			        WHEN EXTRACT(HOUR FROM MA.GENERAL_WORKOUT) < 17 AND EXTRACT(MINUTE FROM MA.GENERAL_WORKOUT) < 30 THEN 1
+			        ELSE 0
+			    END) AS earlyout
+			FROM
+			    MEMBER M
+			JOIN
+			    MEMBER_ATTENDANCE MA ON M.ID = MA.ID
+			WHERE
+			    M.ID = #{id}
+			GROUP BY
+			    M.ID, M.NAME, MA.TOTAL_ANNUAL, MA.USED_ANNUAL
+		]]>
+	</select> 
+	
+	<select id="weeklyWorkTime" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		SELECT
+		    MA_ID,
+		    ID,
+		    SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+		            ELSE
+		                0
+		        END
+		    ) AS totalWeekWork,
+			SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                GREATEST(EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60 - 8.5, 0)
+		            ELSE
+		                0
+		        END
+		    ) AS totalWeekOver,
+		    40 - SUM(
+		        CASE 
+		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+		            ELSE
+		                0
+		        END
+		    ) AS remainWeekTime
+		FROM
+		    MEMBER_ATTENDANCE
+		WHERE
+		    ID = #{id}
+		    AND TRUNC(GENERAL_WORKIN) BETWEEN TRUNC(SYSDATE) - 4 AND TRUNC(SYSDATE)
+		GROUP BY
+		    MA_ID, ID
+	</select>
+	
+	<select id="myWorkDetail" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		<![CDATA[
+			SELECT
+			    M.ID,
+			    M.DEPART_ID,
+			    D.DEPART_NAME,
+			    M.NAME,
+			    A.GENERAL_WORKIN,
+			    A.GENERAL_WORKOUT,
+			    (CASE
+			        WHEN EXTRACT(HOUR FROM (A.GENERAL_WORKOUT - TO_TIMESTAMP(TO_CHAR(A.GENERAL_WORKOUT, 'YYYY-MM-DD') || ' 17:41:00', 'YYYY-MM-DD HH24:MI:SS'))) > 0 THEN
+			            EXTRACT(HOUR FROM (A.GENERAL_WORKOUT - TO_TIMESTAMP(TO_CHAR(A.GENERAL_WORKOUT, 'YYYY-MM-DD') || ' 17:41:00', 'YYYY-MM-DD HH24:MI:SS')))
+			        ELSE
+			            0
+			    END) AS todaymyOT,
+			    ROUND(EXTRACT(HOUR FROM (A.GENERAL_WORKOUT - A.GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (A.GENERAL_WORKOUT - A.GENERAL_WORKIN))/60, 1) AS totalmyWork
+			FROM
+			    MEMBER M
+			INNER JOIN
+			    MEMBER_ATTENDANCE A ON M.ID = A.ID
+			INNER JOIN
+			    DEPARTMENT D ON M.DEPART_ID = D.DEPART_ID
+			WHERE
+			    M.ID = #{id}
+			    AND TRUNC(A.GENERAL_WORKIN) = TRUNC(SYSDATE)
+	    ]]>
+	</select>
+	
+ 	<select id="myCurrentAnnual" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		SELECT
+		    id,
+		    total_annual,
+		    used_annual,
+		    total_annual - used_annual as annuallastcount
+		FROM
+		    member_attendance
+		WHERE
+		    id = #{id}
+		GROUP BY
+		    ma_id, id, total_annual, used_annual
+	</select> 
+	
+	<select id="myVacationPre" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
+		SELECT
+		    M.id,
+		    V.vacation_title,
+		    V.vacation_start,
+		    V.vacation_end,
+		    V.vacation_content,
+		    ROUND(MONTHS_BETWEEN(V.vacation_end, V.vacation_start)) AS vacationTerm
+		FROM
+		    MEMBER M
+		JOIN
+		    VACATION_BOARD V
+		ON
+		    M.id = V.id
+		WHERE
+		    M.id = #{id}
+	</select>
+	
+	<!-- 승인된 연차 목록 -->
+	<select id="anComfirmList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+		SELECT annual_id
+			  ,name
+			  ,annual_title
+			  ,annual_start
+			  ,annual_end
+			  ,confirm
+		  FROM annual_board
+		 WHERE confirm = 'Y'
+	</select>
+	
+	<!-- 승인된 휴가 목록 -->
+	<select id="vaComfirmList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+		SELECT vacation_id
+			  ,name
+			  ,vacation_title
+			  ,vacation_start
+			  ,vacation_end
+			  ,confirm
+		  FROM vacation_board
+		 WHERE confirm = 'Y'
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+

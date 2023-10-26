@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.team_pj_springboot.mappers.AdminMapper">
+    <!-- 신청된 연차 목록 -->
+    <select id="annualRequestsList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT annual_id
+              ,annual_title
+              ,confirm
+          FROM annual_board
+         ORDER BY annual_id ASC
+    </select>
+
+    <!-- 연차 상세페이지 -->
+    <select id="annualDetail" parameterType="int" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
+        SELECT * FROM annual_board WHERE annual_id = #{annual_id}
+    </select>
+
+    <!-- 연차 승인 -->
+    <update id="confirmAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+        UPDATE annual_board
+           SET confirm = 'Y'
+         WHERE annual_id = #{annual_id}
+    </update>
+
+    <!-- 연차 반려 -->
+    <update id="returnAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
+        UPDATE annual_board
+           SET confirm = 'N'
+         WHERE annual_id = #{annual_id}
+    </update>
+    
+    <!-- 신청된 휴가 목록 -->
+    <select id="vacationRequestsList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT vacation_id
+              ,vacation_title
+              ,confirm
+          FROM vacation_board
+         ORDER BY vacation_id ASC
+    </select>
+
+    <!-- 휴가 상세페이지 -->
+    <select id="vacationDetail" parameterType="int" resultType="com.example.team_pj_springboot.dto.VacationDTO">
+        SELECT * FROM vacation_board WHERE vacation_id = #{vacation_id}
+    </select>
+
+    <!-- 휴가 승인 -->
+    <update id="confirmVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+        UPDATE vacation_board
+           SET confirm = 'Y'
+         WHERE vacation_id = #{vacation_id}
+    </update>
+
+    <!-- 휴가 반려 -->
+    <update id="returnVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
+        UPDATE vacation_board
+           SET confirm = 'N'
+         WHERE vacation_id = #{vacation_id}
+    </update>
+
+	<!-- 부서별 근태 현황/통계 조회 -->
+	<select id="departmentAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
+		SELECT
+		    d.depart_id,
+		    d.depart_name,
+		    (
+		        SELECT COUNT(*) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.show_annual = 'Y' AND subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = d.depart_id
+		        )
+		    ) AS annualCount,
+		    (
+		        SELECT AVG(EXTRACT(HOUR FROM subma.general_workin)) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = d.depart_id
+		        )
+		    ) AS averageWorkin,
+		    (
+		        SELECT AVG(EXTRACT(HOUR FROM subma.general_workout)) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = d.depart_id
+		        )
+		    ) AS averageWorkout
+		FROM
+		    department d
+		WHERE d.depart_id = #{depart_id}
+	</select>
+	
+	<select id="teamAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.TeamAndAttenDTO">
+		SELECT
+		    t.team_id,
+		    t.team_name,
+		    (
+		        SELECT COUNT(*) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.show_annual = 'Y' AND subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = t.depart_id
+		        )
+		    ) AS annualCount,
+		    (
+		        SELECT AVG(EXTRACT(HOUR FROM subma.general_workin)) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = t.depart_id
+		        )
+		    ) AS averageWorkin,
+		    (
+		        SELECT AVG(EXTRACT(HOUR FROM subma.general_workout)) 
+		        FROM MEMBER_ATTENDANCE subma 
+		        WHERE subma.id IN (
+		            SELECT m.id 
+		            FROM MEMBER m 
+		            WHERE m.depart_id = t.depart_id
+		        )
+		    ) AS averageWorkout
+		FROM
+		    team t
+		WHERE t.team_id = #{team_id}
+	</select>
+
+
+    <!-- 부서별 근태 현황(상세)[ 출근/지각/연차 률 ] -->
+    <select id="departmentAtPercent" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
+        <![CDATA[
+			SELECT
+			    d.depart_id,
+			    d.depart_name,
+			    CASE 
+			        WHEN COUNT(ma.id) > 0 THEN 
+			            TO_CHAR(ROUND((SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') < '09:00:00' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			        ELSE '0%'
+			    END AS workinRate,
+			    CASE 
+			        WHEN COUNT(ma.id) > 0 THEN 
+			            TO_CHAR(ROUND((SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			        ELSE '0%'
+			    END AS timelate,
+			    CASE 
+			        WHEN COUNT(ma.id) > 0 THEN 
+			            TO_CHAR(ROUND((SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) / COUNT(ma.id)) * 100, 2), '999.99') || '%'
+			        ELSE '0%'
+			    END AS annualRate,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) AS lateCount,
+			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount
+			FROM
+			    department d
+			LEFT JOIN
+			    MEMBER m ON d.depart_id = m.depart_id
+			LEFT JOIN
+			    MEMBER_ATTENDANCE ma ON m.id = ma.id
+			WHERE
+			    d.depart_id = #{depart_id}
+			GROUP BY
+			    d.depart_id, d.depart_name
+        ]]>
+    </select>
+
+    <!-- 부서별 근태 통계(상세) [ 이름순 / 지각순 / 사번순 / 정렬기능 ] -->
+    <select id="departmentAlign" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.DepAttendanceDTO">
+    	<![CDATA[
+			SELECT
+			    d.depart_id,
+			    d.depart_name,
+			    m.id,
+			    m.name,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') > '09:00:00' THEN 1 ELSE 0 END) AS latedCount
+			FROM
+			    department d
+			LEFT JOIN
+			    MEMBER m ON d.depart_id = m.depart_id
+			LEFT JOIN
+			    MEMBER_ATTENDANCE ma ON m.id = ma.id
+			WHERE
+			    d.depart_id = #{depart_id}
+			GROUP BY
+			    d.depart_id, d.depart_name, m.id, m.name
+	    ]]>
+    </select>
+
+    <select id="companyStatus" parameterType="String" resultType="com.example.team_pj_springboot.dto.ComAttendanceDTO">
+	  	<![CDATA[
+			SELECT
+			    c.company_id,
+			    c.name,
+			    d.depart_id,
+			    d.depart_name,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'HH24:MI:SS') >= '09:00:00' THEN 1 ELSE 0 END) AS lateCount,
+			    SUM(CASE WHEN ma.show_annual = 'Y' THEN 1 ELSE 0 END) AS holidayCount,
+			    SUM(CASE WHEN TO_CHAR(ma.general_workin, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') THEN 1 ELSE 0 END) AS workinCount
+			FROM
+			    company c
+			LEFT JOIN
+			    department d ON c.company_id = d.company_id
+			LEFT JOIN
+			    MEMBER m ON d.depart_id = m.depart_id AND c.company_id = m.company_id
+			LEFT JOIN
+			    MEMBER_ATTENDANCE ma ON m.id = ma.id
+			WHERE 
+			    c.company_id = #{company_id}
+			  AND d.SHOW = 'Y'
+			GROUP BY
+			    c.company_id, c.name, d.depart_id, d.depart_name
+			ORDER BY d.depart_id ASC
+		]]>
+    </select>
+    
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

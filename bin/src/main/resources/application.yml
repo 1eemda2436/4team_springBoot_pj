@@ -1,0 +1,38 @@
+server: 
+  port: 8081
+  servlet: 
+    context-path: /
+    encoding: 
+      charset: UTF-8
+      enabled: true
+      force: true
+  
+# db connection(oracle) - spring(context.xml)
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@forbidden.ceufyrm1vih9.ap-northeast-2.rds.amazonaws.com:1521/ORCL
+    username: forbidden
+    password: 12345678
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+  main:
+    allow-bean-definition-overriding: true
+
+    
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  jpa:
+    hibernate:
+      ddl-auto: update #create update none #create: 사용자 테이블이 없으면 자동생성
+    properties:
+      hibernate:
+      dialect: org.hibernate.dialect.Oracle12cDialect
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      show-sql: true
+  
+mybatis:
+  mapper-locations: mappers/**/*.xml
+  type-aliases-package: com.example.team_pj_springboot.mappers

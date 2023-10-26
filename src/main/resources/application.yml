@@ -14,6 +14,9 @@ spring:
     username: forbidden
     password: 12345678
     driver-class-name: oracle.jdbc.driver.OracleDriver
+  main:
+    allow-bean-definition-overriding: true
+
     
   mvc:
     view:
@@ -29,7 +32,16 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       show-sql: true
+      
+  servlet:
+    multipart:
+      enabled: true
+      location: ./src/main/webapp/resources/upload/
+      max-file-size: 100MB # 업로드 파일의 최대 크기
+      max-request-size: 100MB # 요청의 최대 크기
+      file-size-threshold: 0
   
 mybatis:
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.example.team_pj_springboot.mappers
+  
