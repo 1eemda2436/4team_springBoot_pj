@@ -2,6 +2,7 @@ package com.example.team_pj_springboot.repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -40,5 +41,8 @@ public interface DepartmentRepository extends JpaRepository<DepartmentDTO, Integ
 	@Transactional // 한명령어의 단위
 	@Query("UPDATE DepartmentDTO d SET d.show = 'N' WHERE d.depart_id = :depart_id")
 	void DepartmentDeleteQuery(@Param("depart_id") int depart_id);
+
+	@Query("SELECT depart_id, depart_name, company_id, show FROM DepartmentDTO WHERE company_id = :company_id")
+	Optional<DepartmentDTO> findByCompany_id(@Param("company_id") String company_id);
 }
 

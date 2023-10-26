@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.TeamDTO;
 import com.example.team_pj_springboot.service.DepartmentService;
 
 @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL로 대체
@@ -61,4 +62,17 @@ public class DepartmentController {
 	public void DepartmentDelete(@PathVariable int depart_id) {
 		departmentService.DepartmentDelete(depart_id);
 	}
+	
+	//company_id 기준 select find id
+	@GetMapping("/find/{company_id}")
+	public Optional<DepartmentDTO> departmentFind(@PathVariable String company_id) {
+		return departmentService.departmentFind(company_id);
+	}
+	
+	//company_id 기준 select find id
+	@GetMapping("/teamsFind/{selectedDepartmentId}")
+	public List<TeamDTO> teamsFind(@PathVariable int depart_id) {
+		return departmentService.teamsFind(depart_id);
+	}
+	
 }
