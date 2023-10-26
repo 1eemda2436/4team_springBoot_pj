@@ -53,5 +53,6 @@ public class ChatService {
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
+        System.out.println("MESSAGE : " + message);
     }
 }
