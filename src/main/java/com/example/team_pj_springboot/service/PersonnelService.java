@@ -56,8 +56,8 @@ public class PersonnelService {
     }
 	
 	//Employee Select-All///////////////////////////////////////////
-	public List<AllPersonnelDTO> selectAllEmployee (){
-		return mapper.findPersonnelMembersWithDetails();
+	public List<AllPersonnelDTO> selectAllEmployee(String company_id){
+		return mapper.findPersonnelMembersWithDetails(company_id);
 	}
 	
 	//Employee Select-One

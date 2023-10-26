@@ -22,6 +22,7 @@ import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
+import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
@@ -87,7 +88,7 @@ public class DocServiceImpl implements DocService{
    public List<ApprovalEndAndDocDTO> approvalEndList() {
       System.out.println("DocServiceImpl - approvalEndList");
       
-      return approvalDao.ApprovalEndList();
+      return dao.ApprovalEndList();
    }
 
    // 결재예정문서함
@@ -95,7 +96,7 @@ public class DocServiceImpl implements DocService{
    public List<ApprovalIngAndDocDTO> approvalIngList() {
       System.out.println("DocServiceImpl - approvalIngList");
       
-      return approvalDao.approvalIngList();
+      return dao.approvalIngList();
    }
 
    // 결재반려문서함
@@ -103,7 +104,7 @@ public class DocServiceImpl implements DocService{
    public List<ApprovalBackAndDocDTO> approvalBackList() {
       System.out.println("DocServiceImpl - approvalBackList");
       
-      return approvalDao.approvalBackList();
+      return dao.approvalBackList();
    }
 
    // 문서작성페이지
@@ -120,7 +121,12 @@ public class DocServiceImpl implements DocService{
        
       // DTO에 날짜 설정
       dto.setDoc_endDate(sqlEndDate); // 1년을 더한 날짜로 설정
-       
+      String id = dto.getId();
+      
+//      CompanyDTO companyDTO = memberDao.findCompanyByUserId(id).get();
+//      dto.setCompany(companyDTO);
+      String company_id = memberDao.findCompanyIdByUserId(id).get();
+      dto.setCompany_id(company_id);       
       return dao.save(dto);
    }
       
@@ -156,10 +162,10 @@ public class DocServiceImpl implements DocService{
    
    // 결재문서상세페이지
    @Override
-   public Optional<ApprovalAndDocDTO> selectApp(int approval_id) {
+   public Optional<DocDTO> selectApp(int doc_id) {
       System.out.println("DocServiceImpl - selectApp");
       
-      return approvalDao.selectApp(approval_id);
+      return dao.findById(doc_id);
    }
 
    // 문서수정페이지
@@ -170,58 +176,15 @@ public class DocServiceImpl implements DocService{
       // 문서 id를 사용해 해당 문서 찾기
       Optional<DocDTO> optionalDto = dao.findById(doc_id);
       if(optionalDto.isPresent()) {
-    	  DocDTO realDto = optionalDto.get();
-    	  
-    	  // 기존 문서 업데이트
-    	  realDto.setDoc_title(dto.getDoc_title());
-    	  realDto.setDoc_content(dto.getDoc_content());
-    	  realDto.setDoc_status(dto.getDoc_status());
-          
+         DocDTO realDto = optionalDto.get();
+         
+         // 기존 문서 업데이트
+         realDto.setDoc_status(dto.getDoc_status());
           return dao.save(realDto);
       }
       
       return dao.findById(doc_id).get();
    }
-   
-   // 문서결재요청
-//   @Override
-//   public DocDTO updateApproval(int doc_id, DocDTO dto) {
-//      System.out.println("DocServiceImpl - updateDoc");
-//      
-//      // 문서 id를 사용해 해당 문서 찾기
-//      Optional<DocDTO> optionalDto = dao.findById(doc_id);
-//      if(optionalDto.isPresent()) {
-//    	  DocDTO realDto = optionalDto.get();
-//    	  
-//    	  // 기존 문서 업데이트
-//    	  realDto.setDoc_status(dto.getDoc_status());
-//    	  realDto.setApproval_id(dto.getApproval_id());
-//          
-//          return dao.save(realDto);
-//      }
-//      
-//      return dao.findById(doc_id).get();
-//   }
-   
-   
-   // 문서읽음여부수정페이지
-//   @Override
-//   public DocDTO updateReadDoc(int doc_id, DocDTO dto) {
-//      System.out.println("DocServiceImpl - updateDoc");
-//      
-//      // 문서 id를 사용해 해당 문서 찾기
-//      Optional<DocDTO> optionalDto = dao.findById(doc_id);
-//      if(optionalDto.isPresent()) {
-//    	  DocDTO realDto = optionalDto.get();
-//    	  
-//    	  // 기존 문서 업데이트
-//    	  realDto.setDoc_read("Y");
-//          
-//          return dao.save(realDto);
-//      }
-//      
-//      return dao.findById(doc_id).get();
-//   }
 
    // 문서삭제페이지
    @Override
@@ -230,5 +193,21 @@ public class DocServiceImpl implements DocService{
       
       dao.deleteById(doc_id);;
    }
+
+    // 사원목록
+	@Override
+	public List<MemberDTO> memberAll() {
+		System.out.println("DocServiceImpl - memberAll");
+		
+		return memberDao.findAll();
+	}
+
+	// 특정사원
+	@Override
+	public Optional<MemberDTO> memberOne(String id) {
+		System.out.println("DocServiceImpl - memberOne");
+		
+		return memberDao.findById(id);
+	}
 
 }

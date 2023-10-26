@@ -48,21 +48,21 @@ public interface DocService {
    public Optional<DocAndCategoryDTO> selectDoc(int doc_id);
    
    // 결재문서상세페이지
-   public Optional<ApprovalAndDocDTO> selectApp(int approval_id);
+   public Optional<DocDTO> selectApp(int approval_id);
    
    // 문서수정페이지
    public DocDTO updateDoc(int doc_id, DocDTO dto);
-   
-   // 문서결재요청
-//   public DocDTO updateApproval(int doc_id, DocDTO dto);
-   
-   // 문서읽음여부수정페이지
-//   public DocDTO updateReadDoc(int doc_id, DocDTO dto);
    
    // 문서삭제페이지
    public void deleteDoc(int doc_id); 
    
    // 파일업로드
    public String uploadFile(MultipartFile doc_attachment) throws IOException;
+   
+   // 사원목록
+   public List<MemberDTO> memberAll();
+   
+   // 특정사원
+   public Optional<MemberDTO> memberOne(String id);
    
 }

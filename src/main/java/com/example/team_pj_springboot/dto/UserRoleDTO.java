@@ -3,8 +3,12 @@ package com.example.team_pj_springboot.dto;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicInsert;
 
@@ -22,13 +26,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserRoleDTO {
 	@Id
-	private int role_id;
 	private String id;
-	private int depart_id;
-	private char securuty;
+	private char security;
 	private char attendance;
 	private char salary;
 	private char approval;
 	private char personnel;
 	private char board;
+	@Transient
+	private String rank;
 }
