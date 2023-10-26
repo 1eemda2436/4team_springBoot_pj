@@ -8,4 +8,8 @@ public interface MyPageService {
 
 	public List<MyPageDTO> memberFind(String id);
 	public void updateMember(MyPageDTO dto);
+	
+	/*******************유진**********************/
+	
+	
 }
