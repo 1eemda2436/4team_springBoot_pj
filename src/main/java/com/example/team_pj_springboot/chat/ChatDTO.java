@@ -1,4 +1,4 @@
-package com.example.team_pj_springboot.dto;
+package com.example.team_pj_springboot.chat;
 
 import lombok.Builder;
 import lombok.Data;

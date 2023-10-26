@@ -1,13 +1,12 @@
-package com.example.team_pj_springboot.dto;
-
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.web.socket.WebSocketSession;
-
-import com.example.team_pj_springboot.service.ChatService;
+package com.example.team_pj_springboot.chat;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.springframework.web.socket.WebSocketSession;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 public class ChatRoom {

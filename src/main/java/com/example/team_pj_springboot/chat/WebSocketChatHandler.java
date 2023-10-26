@@ -1,13 +1,10 @@
-package com.example.team_pj_springboot.config;
+package com.example.team_pj_springboot.chat;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.example.team_pj_springboot.dto.ChatDTO;
-import com.example.team_pj_springboot.dto.ChatRoom;
-import com.example.team_pj_springboot.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
