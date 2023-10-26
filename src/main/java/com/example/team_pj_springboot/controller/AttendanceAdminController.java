@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
+import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.DepAttenService;
@@ -80,10 +81,18 @@ public class AttendanceAdminController {
 	@GetMapping("/departmentAttendanceStatus/{depart_id}")
 	public DepAttendanceDTO departmentAttendanceStatus (@PathVariable int depart_id) throws ServletException, IOException {
 	    logger.info("[ AttendanceController - departmentAttendanceStatus ]");
-	    
-	    System.out.println("!@!#@!# : " + depart_id);
 
 	    DepAttendanceDTO dto = service.departmentAttendanceStatus(depart_id);
+	    
+	    return dto;
+	}
+	
+	// 팀별 근태 현황 / 통계 조회
+	@GetMapping("/teamAttendanceStatus/{team_id}")
+	public TeamAndAttenDTO teamAttendanceStatus (@PathVariable int team_id) throws ServletException, IOException {
+	    logger.info("[ AttendanceController - teamAttendanceStatus ]");
+	    
+	    TeamAndAttenDTO dto = service.teamAttendanceStatus(team_id);
 	    
 	    return dto;
 	}

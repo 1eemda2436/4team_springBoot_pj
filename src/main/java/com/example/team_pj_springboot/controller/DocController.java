@@ -1,15 +1,21 @@
 package com.example.team_pj_springboot.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -164,6 +170,20 @@ public class DocController {
        return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
    }
    
+   // 이미지 가져오기 및 Base64로 인코딩하여 클라이언트로 전송
+   @GetMapping("/imageFile/{fileName:.+}")
+   public ResponseEntity<String> getImageAsBase64(@PathVariable String fileName) throws IOException {
+       // 이미지 파일을 읽어와서 Base64로 인코딩
+       File imageFile = new File("./src/main/webapp/resources/upload/" + fileName);
+       byte[] fileContent = Files.readAllBytes(imageFile.toPath());
+       String base64Image = Base64.getEncoder().encodeToString(fileContent);
+       
+       // Base64로 인코딩된 이미지 데이터를 클라이언트로 전송
+       return ResponseEntity.ok().body(base64Image);
+   }
+   
+   
+   
    // 문서수정페이지 - 연결완료
    @PutMapping("/update/{doc_id}")
    public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
@@ -194,25 +214,6 @@ public class DocController {
       
    }
    
-   // 사원목록
-   @GetMapping("/memberAll/{company_id}")
-	public List<MemberDTO> selectAllEmployee(@PathVariable String company_id){
-	   logger.info("<<< 컨트롤러 - updateDoc >>>");
-		
-		return service.memberAll();
-	}
    
-   // 특정사원
-   @GetMapping("/memberOne/{id}")
-   public Optional<MemberDTO> selectEmployee(@PathVariable String id){
-	   logger.info("<<< 컨트롤러 - updateDoc >>>");
-		
-	   Optional<MemberDTO> dto = service.memberOne(id);
-	   
-	   return dto;
- 	}
-   
-   // 사인추가
-   //@PostMapping()
    
 }   

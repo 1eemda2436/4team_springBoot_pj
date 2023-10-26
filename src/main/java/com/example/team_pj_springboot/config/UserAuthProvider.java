@@ -51,7 +51,7 @@ public class UserAuthProvider {
 		System.out.println("<<< UserAuthProvider - createToken >>>");
 
 		Date now = new Date();  // java.util
-		Date validity = new Date(now.getTime() + 3600000);  // 토큰 유효시간 1시간
+		Date validity = new Date(now.getTime() + 43200000);  // 토큰 유효시간 12시간
 
 		Optional<MemberDTO> member = memberRepository.findById(id);
 		System.out.println(secretKey);

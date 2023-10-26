@@ -14,6 +14,7 @@ import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Mapper
@@ -34,6 +35,7 @@ public interface AdminMapper {
 	public void returnVacation(int vacation_id);		// 휴가 반려
 	
 	public DepAttendanceDTO departmentAttendanceStatus(int depart_id);	// 부서별 근태 현황/통계 조회 (부서 하나)
+	public TeamAndAttenDTO teamAttendanceStatus(int team_id);		// 팀별 근태 현황/통계조회(원형그래프)
 	
 	public DepAttendanceDTO departmentAtPercent(int depart_id);	// 부서별 근태 현황(상세)[ 출근/지각/연차 률, 지각자/연차 및 휴가자 수 ]
 //	public DepartmentDTO departmentAtCal(int depart_id);		// 부서별 근태 현황 [ 캘린더 ]

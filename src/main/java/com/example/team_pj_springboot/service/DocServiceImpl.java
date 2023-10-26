@@ -1,6 +1,8 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -150,7 +154,9 @@ public class DocServiceImpl implements DocService{
       
       return fileName;
    }
-
+   
+   // 이미지 가져오기
+   
    
    // 문서상세페이지
    @Override
@@ -193,21 +199,5 @@ public class DocServiceImpl implements DocService{
       
       dao.deleteById(doc_id);;
    }
-
-    // 사원목록
-	@Override
-	public List<MemberDTO> memberAll() {
-		System.out.println("DocServiceImpl - memberAll");
-		
-		return memberDao.findAll();
-	}
-
-	// 특정사원
-	@Override
-	public Optional<MemberDTO> memberOne(String id) {
-		System.out.println("DocServiceImpl - memberOne");
-		
-		return memberDao.findById(id);
-	}
 
 }

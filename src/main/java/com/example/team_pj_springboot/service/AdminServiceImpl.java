@@ -16,6 +16,7 @@ import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
+import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Service
@@ -119,6 +120,16 @@ public class AdminServiceImpl implements AdminService {
 		return DepDTO;
 	}
 
+	// 팀별 근태 현황/통계 조회
+	@Override
+	public TeamAndAttenDTO teamAttendanceStatus(int team_id) throws ServletException, IOException {
+		System.out.println("[ AnnualServiceImpl → teamAttendanceStatus ]");
+		
+		TeamAndAttenDTO teamDTO = dao.teamAttendanceStatus(team_id);
+		
+		return teamDTO;
+	}
+
 	// 부서별 근태 현황(상세) 조회 (부서 하나)	[ 출근/지각/연차 률 ]
 	@Override
 	public DepAttendanceDTO departmentAtDetails(int depart_id) throws ServletException, IOException {
@@ -155,6 +166,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		return ComDto;
 	}
+
 
 
 
