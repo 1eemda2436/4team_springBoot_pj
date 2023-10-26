@@ -26,7 +26,7 @@ public class ChatController {
     public ChatRoom createRoom(@RequestParam String name){
         return service.createRoom(name);
     }
-
+    // git push
     @GetMapping
     public List<ChatRoom> findAllRooms(){
         return service.findAllRoom();
