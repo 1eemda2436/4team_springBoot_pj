@@ -1,6 +1,8 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -150,7 +154,29 @@ public class DocServiceImpl implements DocService{
       
       return fileName;
    }
-
+   
+   
+	// 이미지파일업로드
+	@Override
+	public String uploadImageFile(MultipartFile doc_attachment) throws IOException {
+	   
+	      String upload = "./src/main/resources/static/img/";
+	            
+	   // 업로드 디렉토리가 존재하지 않으면 생성
+	   Files.createDirectories(Paths.get(upload));
+	   
+	   // 파일명
+	   String fileName = doc_attachment.getOriginalFilename();
+	   
+	   // 파일 저장 경로 설정
+	   Path filePath = Paths.get(upload + fileName);
+	   
+	   // 파일을 저장하고 파일명을 반환
+	   Files.write(filePath, doc_attachment.getBytes());
+	   
+	   return fileName;
+	}
+   
    
    // 문서상세페이지
    @Override
@@ -180,6 +206,9 @@ public class DocServiceImpl implements DocService{
          
          // 기존 문서 업데이트
          realDto.setDoc_status(dto.getDoc_status());
+         realDto.setApproval_content(dto.getApproval_content());
+         realDto.setApproval_date(dto.getApproval_date());
+         //realDto.setSign(dto.getSign());
           return dao.save(realDto);
       }
       
@@ -193,21 +222,5 @@ public class DocServiceImpl implements DocService{
       
       dao.deleteById(doc_id);;
    }
-
-    // 사원목록
-	@Override
-	public List<MemberDTO> memberAll() {
-		System.out.println("DocServiceImpl - memberAll");
-		
-		return memberDao.findAll();
-	}
-
-	// 특정사원
-	@Override
-	public Optional<MemberDTO> memberOne(String id) {
-		System.out.println("DocServiceImpl - memberOne");
-		
-		return memberDao.findById(id);
-	}
 
 }
