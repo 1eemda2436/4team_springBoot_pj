@@ -1,5 +1,6 @@
 package com.example.team_pj_springboot.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
@@ -77,8 +80,22 @@ public class ApprovalController {
    
    // 문서수정페이지 - 연결완료
    @PutMapping("/update/{doc_id}")
-   public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+   public void updateDoc(@PathVariable(name="doc_id") int doc_id, @RequestParam("admin_sign") MultipartFile admin_sign, @RequestParam("sign2") MultipartFile sign, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
+      try {
+    	  String filePath = service.uploadImageFile(admin_sign);
+          System.out.println("sign : " + admin_sign);
+          String filePath2 = service.uploadImageFile(sign);
+          System.out.println("sign : " + sign);
+          
+          
+          dto.setAdmin_sign(filePath);
+          System.out.println("filePath: " + filePath);
+          dto.setSign(filePath2);
+          System.out.println("filePath: " + filePath);
+      } catch (IOException e) {
+    	  e.printStackTrace();
+      }
       
       service.updateDoc(doc_id, dto);
       

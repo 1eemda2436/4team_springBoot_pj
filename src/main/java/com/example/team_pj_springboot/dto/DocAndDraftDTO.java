@@ -20,5 +20,6 @@ public class DocAndDraftDTO {
 	private String name;
 	private Date doc_date;
 	private String doc_status;
+	private String sign;
 
 }
