@@ -11,12 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.example.team_pj_springboot.mappers.AdminMapper;
+import com.example.team_pj_springboot.repository.CompanyRepository;
+import com.example.team_pj_springboot.repository.DepartmentRepository;
+import com.example.team_pj_springboot.repository.TeamRepository;
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAnnualListDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
+import com.example.team_pj_springboot.dto.TeamDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 @Service
@@ -24,14 +29,23 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	private AdminMapper dao;
+	
+	@Autowired
+	private CompanyRepository cdao;
+	
+	@Autowired
+	private DepartmentRepository ddao;
+	
+	@Autowired
+	private TeamRepository tdao;
 
 	// 연차 신청 목록 조회
 	@Override
-	public List<AnnualDTO> annualRequestsList(HttpServletRequest req, Model model)
+	public List<ComAnnualListDTO> annualRequestsList(HttpServletRequest req, Model model, String company_id)
 			throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → annualRequestsList ]");
 		
-		List<AnnualDTO> AnnualList = dao.annualRequestsList();
+		List<ComAnnualListDTO> AnnualList = dao.annualRequestsList(company_id);
 		
 		System.out.println("Annuallist : " + AnnualList);
 		
@@ -68,11 +82,11 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 휴가 신청 목록 조회
 	@Override
-	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model)
+	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model, String company_id)
 			throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → vacationRequestsList ]");
 		
-		List<VacationDTO> VacationList = dao.vacationRequestsList();
+		List<VacationDTO> VacationList = dao.vacationRequestsList(company_id);
 		
 		System.out.println("VacationList : " + VacationList);
 		
@@ -165,6 +179,27 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("ComDto : " + ComDto);
 		
 		return ComDto;
+	}
+
+	// 전사 목록조회
+	@Override
+	public List<CompanyDTO> companylistAll(HttpServletRequest req, Model model)
+			throws ServletException, IOException {
+		return cdao.findAll();
+	}
+
+	// 부서 목록조회
+	@Override
+	public List<DepartmentDTO> departlistAll(HttpServletRequest req, Model model)
+			throws ServletException, IOException {
+		return ddao.findAll();
+	}
+
+	// 팀 목록조회
+	@Override
+	public List<TeamDTO> teamlistAll(HttpServletRequest req, Model model)
+			throws ServletException, IOException {
+		return tdao.findAll();
 	}
 
 

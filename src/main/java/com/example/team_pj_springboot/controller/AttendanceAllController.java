@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAnnualListDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.GuestServiceImpl;
@@ -38,12 +39,12 @@ public class AttendanceAllController {
 	private GuestServiceImpl gservice;
 	
 	// 연차 신청 목록 조회 (Select)
-	@GetMapping("/annualRequestsList")
-	public List<AnnualDTO> annualRequestsList (HttpServletRequest req, Model model) 
+	@GetMapping("/annualRequestsList/{company_id}")
+	public List<ComAnnualListDTO> annualRequestsList (HttpServletRequest req, Model model, String company_id) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - annualRequestsList ]");
 		
-		return service.annualRequestsList(req, model);
+		return service.annualRequestsList(req, model, company_id);
 	}
 	
 	// 연차 상세 페이지 (Select)
@@ -57,12 +58,12 @@ public class AttendanceAllController {
 	}
 	
 	// 휴가 신청 목록 조회 (Select)
-	@GetMapping("/vacationRequestsList")
-	public List<VacationDTO> vacationRequestsList (HttpServletRequest req, Model model) 
+	@GetMapping("/vacationRequestsList/{company_id}")
+	public List<VacationDTO> vacationRequestsList (HttpServletRequest req, Model model, String company_id) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - vacationRequestsList ]");
 		
-		return service.vacationRequestsList(req, model);
+		return service.vacationRequestsList(req, model, company_id);
 	}
 	
 	// 휴가 상세 페이지 (Select)

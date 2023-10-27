@@ -5,12 +5,12 @@
 
 <mapper namespace="com.example.team_pj_springboot.mappers.AdminMapper">
     <!-- 신청된 연차 목록 -->
-    <select id="annualRequestsList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
-        SELECT annual_id
-              ,annual_title
-              ,confirm
-          FROM annual_board
-         ORDER BY annual_id ASC
+    <select id="annualRequestsList" resultType="com.example.team_pj_springboot.dto.ComAnnualListDTO">
+		SELECT a.annual_id, a.annual_title, a.confirm
+		  FROM annual_board a
+		 INNER JOIN member m ON a.id = m.id
+		 INNER JOIN company c ON m.company_id = c.company_id
+		 WHERE c.company_id = #{company_id}
     </select>
 
     <!-- 연차 상세페이지 -->
@@ -33,12 +33,12 @@
     </update>
     
     <!-- 신청된 휴가 목록 -->
-    <select id="vacationRequestsList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
-        SELECT vacation_id
-              ,vacation_title
-              ,confirm
-          FROM vacation_board
-         ORDER BY vacation_id ASC
+    <select id="vacationRequestsList" resultType="com.example.team_pj_springboot.dto.ComVacationListDTO">
+		SELECT v.vacation_id, v.vacation_title, v.confirm
+		  FROM vacation_board v
+		 INNER JOIN member m ON v.id = m.id
+		 INNER JOIN company c ON m.company_id = c.company_id
+		 WHERE c.company_id = #{company_id}
     </select>
 
     <!-- 휴가 상세페이지 -->

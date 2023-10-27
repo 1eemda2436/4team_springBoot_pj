@@ -1,11 +1,13 @@
 package com.example.team_pj_springboot.service;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
+import com.example.team_pj_springboot.dto.ComAnnualListDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
 import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
+import com.example.team_pj_springboot.dto.TeamDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ import org.springframework.ui.Model;
 public interface AdminService {
 	
 	// 연차 신청 목록 조회
-	public List<AnnualDTO> annualRequestsList(HttpServletRequest req, Model model) throws ServletException, IOException;
+	public List<ComAnnualListDTO> annualRequestsList(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException;
 	
 	// 연차 상세페이지
 	public AnnualDTO annualDetail(int annual_id) throws ServletException, IOException;
@@ -31,7 +33,7 @@ public interface AdminService {
 	public void annualReturn(int annual_id) throws ServletException, IOException;
 	
 	// 휴가 신청 목록 조회
-	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model) throws ServletException, IOException;
+	public List<VacationDTO> vacationRequestsList(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException;
 	
 	// 휴가 상세페이지
 	public VacationDTO vacationDetail(int vacation_id) throws ServletException, IOException;
@@ -56,5 +58,14 @@ public interface AdminService {
 	
 	// 전사 근태 현황/통계 조회
 	public List<ComAttendanceDTO> companyStatus(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException;
+	
+	// 전사 ID목록 조회
+	public List<CompanyDTO> companylistAll (HttpServletRequest req, Model model) throws ServletException, IOException;
+	
+	// 부서 ID목록 조회
+	public List<DepartmentDTO> departlistAll (HttpServletRequest req, Model model) throws ServletException, IOException;
+	
+	// 팀 ID목록 조회
+	public List<TeamDTO> teamlistAll (HttpServletRequest req, Model model) throws ServletException, IOException;
 	
 }
