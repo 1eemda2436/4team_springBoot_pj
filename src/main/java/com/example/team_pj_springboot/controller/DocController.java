@@ -41,6 +41,7 @@ import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
@@ -184,7 +185,15 @@ public class DocController {
       service.updateDoc(doc_id, dto);
       
    }
-
+   
+   // 결재요청용 수정페이지
+   @PutMapping("/updateIng/{doc_id}")
+   public void updateIngDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - updateDoc >>>");
+      
+      service.updateIngStatus(doc_id, dto);
+      
+   }
     
    // 문서상세페이지 - 연결완료
    @GetMapping("/detail/{doc_id}")
@@ -208,7 +217,7 @@ public class DocController {
    
    // 결재요청목록
    @GetMapping("/approvalIng2")
-   public List<ApprovalIngAndDocDTO> approvalIngList2() {
+   public List<ApprovalIngAndDoc2DTO> approvalIngList2() {
       logger.info("<<< 컨트롤러 - approvalIngList >>>");
       
       return service.approvalIngList2();
