@@ -57,9 +57,10 @@ public class DocDTO {
 //      @JoinColumn(name = "comapny_id")
 //      private CompanyDTO company;
       private String company_id;
+      private String admin_sign;
    
    
-   public DocDTO(int doc_id, Date doc_date, String id, String doc_title, String doc_content, String doc_attachment, Date doc_endDate, int category_id, String doc_status, String doc_read, String name) {
+   public DocDTO(int doc_id, Date doc_date, String id, String doc_title, String doc_content, String doc_attachment, Date doc_endDate, int category_id, String doc_status, String doc_read, String name, String approval_content, Date approval_date, String sign, String admin_sign) {
        this.doc_id = doc_id;
        this.doc_date = doc_date;
        this.id = id;
@@ -71,6 +72,11 @@ public class DocDTO {
        this.doc_status = doc_status;
        this.doc_read = doc_read;
        this.name = name;
+       this.approval_content = approval_content;
+       this.approval_date = approval_date;
+       this.sign = sign;
+       this.admin_sign = admin_sign;
+       
    }
 
 }

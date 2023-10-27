@@ -1,9 +1,12 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
@@ -38,6 +41,9 @@ public interface DocService {
    // 결재예정문서함
    public List<ApprovalIngAndDocDTO> approvalIngList();
    
+   // 결재요청목록
+   public List<ApprovalIngAndDocDTO> approvalIngList2();
+   
    // 결재반려문서함
    public List<ApprovalBackAndDocDTO> approvalBackList();
    
@@ -58,11 +64,8 @@ public interface DocService {
    
    // 파일업로드
    public String uploadFile(MultipartFile doc_attachment) throws IOException;
-   
-   // 사원목록
-   public List<MemberDTO> memberAll();
-   
-   // 특정사원
-   public Optional<MemberDTO> memberOne(String id);
+
+   // 이미지 가져오기
+   public String uploadImageFile(MultipartFile doc_attachment) throws IOException;
    
 }

@@ -1,15 +1,24 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.repository.ApprovalRepository;
@@ -98,6 +107,14 @@ public class DocServiceImpl implements DocService{
       
       return dao.approvalIngList();
    }
+   
+   // 결재요청목록
+   @Override
+   public List<ApprovalIngAndDocDTO> approvalIngList2() {
+      System.out.println("DocServiceImpl - approvalIngList");
+      
+      return dao.approvalIngList2();
+   }
 
    // 결재반려문서함
    @Override
@@ -125,10 +142,11 @@ public class DocServiceImpl implements DocService{
       
 //      CompanyDTO companyDTO = memberDao.findCompanyByUserId(id).get();
 //      dto.setCompany(companyDTO);
-      String company_id = memberDao.findCompanyIdByUserId(id).get();
+      String company_id = memberDao.findCompanyIdByUserId(id).orElse(null); //.get();
       dto.setCompany_id(company_id);       
       return dao.save(dto);
    }
+   
       
    // 파일업로드
    @Override
@@ -150,7 +168,41 @@ public class DocServiceImpl implements DocService{
       
       return fileName;
    }
-
+   
+   
+	// 이미지파일업로드
+	@Override
+	public String uploadImageFile(MultipartFile doc_attachment) throws IOException {
+	   
+	      String upload = "./src/main/resources/static/img/";
+	            
+	   // 업로드 디렉토리가 존재하지 않으면 생성
+	   Files.createDirectories(Paths.get(upload));
+	   
+	   // 파일명
+	   String fileName = doc_attachment.getOriginalFilename();
+	   
+	   // 파일 저장 경로 설정
+	   Path filePath = Paths.get(upload + fileName);
+	   
+	   // 파일을 저장하고 파일명을 반환
+	   Files.write(filePath, doc_attachment.getBytes());
+	   
+	   return fileName;
+	}
+	
+	// 이미지 가져오기 및 Base64로 인코딩하여 클라이언트로 전송
+   @GetMapping("/imageFile/{fileName:.+}")
+   public ResponseEntity<String> getImageAsBase64(@PathVariable String fileName) throws IOException {
+       // 이미지 파일을 읽어와서 Base64로 인코딩
+       File imageFile = new File("./src/main/webapp/resources/upload/" + fileName);
+       byte[] fileContent = Files.readAllBytes(imageFile.toPath());
+       String base64Image = Base64.getEncoder().encodeToString(fileContent);
+       
+       // Base64로 인코딩된 이미지 데이터를 클라이언트로 전송
+       return ResponseEntity.ok().body(base64Image);
+	   }
+   
    
    // 문서상세페이지
    @Override
@@ -179,8 +231,13 @@ public class DocServiceImpl implements DocService{
          DocDTO realDto = optionalDto.get();
          
          // 기존 문서 업데이트
+         realDto.setDoc_title(dto.getDoc_title());
+         realDto.setDoc_content(dto.getDoc_content());
          realDto.setDoc_status(dto.getDoc_status());
-          return dao.save(realDto);
+         realDto.setApproval_content(dto.getApproval_content());
+         realDto.setApproval_date(dto.getApproval_date());
+         //realDto.setSign(dto.getSign());
+         return dao.save(realDto);
       }
       
       return dao.findById(doc_id).get();
@@ -194,20 +251,6 @@ public class DocServiceImpl implements DocService{
       dao.deleteById(doc_id);;
    }
 
-    // 사원목록
-	@Override
-	public List<MemberDTO> memberAll() {
-		System.out.println("DocServiceImpl - memberAll");
-		
-		return memberDao.findAll();
-	}
 
-	// 특정사원
-	@Override
-	public Optional<MemberDTO> memberOne(String id) {
-		System.out.println("DocServiceImpl - memberOne");
-		
-		return memberDao.findById(id);
-	}
 
 }

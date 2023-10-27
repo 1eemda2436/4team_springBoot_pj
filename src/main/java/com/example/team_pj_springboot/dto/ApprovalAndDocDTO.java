@@ -28,9 +28,11 @@ public class ApprovalAndDocDTO {
    private String doc_attachment;
    private String id;
    private String doc_status;
+   private String sign;
+   private String admin_sign;
    
    // 생성자 직접 정의
-   public ApprovalAndDocDTO(int doc_id, String name, Date approval_date, String approval_content, String doc_title, String doc_content, String doc_attachment) {
+   public ApprovalAndDocDTO(int doc_id, String name, Date approval_date, String approval_content, String doc_title, String doc_content, String doc_attachment, String sign, String admin_sign) {
       this.doc_id = doc_id;
       this.name = name;
 	  this.approval_date = approval_date;
@@ -38,6 +40,8 @@ public class ApprovalAndDocDTO {
       this.doc_title = doc_title;
       this.doc_content = doc_content;
       this.doc_attachment = doc_attachment;
+      this.sign = sign;
+      this.admin_sign = admin_sign;
    }
    
 }

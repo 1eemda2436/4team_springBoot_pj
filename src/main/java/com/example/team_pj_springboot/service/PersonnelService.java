@@ -69,7 +69,7 @@ public class PersonnelService {
 	//Employee Update
 	@Transactional
 	public void employeeUpdate(PersonnelMemberDTO dto) {
-		personnelRepository.save(dto);
+		personnelRepository.updatePersonnel(dto.getId(),dto.getDepart_id(),dto.getTeam_id(),dto.getName(),dto.getTel());
 	}
 	
 	//Employee Delete
