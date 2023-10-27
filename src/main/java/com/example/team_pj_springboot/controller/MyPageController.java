@@ -9,11 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.MyPageDTO;
 import com.example.team_pj_springboot.service.MyPageServiceImpl;
 
@@ -44,6 +46,22 @@ public class MyPageController {
 		service.updateMember(dto);
 	}
 	
+	//*****************************유진***************************************
+	// 마이페이지 진입을 위한 조회
+	@GetMapping("/member/{id}")
+	public MemberDTO fetchMemberById(@PathVariable(name="id")String id) {
+		logger.info("[ url - fetchMemberById]");
+		
+		MemberDTO member = service.get(id);
+		return member;
+	}
 	
+	// 마이페이지 수정
+	@PostMapping("/memberModify")
+	public void save(@RequestBody MemberDTO member) {
+		logger.info("[ url - memberModify ]");
+		
+		service.save(member);
+	}
 	
 }

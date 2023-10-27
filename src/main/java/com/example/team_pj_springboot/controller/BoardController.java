@@ -53,7 +53,8 @@ public class BoardController {
 	@PostMapping("/add")
 	public void boardInsert(@RequestBody BoardDTO dto) {
 		logger.info("BoardController - boardInsert");
-		
+		System.out.println(dto.getId());
+		System.out.println(dto.getTitle());
 		service.insertBoard(dto);
 	}
 	
@@ -73,4 +74,13 @@ public class BoardController {
 	        service.deleteBoard(boardId);
 	    }
 	}
+	
+	// 카테고리
+	@GetMapping("/category")
+	public List<Object[]> findCategory() {
+		logger.info("[ url - findCategory ]");
+		
+		return service.findCategory();
+	}
+	
 }

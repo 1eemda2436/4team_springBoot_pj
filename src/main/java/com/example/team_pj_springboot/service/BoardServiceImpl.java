@@ -39,5 +39,10 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardDTO> boardFind(int board_id) {
 		return dao.findBoardByBoardID(board_id);
 	}
+	
+	@Override
+	public List<Object[]> findCategory() {
+		return dao.findCategory();
+	}
 
 }
