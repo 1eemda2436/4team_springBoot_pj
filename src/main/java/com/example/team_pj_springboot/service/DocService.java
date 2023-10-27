@@ -41,6 +41,9 @@ public interface DocService {
    // 결재예정문서함
    public List<ApprovalIngAndDocDTO> approvalIngList();
    
+   // 결재요청목록
+   public List<ApprovalIngAndDocDTO> approvalIngList2();
+   
    // 결재반려문서함
    public List<ApprovalBackAndDocDTO> approvalBackList();
    
