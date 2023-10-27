@@ -174,18 +174,6 @@ public class DocController {
        return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
    }
    
-   // 이미지 가져오기 및 Base64로 인코딩하여 클라이언트로 전송
-   @GetMapping("/imageFile/{fileName:.+}")
-   public ResponseEntity<String> getImageAsBase64(@PathVariable String fileName) throws IOException {
-       // 이미지 파일을 읽어와서 Base64로 인코딩
-       File imageFile = new File("./src/main/webapp/resources/upload/" + fileName);
-       byte[] fileContent = Files.readAllBytes(imageFile.toPath());
-       String base64Image = Base64.getEncoder().encodeToString(fileContent);
-       
-       // Base64로 인코딩된 이미지 데이터를 클라이언트로 전송
-       return ResponseEntity.ok().body(base64Image);
-   }
-   
    
    
    // 문서수정페이지 - 연결완료
@@ -216,6 +204,14 @@ public class DocController {
       
       service.deleteDoc(doc_id); 
       
+   }
+   
+   // 결재요청목록
+   @GetMapping("/approvalIng2")
+   public List<ApprovalIngAndDocDTO> approvalIngList2() {
+      logger.info("<<< 컨트롤러 - approvalIngList >>>");
+      
+      return service.approvalIngList2();
    }
    
    
