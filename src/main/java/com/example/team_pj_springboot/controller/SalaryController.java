@@ -107,9 +107,6 @@ public class SalaryController {
         }
         return incomeTax;
     }
-
-    
-    
     
 	//인사관리 메인 페이지
 	@GetMapping("/personnel")
@@ -118,6 +115,4 @@ public class SalaryController {
 		
 		return service.getPersonnelInfo();
 	}
-	
-	
 }
