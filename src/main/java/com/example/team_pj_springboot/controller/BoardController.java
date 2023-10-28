@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.BoardDTO;
+import com.example.team_pj_springboot.dto.CategoryDTO;
 import com.example.team_pj_springboot.dto.CommentDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.service.BoardServiceImpl;
@@ -31,14 +32,14 @@ public class BoardController {
 	@Autowired
 	private BoardServiceImpl service;
 	
+	//게시글 전체
 	@GetMapping("/list")
 	public List<BoardDTO> boardList() {
 		logger.info("BoardController - boardList");
 		
-//		List<BoardDTO> list = service.listAll();
-		
 		return service.listAll();
 	}
+	//게시글 상세
 	@GetMapping("/boardFind/{board_id}")
 	public List<BoardDTO> boardFind(@PathVariable int board_id, Model model) {
 		logger.info("CommentController - commentList");
@@ -53,11 +54,14 @@ public class BoardController {
 	@PostMapping("/add")
 	public void boardInsert(@RequestBody BoardDTO dto) {
 		logger.info("BoardController - boardInsert");
-		System.out.println(dto.getId());
-		System.out.println(dto.getTitle());
+		
+		BoardDTO boardDTO = new BoardDTO();
+		boardDTO.setBoard_id(dto.getBoard_id());
+		
+		
 		service.insertBoard(dto);
 	}
-	
+	//게시글 수정
 	@PutMapping("/edit/{board_id}")
 	public void boardUpdate(@RequestBody BoardDTO dto) {
 		logger.info("BoardController - boardUpdate");
@@ -75,12 +79,10 @@ public class BoardController {
 	    }
 	}
 	
-	// 카테고리
-	@GetMapping("/category")
-	public List<Object[]> findCategory() {
-		logger.info("[ url - findCategory ]");
-		
-		return service.findCategory();
+	//categories 목록
+	@GetMapping("/categories")
+	public List<CategoryDTO> categoriesSelect () {
+		return service.categoriesSelect();
 	}
 	
 }

@@ -12,4 +12,6 @@ public interface PersonnelMapper {
 	public int findMaxId();
 	
 	public List<AllPersonnelDTO> findPersonnelMembersWithDetails(String company_id);
+	
+	public AllPersonnelDTO myInfo(String id);
 }

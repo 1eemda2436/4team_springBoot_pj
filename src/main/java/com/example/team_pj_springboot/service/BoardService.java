@@ -11,6 +11,5 @@ public interface BoardService {
 	public void insertBoard(BoardDTO dto);
 	public void updateBoard(BoardDTO dto);
 	public void deleteBoard(int board_id);
-	public List<Object[]> findCategory();
 	
 }

@@ -4,45 +4,51 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.team_pj_springboot.dto.BoardDTO;
+import com.example.team_pj_springboot.dto.CategoryDTO;
 import com.example.team_pj_springboot.repository.BoardRepository;
+import com.example.team_pj_springboot.repository.CategoryRepository;
 
 @Service
 public class BoardServiceImpl implements BoardService{
 
 	@Autowired
-	private BoardRepository dao;
+	private BoardRepository boardRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@Override
 	public List<BoardDTO> listAll() {
-		return dao.findAll();
+		return boardRepository.findAll();
 	}
 
 	@Override
 	public void insertBoard(BoardDTO dto) {
-		dao.save(dto);
+		boardRepository.save(dto);
 	}
 
 	@Override
 	public void updateBoard(BoardDTO dto) {
-		dao.save(dto);
+		boardRepository.save(dto);
 	}
 
 	@Override
 	public void deleteBoard(int board_id) {
 		System.out.println(board_id);
-		dao.deleteById(board_id);
+		boardRepository.deleteById(board_id);
 	}
 
 	@Override
 	public List<BoardDTO> boardFind(int board_id) {
-		return dao.findBoardByBoardID(board_id);
+		return boardRepository.findBoardByBoardID(board_id);
 	}
 	
-	@Override
-	public List<Object[]> findCategory() {
-		return dao.findCategory();
+	//categories 목록
+	public List<CategoryDTO> categoriesSelect () {
+		return categoryRepository.findAll();
 	}
 
 }
