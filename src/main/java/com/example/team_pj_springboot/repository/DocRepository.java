@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
@@ -35,14 +36,14 @@ public interface DocRepository extends JpaRepository<DocDTO, Integer>{
             "JOIN MemberDTO m ON d.id = m.id")
       List<DocAndDraftDTO> temporaryList();
    
-   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO(d.doc_id, d.doc_title, d.doc_status, m.name, d.doc_date) " + 
+   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO(d.doc_id, d.doc_title, d.doc_status, m.name, d.doc_date) " + 
 	         "FROM DocDTO d " + 
 	         "JOIN MemberDTO m ON d.id = m.id " + 
 	         "WHERE d.doc_status = '진행' " + 
 	         "ORDER BY d.doc_id DESC")
-	   List<ApprovalIngAndDocDTO> approvalIngList2();
+	   List<ApprovalIngAndDoc2DTO> approvalIngList2();
    
-   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO(d.doc_id, d.doc_title, d.doc_status, m.name, d.approval_date) " + 
+   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO(d.doc_id, d.doc_title, d.doc_status, m.name, d.doc_date) " + 
 	         "FROM DocDTO d " + 
 	         "JOIN MemberDTO m ON d.id = m.id " + 
 	         "WHERE d.doc_status = '진행' " + 
@@ -63,7 +64,7 @@ public interface DocRepository extends JpaRepository<DocDTO, Integer>{
 	         "ORDER BY d.doc_id DESC")
 	   List<ApprovalBackAndDocDTO> approvalBackList();
    
-   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalAndDocDTO(d.doc_id, m.name, d.approval_date, d.approval_content, d.doc_title, d.doc_content, d.doc_attachment, d.sign, d.admin_sign) " +
+   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalAndDocDTO(d.doc_id, m.name, d.doc_date, d.approval_content, d.doc_title, d.doc_content, d.doc_attachment, d.sign, d.admin_sign) " +
          "FROM DocDTO d " + 
          "JOIN MemberDTO m ON d.id = m.id " + 
          "WHERE d.doc_id = :doc_id")

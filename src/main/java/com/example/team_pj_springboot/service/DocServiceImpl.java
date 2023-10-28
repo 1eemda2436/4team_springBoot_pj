@@ -30,6 +30,7 @@ import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
@@ -110,7 +111,7 @@ public class DocServiceImpl implements DocService{
    
    // 결재요청목록
    @Override
-   public List<ApprovalIngAndDocDTO> approvalIngList2() {
+   public List<ApprovalIngAndDoc2DTO> approvalIngList2() {
       System.out.println("DocServiceImpl - approvalIngList");
       
       return dao.approvalIngList2();
@@ -237,6 +238,67 @@ public class DocServiceImpl implements DocService{
          realDto.setApproval_content(dto.getApproval_content());
          realDto.setApproval_date(dto.getApproval_date());
          //realDto.setSign(dto.getSign());
+         return dao.save(realDto);
+      }
+      
+      return dao.findById(doc_id).get();
+   }
+   
+   // 결재요청용 수정페이지
+   @Override
+   public DocDTO updateIngStatus(int doc_id, DocDTO dto) {
+      System.out.println("DocServiceImpl - updateDoc");
+      
+      // 문서 id를 사용해 해당 문서 찾기
+      Optional<DocDTO> optionalDto = dao.findById(doc_id);
+      if(optionalDto.isPresent()) {
+         DocDTO realDto = optionalDto.get();
+         
+         // 기존 문서 업데이트
+         realDto.setDoc_status(dto.getDoc_status());
+
+         return dao.save(realDto);
+      }
+      
+      return dao.findById(doc_id).get();
+   }
+   
+   // 결재완료용 수정페이지
+   @Override
+   public DocDTO updateEndStatus(int doc_id, DocDTO dto) {
+      System.out.println("DocServiceImpl - updateDoc");
+      
+      // 문서 id를 사용해 해당 문서 찾기
+      Optional<DocDTO> optionalDto = dao.findById(doc_id);
+      if(optionalDto.isPresent()) {
+         DocDTO realDto = optionalDto.get();
+         
+         // 기존 문서 업데이트
+         realDto.setApproval_content(dto.getApproval_content());
+         realDto.setApproval_date(dto.getApproval_date());
+         realDto.setDoc_status(dto.getDoc_status());
+
+         return dao.save(realDto);
+      }
+      
+      return dao.findById(doc_id).get();
+   }
+   
+   // 결재 반려용 수정페이지
+   @Override
+   public DocDTO updateBackStatus(int doc_id, DocDTO dto) {
+      System.out.println("DocServiceImpl - updateDoc");
+      
+      // 문서 id를 사용해 해당 문서 찾기
+      Optional<DocDTO> optionalDto = dao.findById(doc_id);
+      if(optionalDto.isPresent()) {
+         DocDTO realDto = optionalDto.get();
+         
+         // 기존 문서 업데이트
+         realDto.setApproval_content(dto.getApproval_content());
+         realDto.setApproval_date(dto.getApproval_date());
+         realDto.setDoc_status(dto.getDoc_status());
+
          return dao.save(realDto);
       }
       

@@ -21,7 +21,7 @@ public class ApprovalAndDocDTO {
    private int doc_id;
    private String name;
    @DateTimeFormat(pattern = "yyyy-MM-dd")
-   private Date approval_date;
+   private Date doc_date;
    private String approval_content;
    private String doc_title;
    private String doc_content;
@@ -32,10 +32,10 @@ public class ApprovalAndDocDTO {
    private String admin_sign;
    
    // 생성자 직접 정의
-   public ApprovalAndDocDTO(int doc_id, String name, Date approval_date, String approval_content, String doc_title, String doc_content, String doc_attachment, String sign, String admin_sign) {
+   public ApprovalAndDocDTO(int doc_id, String name, Date doc_date, String approval_content, String doc_title, String doc_content, String doc_attachment, String sign, String admin_sign) {
       this.doc_id = doc_id;
       this.name = name;
-	  this.approval_date = approval_date;
+	  this.doc_date = doc_date;
       this.approval_content = approval_content;
       this.doc_title = doc_title;
       this.doc_content = doc_content;

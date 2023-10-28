@@ -13,6 +13,7 @@ import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
@@ -42,7 +43,7 @@ public interface DocService {
    public List<ApprovalIngAndDocDTO> approvalIngList();
    
    // 결재요청목록
-   public List<ApprovalIngAndDocDTO> approvalIngList2();
+   public List<ApprovalIngAndDoc2DTO> approvalIngList2();
    
    // 결재반려문서함
    public List<ApprovalBackAndDocDTO> approvalBackList();
@@ -58,6 +59,15 @@ public interface DocService {
    
    // 문서수정페이지
    public DocDTO updateDoc(int doc_id, DocDTO dto);
+   
+   // 결재요청용 수정페이지
+   public DocDTO updateIngStatus(int doc_id, DocDTO dto);
+   
+   // 결재완료용 수정페이지
+   public DocDTO updateEndStatus(int doc_id, DocDTO dto);
+   
+   // 결재반려용 수정페이지
+   public DocDTO updateBackStatus(int doc_id, DocDTO dto);
    
    // 문서삭제페이지
    public void deleteDoc(int doc_id); 

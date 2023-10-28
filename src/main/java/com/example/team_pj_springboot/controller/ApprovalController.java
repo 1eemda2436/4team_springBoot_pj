@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.service.DocService;
@@ -86,6 +87,24 @@ public class ApprovalController {
       
       
       service.updateDoc(doc_id, dto);
+      
+   }
+   
+   // 결재완료용 수정페이지
+   @PutMapping("/updateEnd/{doc_id}")
+   public void updateEndDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - updateDoc >>>");
+      
+      service.updateEndStatus(doc_id, dto);
+      
+   }
+   
+   // 결재반려용 수정페이지
+   @PutMapping("/updateBack/{doc_id}")
+   public void updateBackDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - updateDoc >>>");
+      
+      service.updateBackStatus(doc_id, dto);
       
    }
    
