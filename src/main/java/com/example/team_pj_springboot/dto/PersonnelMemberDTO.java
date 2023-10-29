@@ -30,7 +30,7 @@ public class PersonnelMemberDTO {
     private String company_id; // 회사 id////////////////////
 	
 	@Column(name = "pwd")
-    private String pwd = "1234"; // 사원 비밀번호////////////////////
+    private String pwd = "$2a$10$m4N614ccTzwrpiYG3hYf/.tGo.D0/y5QGF.nvk3M9mzru5Y2Vbdwa"; // 사원 비밀번호////////////////////
 	
 	@Column(name = "name")
     private String name; // 사원 이름
@@ -87,7 +87,7 @@ public class PersonnelMemberDTO {
     private String key = " "; // 문자인증 키
 	
 	@Column(name = "authority")
-    private String authority = "USER"; // 권한
+    private String authority = "ROLE_USER"; // 권한
 	
 	@Column(name = "enabled")
     private char enabled  = 'N'; // 인증여부 (Y/N)
