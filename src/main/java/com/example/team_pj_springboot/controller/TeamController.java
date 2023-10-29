@@ -39,6 +39,8 @@ public class TeamController {
 			throws ServletException, IOException {
 		logger.info("[ url - TeamList ]");
 		
+		System.out.println("TEAM!! : " + teamService.listAll(req, model));
+		
 		return teamService.listAll(req, model);
 	}
    

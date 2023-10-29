@@ -23,5 +23,5 @@ public class VacationDTO {
     private String 	vacation_content;		// 글 내용
     private Date 	vacation_reg_date;		// 작성 일자
     private String 	confirm;				// 승인여부
-    
+    private String	company_id;				// 전사 id
 }
