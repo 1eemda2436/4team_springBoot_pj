@@ -21,7 +21,7 @@ import com.example.team_pj_springboot.dto.VacationDTO;
 @Mapper
 public interface AdminMapper {
 	
-	public List<ComAnnualListDTO> annualRequestsList(String company_id);	// 신청된 연차 목록
+	public List<AnnualDTO> annualRequestsList(String company_id);	// 신청된 연차 목록
 	
 	public AnnualDTO annualDetail(int annual_id);	// 연차 글 상세페이지
 	

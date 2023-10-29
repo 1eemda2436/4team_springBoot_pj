@@ -41,11 +41,11 @@ public class AdminServiceImpl implements AdminService {
 
 	// 연차 신청 목록 조회
 	@Override
-	public List<ComAnnualListDTO> annualRequestsList(HttpServletRequest req, Model model, String company_id)
+	public List<AnnualDTO> annualRequestsList(HttpServletRequest req, Model model, String company_id)
 			throws ServletException, IOException {
 		System.out.println("[ AnnualServiceImpl → annualRequestsList ]");
 		
-		List<ComAnnualListDTO> AnnualList = dao.annualRequestsList(company_id);
+		List<AnnualDTO> AnnualList = dao.annualRequestsList(company_id);
 		
 		System.out.println("Annuallist : " + AnnualList);
 		

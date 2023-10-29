@@ -21,7 +21,7 @@ import org.springframework.ui.Model;
 public interface AdminService {
 	
 	// 연차 신청 목록 조회
-	public List<ComAnnualListDTO> annualRequestsList(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException;
+	public List<AnnualDTO> annualRequestsList(HttpServletRequest req, Model model, String company_id) throws ServletException, IOException;
 	
 	// 연차 상세페이지
 	public AnnualDTO annualDetail(int annual_id) throws ServletException, IOException;

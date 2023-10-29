@@ -25,13 +25,13 @@
     </select>
     
 	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
-	    INSERT INTO annual_board (annual_id ,id ,name ,annual_title , annual_start, annual_end, annual_content, annual_reg_date)
-	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{name},#{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
+	    INSERT INTO annual_board (annual_id ,id ,company_id ,name ,annual_title , annual_start, annual_end, annual_content, annual_reg_date)
+	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{company_id}, #{name},#{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
 	</insert>
 
 	<insert id="insertVacation" parameterType="com.example.team_pj_springboot.dto.VacationDTO">
-		INSERT INTO vacation_board (vacation_id, id, name, vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
-		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{name}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
+		INSERT INTO vacation_board (vacation_id, id,company_id ,name ,vacation_title, vacation_start, vacation_end, vacation_content, vacation_reg_date)
+		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{company_id}, #{name}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
 	</insert>
 	
 	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">

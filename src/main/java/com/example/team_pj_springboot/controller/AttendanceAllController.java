@@ -40,7 +40,7 @@ public class AttendanceAllController {
 	
 	// 연차 신청 목록 조회 (Select)
 	@GetMapping("/annualRequestsList/{company_id}")
-	public List<ComAnnualListDTO> annualRequestsList (HttpServletRequest req, Model model, String company_id) 
+	public List<AnnualDTO> annualRequestsList (@PathVariable String company_id, HttpServletRequest req, Model model) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - annualRequestsList ]");
 		
@@ -59,7 +59,7 @@ public class AttendanceAllController {
 	
 	// 휴가 신청 목록 조회 (Select)
 	@GetMapping("/vacationRequestsList/{company_id}")
-	public List<VacationDTO> vacationRequestsList (HttpServletRequest req, Model model, String company_id) 
+	public List<VacationDTO> vacationRequestsList (@PathVariable String company_id, HttpServletRequest req, Model model) 
 			throws ServletException, IOException {
 		logger.info("[ AttendanceController - vacationRequestsList ]");
 		
