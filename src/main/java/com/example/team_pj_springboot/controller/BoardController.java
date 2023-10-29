@@ -63,20 +63,19 @@ public class BoardController {
 	}
 	//게시글 수정
 	@PutMapping("/edit/{board_id}")
-	public void boardUpdate(@RequestBody BoardDTO dto) {
+	public void boardUpdate(@RequestBody BoardDTO dto, @PathVariable int board_id) {
 		logger.info("BoardController - boardUpdate");
-		
+		dto.setBoard_id(board_id);
+//		System.out.println(dto.getBoard_id());
 		service.insertBoard(dto);
 	}
 	 
 	// Delete
-	@DeleteMapping("/boardDelete")
-	public void boardDelete(@RequestBody List<Integer> board_id) {
+	@DeleteMapping("/boardDelete/{board_id}")
+	public void boardDelete(@PathVariable(name="board_id") int board_id) {
 	    logger.info("BoardController - boardDelete");
-
-	    for (Integer boardId : board_id) {
-	        service.deleteBoard(boardId);
-	    }
+	        service.deleteBoard(board_id);
+	    
 	}
 	
 	//categories 목록
