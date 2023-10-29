@@ -36,6 +36,9 @@ public interface DocService {
    // 임시저장목록
    public List<DocAndDraftDTO> temporaryList();
    
+   // 결재통합문서함
+   public List<ApprovalIngAndDocDTO> approvalAllList();
+   
    // 결재완료문서함
    public List<ApprovalEndAndDocDTO> approvalEndList();
    

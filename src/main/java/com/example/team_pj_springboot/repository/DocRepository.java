@@ -50,6 +50,13 @@ public interface DocRepository extends JpaRepository<DocDTO, Integer>{
 	         "ORDER BY d.doc_id DESC")
 	   List<ApprovalIngAndDocDTO> approvalIngList();
    
+   @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO(d.doc_id, d.doc_title, d.doc_status, m.name, d.doc_date) " + 
+	         "FROM DocDTO d " + 
+	         "JOIN MemberDTO m ON d.id = m.id " + 
+	         "WHERE d.doc_status IN ('진행', '완료', '반려') " + 
+	         "ORDER BY d.doc_id DESC")
+	   List<ApprovalIngAndDocDTO> approvalAllList();
+   
    @Query("SELECT new com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO(d.doc_id, d.doc_title, d.doc_status, m.name, d.approval_date) " + 
 	         "FROM DocDTO d " +  
 	         "JOIN MemberDTO m ON d.id = m.id " + 

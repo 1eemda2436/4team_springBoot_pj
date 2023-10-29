@@ -42,7 +42,7 @@ public class ApprovalController {
    public List<ApprovalIngAndDocDTO> selectAdmin() {
       logger.info("<<< 컨트롤러 - selectMember >>>");
       
-      return service.approvalIngList();
+      return service.approvalAllList();
    }
       
    // 결재완료문서함 - 연결완료
