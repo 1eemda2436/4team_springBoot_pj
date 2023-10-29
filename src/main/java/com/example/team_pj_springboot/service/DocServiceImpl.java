@@ -92,6 +92,14 @@ public class DocServiceImpl implements DocService{
       
       return dao.temporaryList();
    }
+   
+   // 결재통합문서함
+   @Override
+   public List<ApprovalIngAndDocDTO> approvalAllList() {
+	   System.out.println("DocServiceImpl - approvalAllList");
+	   
+	   return dao.approvalAllList();
+   }
 
    // 결재완료문서함
    @Override
