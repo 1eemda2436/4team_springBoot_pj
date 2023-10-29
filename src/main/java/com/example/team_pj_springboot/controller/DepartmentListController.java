@@ -28,6 +28,8 @@ public class DepartmentListController {
 	public List<Object[]> DepartList() {
 		logger.info("[ url - DepartList]");
 		
+		System.out.println("DEP!! : " + service.listAll());
+		
 		return service.listAll();
 	}
 }

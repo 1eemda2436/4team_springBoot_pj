@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
+import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
+import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.TeamAndAttenDTO;
+import com.example.team_pj_springboot.dto.TeamDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.DepAttenService;
@@ -126,5 +129,31 @@ public class AttendanceAdminController {
 		
 		return dto;
 	}
+	
+	/////////////////////////////////////////////
+	// 전사 목록
+	@GetMapping("/companyidList")
+	public List<CompanyDTO> CompanylistAll(HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - companyStatus ]");
+		
+		return service.companylistAll(req, model);
+	}
+
+	// 부서 목록
+	@GetMapping("/departmentidList")
+	public List<DepartmentDTO> DepartlistAll(HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - companyStatus ]");
+		
+		return service.departlistAll(req, model);
+	}
+	
+	// 팀 목록
+	@GetMapping("/teamidList")
+	public List<TeamDTO> TeamlistAll(HttpServletRequest req, Model model) throws ServletException, IOException {
+		logger.info("[ AttendanceController - companyStatus ]");
+		
+		return service.teamlistAll(req, model);
+	}
+	
 
 }

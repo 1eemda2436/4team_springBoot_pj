@@ -119,9 +119,15 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<dependency>
+		<!-- Web Socket -->
+ 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.11.3</version>
 		</dependency>
 
 		<!-- apache.poi/poi -->
@@ -156,6 +162,17 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>4.1</version>
 		</dependency>
+		
+		<!-- 동건 WebSocket -->
+<!-- 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+		</dependency>   -->
+		
 	</dependencies>
 	
 

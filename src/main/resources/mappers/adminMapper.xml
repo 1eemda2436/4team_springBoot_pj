@@ -6,11 +6,9 @@
 <mapper namespace="com.example.team_pj_springboot.mappers.AdminMapper">
     <!-- 신청된 연차 목록 -->
     <select id="annualRequestsList" resultType="com.example.team_pj_springboot.dto.AnnualDTO">
-        SELECT annual_id
-              ,annual_title
-              ,confirm
-          FROM annual_board
-         ORDER BY annual_id ASC
+		SELECT annual_id, annual_title, confirm
+		  FROM annual_board
+		 WHERE company_id = #{company_id}
     </select>
 
     <!-- 연차 상세페이지 -->
@@ -34,11 +32,9 @@
     
     <!-- 신청된 휴가 목록 -->
     <select id="vacationRequestsList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
-        SELECT vacation_id
-              ,vacation_title
-              ,confirm
-          FROM vacation_board
-         ORDER BY vacation_id ASC
+		SELECT vacation_id, vacation_title, confirm
+		  FROM vacation_board
+		 WHERE company_id = #{company_id}
     </select>
 
     <!-- 휴가 상세페이지 -->

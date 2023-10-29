@@ -1,15 +1,19 @@
 package com.example.team_pj_springboot.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
@@ -32,11 +36,17 @@ public interface DocService {
    // 임시저장목록
    public List<DocAndDraftDTO> temporaryList();
    
+   // 결재통합문서함
+   public List<ApprovalIngAndDocDTO> approvalAllList();
+   
    // 결재완료문서함
    public List<ApprovalEndAndDocDTO> approvalEndList();
    
    // 결재예정문서함
    public List<ApprovalIngAndDocDTO> approvalIngList();
+   
+   // 결재요청목록
+   public List<ApprovalIngAndDoc2DTO> approvalIngList2();
    
    // 결재반려문서함
    public List<ApprovalBackAndDocDTO> approvalBackList();
@@ -53,16 +63,22 @@ public interface DocService {
    // 문서수정페이지
    public DocDTO updateDoc(int doc_id, DocDTO dto);
    
+   // 결재요청용 수정페이지
+   public DocDTO updateIngStatus(int doc_id, DocDTO dto);
+   
+   // 결재완료용 수정페이지
+   public DocDTO updateEndStatus(int doc_id, DocDTO dto);
+   
+   // 결재반려용 수정페이지
+   public DocDTO updateBackStatus(int doc_id, DocDTO dto);
+   
    // 문서삭제페이지
    public void deleteDoc(int doc_id); 
    
    // 파일업로드
    public String uploadFile(MultipartFile doc_attachment) throws IOException;
-   
-   // 사원목록
-   public List<MemberDTO> memberAll();
-   
-   // 특정사원
-   public Optional<MemberDTO> memberOne(String id);
+
+   // 이미지 가져오기
+   public String uploadImageFile(MultipartFile doc_attachment) throws IOException;
    
 }

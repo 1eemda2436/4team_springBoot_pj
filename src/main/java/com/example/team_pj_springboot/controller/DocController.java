@@ -1,15 +1,21 @@
 package com.example.team_pj_springboot.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +41,7 @@ import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalBackAndDocDTO;
 import com.example.team_pj_springboot.dto.ApprovalDTO;
 import com.example.team_pj_springboot.dto.ApprovalEndAndDocDTO;
+import com.example.team_pj_springboot.dto.ApprovalIngAndDoc2DTO;
 import com.example.team_pj_springboot.dto.ApprovalIngAndDocDTO;
 import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
@@ -90,17 +97,21 @@ public class DocController {
    
    // 임시저장 - 연결완료
    @PostMapping("/temporarySave")
-   public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @ModelAttribute DocDTO dto) {
+   public List<DocAndDraftDTO> insertTemporary(@RequestParam("doc_attachment2") MultipartFile file, @RequestParam("sign2") MultipartFile sign, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - temporarySave >>>");
       
       try {
               // 파일 업로드하고 파일 경로를 받아옴
               String filePath = service.uploadFile(file);
               System.out.println("file: " + file);
+              String filePath2 = service.uploadImageFile(sign);
+              System.out.println("sign : " + sign);
 
               // DTO 객체에 파일 경로 설정
               dto.setDoc_attachment(filePath);
               System.out.println("filePath: " + filePath);
+              dto.setSign(filePath2);
+              System.out.println("filePath2: " + filePath2);
 
               // 서비스로 DTO 객체 전달하여 저장
               service.insertDoc(dto);
@@ -121,7 +132,7 @@ public class DocController {
       try {
               // 파일 업로드하고 파일 경로를 받아옴
               String filePath = service.uploadFile(file);
-              String filePath2 = service.uploadFile(sign);
+              String filePath2 = service.uploadImageFile(sign);
               System.out.println("file : " + file);
               System.out.println("sign : " + sign);
 
@@ -164,6 +175,8 @@ public class DocController {
        return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
    }
    
+   
+   
    // 문서수정페이지 - 연결완료
    @PutMapping("/update/{doc_id}")
    public void updateDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
@@ -172,7 +185,15 @@ public class DocController {
       service.updateDoc(doc_id, dto);
       
    }
-
+   
+   // 결재요청용 수정페이지
+   @PutMapping("/updateIng/{doc_id}")
+   public void updateIngDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+      logger.info("<<< 컨트롤러 - updateDoc >>>");
+      
+      service.updateIngStatus(doc_id, dto);
+      
+   }
     
    // 문서상세페이지 - 연결완료
    @GetMapping("/detail/{doc_id}")
@@ -194,25 +215,14 @@ public class DocController {
       
    }
    
-   // 사원목록
-   @GetMapping("/memberAll/{company_id}")
-	public List<MemberDTO> selectAllEmployee(@PathVariable String company_id){
-	   logger.info("<<< 컨트롤러 - updateDoc >>>");
-		
-		return service.memberAll();
-	}
+   // 결재요청목록
+   @GetMapping("/approvalIng2")
+   public List<ApprovalIngAndDoc2DTO> approvalIngList2() {
+      logger.info("<<< 컨트롤러 - approvalIngList >>>");
+      
+      return service.approvalIngList2();
+   }
    
-   // 특정사원
-   @GetMapping("/memberOne/{id}")
-   public Optional<MemberDTO> selectEmployee(@PathVariable String id){
-	   logger.info("<<< 컨트롤러 - updateDoc >>>");
-		
-	   Optional<MemberDTO> dto = service.memberOne(id);
-	   
-	   return dto;
- 	}
    
-   // 사인추가
-   //@PostMapping()
    
 }   

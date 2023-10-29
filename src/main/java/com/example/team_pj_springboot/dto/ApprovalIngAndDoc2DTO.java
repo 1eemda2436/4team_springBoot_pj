@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApprovalIngAndDocDTO {
+public class ApprovalIngAndDoc2DTO {
 	
 	@Id
 	private int doc_id;
@@ -26,7 +26,7 @@ public class ApprovalIngAndDocDTO {
 	private String company_id;
 	
 	// 생성자 직접 정의
-	public ApprovalIngAndDocDTO(int doc_id, String doc_title, String doc_status, String name, Date doc_date) {
+	public ApprovalIngAndDoc2DTO(int doc_id, String doc_title, String doc_status, String name, Date doc_date) {
 		this.doc_id = doc_id;
 		this.doc_title = doc_title;
 		this.doc_status = doc_status;
