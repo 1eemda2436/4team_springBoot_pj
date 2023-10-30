@@ -19,7 +19,6 @@ public class ProjectWorkDTO {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer pw_id;
 	private int pj_id;
-	private String duties;
 	private String pw_name;
 	private Date pw_deadline_s;
 	private Date pw_deadline_e;

@@ -56,7 +56,7 @@ public class ProjectWorkController {
 		service.saveComplete(pw_id, complete);
 	}
 	
-	// 프로젝트 업무 수정을 위한 조회
+	// 프로젝트 1건
 	@GetMapping("/{pw_id}")
 	public ProjectWorkDTO fetchProjectWorkById(@PathVariable(name="pw_id")int pw_id)
 			throws ServerException, IOException {
