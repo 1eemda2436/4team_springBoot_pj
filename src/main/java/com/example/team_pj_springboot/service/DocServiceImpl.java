@@ -12,11 +12,15 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +43,7 @@ import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
+import com.example.team_pj_springboot.mappers.DocMapper;
 
 @Service
 public class DocServiceImpl implements DocService{
@@ -57,6 +62,9 @@ public class DocServiceImpl implements DocService{
     
     @Autowired
     private MemberRepository memberDao;
+    
+    @Autowired
+    private DocMapper docdao;
     
     // 통합문서함
     @Override
@@ -321,6 +329,17 @@ public class DocServiceImpl implements DocService{
       dao.deleteById(doc_id);;
    }
 
-
+   // Doc Chart
+   @Override
+   public DocDTO docChart(String company_id, HttpServletRequest req, Model model)
+		   		throws ServletException, IOException {
+		System.out.println("[ DocServiceImpl → docChart ]");
+		
+		DocDTO docChart = docdao.docChart(company_id);
+		
+		System.out.println("docChart" + docChart);
+		
+		return docChart;
+	}
 
 }

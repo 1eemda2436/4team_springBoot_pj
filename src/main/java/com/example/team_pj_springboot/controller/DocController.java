@@ -11,6 +11,9 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -222,7 +225,14 @@ public class DocController {
       
       return service.approvalIngList2();
    }
-   
-   
-   
+
+   // Doc Chart
+   @GetMapping("/docChart/{company_id}")
+   public DocDTO docChart (@PathVariable String company_id, HttpServletRequest req, Model model)
+		   throws ServletException, IOException {
+	   System.out.println("[Controller → docChart]");
+	   
+	   return service.docChart(company_id, req, model);
+   }
+
 }   
