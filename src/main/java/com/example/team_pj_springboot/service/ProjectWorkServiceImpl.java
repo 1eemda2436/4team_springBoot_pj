@@ -2,6 +2,8 @@ package com.example.team_pj_springboot.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ public class ProjectWorkServiceImpl implements ProjectWorkService {
 	}
 
 	@Override
+	@Transactional
 	public void saveComplete(int pw_id, String complete) {
 		// TODO Auto-generated method stub
 		dao.updateComplete(pw_id, complete);

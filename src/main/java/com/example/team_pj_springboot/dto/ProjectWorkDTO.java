@@ -22,6 +22,6 @@ public class ProjectWorkDTO {
 	private String pw_name;
 	private Date pw_deadline_s;
 	private Date pw_deadline_e;
-	private char complete;
+	private String complete;
 
 }

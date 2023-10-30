@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,7 +51,7 @@ public class ProjectWorkController {
 	}
 	
 	// 프로젝트 업무 complete 여부 업데이트
-	@PostMapping("/{pw_id}")
+	@PutMapping("/complete/{pw_id}")
 	public void ProjectWorkComplete(@PathVariable(name="pw_id")int pw_id, @RequestBody String complete)
 			throws ServerException, IOException {
 		service.saveComplete(pw_id, complete);
