@@ -127,10 +127,10 @@ public class DocServiceImpl implements DocService{
    
    // 결재요청목록
    @Override
-   public List<ApprovalIngAndDoc2DTO> approvalIngList2() {
+   public List<ApprovalIngAndDoc2DTO> approvalSelect() {
       System.out.println("DocServiceImpl - approvalIngList");
       
-      return dao.approvalIngList2();
+      return dao.approvalSelect();
    }
 
    // 결재반려문서함
