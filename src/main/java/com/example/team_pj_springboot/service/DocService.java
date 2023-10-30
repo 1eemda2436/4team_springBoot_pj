@@ -46,7 +46,7 @@ public interface DocService {
    public List<ApprovalIngAndDocDTO> approvalIngList();
    
    // 결재요청목록
-   public List<ApprovalIngAndDoc2DTO> approvalIngList2();
+   public List<ApprovalIngAndDoc2DTO> approvalSelect();
    
    // 결재반려문서함
    public List<ApprovalBackAndDocDTO> approvalBackList();

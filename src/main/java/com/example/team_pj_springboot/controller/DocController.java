@@ -216,11 +216,11 @@ public class DocController {
    }
    
    // 결재요청목록
-   @GetMapping("/approvalIng2")
+   @GetMapping("/approvalSelect")
    public List<ApprovalIngAndDoc2DTO> approvalIngList2() {
       logger.info("<<< 컨트롤러 - approvalIngList >>>");
       
-      return service.approvalIngList2();
+      return service.approvalSelect();
    }
    
    
