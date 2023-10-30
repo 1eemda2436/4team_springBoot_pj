@@ -38,11 +38,12 @@ public class ProjectController {
 	}
 	
 	// 프로젝트 생성
-	@PostMapping
+	@PostMapping("/pjadd")
 	public void save(@RequestBody ProjectDTO dto) 
 			throws ServerException, IOException {
 		
 		System.out.println(dto);
+		
 		service.save(dto);
 	}
 	

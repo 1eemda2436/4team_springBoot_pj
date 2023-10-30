@@ -54,10 +54,10 @@ public class BoardController {
 	@PostMapping("/add")
 	public void boardInsert(@RequestBody BoardDTO dto) {
 		logger.info("BoardController - boardInsert");
+		System.out.println("dto : " + dto);
 		
 		BoardDTO boardDTO = new BoardDTO();
 		boardDTO.setBoard_id(dto.getBoard_id());
-		
 		
 		service.insertBoard(dto);
 	}
