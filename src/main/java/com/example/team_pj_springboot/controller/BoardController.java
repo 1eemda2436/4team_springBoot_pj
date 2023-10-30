@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.BoardDTO;
+import com.example.team_pj_springboot.dto.CategoryDTO;
 import com.example.team_pj_springboot.dto.CommentDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.service.BoardServiceImpl;
@@ -31,14 +32,14 @@ public class BoardController {
 	@Autowired
 	private BoardServiceImpl service;
 	
+	//게시글 전체
 	@GetMapping("/list")
 	public List<BoardDTO> boardList() {
 		logger.info("BoardController - boardList");
 		
-//		List<BoardDTO> list = service.listAll();
-		
 		return service.listAll();
 	}
+	//게시글 상세
 	@GetMapping("/boardFind/{board_id}")
 	public List<BoardDTO> boardFind(@PathVariable int board_id, Model model) {
 		logger.info("CommentController - commentList");
@@ -54,23 +55,33 @@ public class BoardController {
 	public void boardInsert(@RequestBody BoardDTO dto) {
 		logger.info("BoardController - boardInsert");
 		
+		BoardDTO boardDTO = new BoardDTO();
+		boardDTO.setBoard_id(dto.getBoard_id());
+		
+		
 		service.insertBoard(dto);
 	}
-	
+	//게시글 수정
 	@PutMapping("/edit/{board_id}")
-	public void boardUpdate(@RequestBody BoardDTO dto) {
+	public void boardUpdate(@RequestBody BoardDTO dto, @PathVariable int board_id) {
 		logger.info("BoardController - boardUpdate");
-		
+		dto.setBoard_id(board_id);
+//		System.out.println(dto.getBoard_id());
 		service.insertBoard(dto);
 	}
 	 
 	// Delete
-	@DeleteMapping("/boardDelete")
-	public void boardDelete(@RequestBody List<Integer> board_id) {
+	@DeleteMapping("/boardDelete/{board_id}")
+	public void boardDelete(@PathVariable(name="board_id") int board_id) {
 	    logger.info("BoardController - boardDelete");
-
-	    for (Integer boardId : board_id) {
-	        service.deleteBoard(boardId);
-	    }
+	        service.deleteBoard(board_id);
+	    
 	}
+	
+	//categories 목록
+	@GetMapping("/categories")
+	public List<CategoryDTO> categoriesSelect () {
+		return service.categoriesSelect();
+	}
+	
 }

@@ -57,10 +57,11 @@ public class NoticeController {
 	
 	// edit
 	@PutMapping("/admin/notice/editNotice/{notice_id}")
-	public void noticeUpdate(@RequestBody NoticeDTO dto) {
+	public void noticeUpdate(@RequestBody NoticeDTO dto,@PathVariable int notice_id) {
 		logger.info("NoticeController - noticeUpdate");
-		
+		dto.setNotice_id(notice_id);
 		service.updateNotice(dto);
+		
 	}
 	
 	// Delete
