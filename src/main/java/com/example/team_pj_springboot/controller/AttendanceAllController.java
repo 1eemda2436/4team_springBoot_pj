@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
-import com.example.team_pj_springboot.dto.ComAnnualListDTO;
 import com.example.team_pj_springboot.dto.VacationDTO;
 import com.example.team_pj_springboot.service.AdminServiceImpl;
 import com.example.team_pj_springboot.service.GuestServiceImpl;

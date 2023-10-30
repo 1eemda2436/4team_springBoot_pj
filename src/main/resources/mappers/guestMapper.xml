@@ -89,30 +89,30 @@
 		SELECT
 		    MA_ID,
 		    ID,
-		    SUM(
+		    ROUND(SUM(
 		        CASE 
 		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
 		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
 		            ELSE
 		                0
 		        END
-		    ) AS totalWeekWork,
-			SUM(
+		    ), 1) AS totalWeekWork,
+		    ROUND(SUM(
 		        CASE 
 		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
 		                GREATEST(EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60 - 8.5, 0)
 		            ELSE
 		                0
 		        END
-		    ) AS totalWeekOver,
-		    40 - SUM(
+		    ), 1) AS totalWeekOver,
+		    ROUND(40 - SUM(
 		        CASE 
 		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
 		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
 		            ELSE
 		                0
 		        END
-		    ) AS remainWeekTime
+		    ), 1) AS remainWeekTime
 		FROM
 		    MEMBER_ATTENDANCE
 		WHERE
