@@ -187,6 +187,7 @@
 		    M.id = V.id
 		WHERE
 		    M.id = #{id}
+		  AND V.confirm = 'Y'
 	</select>
 	
 	<!-- 승인된 연차 목록 -->

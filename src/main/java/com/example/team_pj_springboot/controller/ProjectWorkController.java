@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team_pj_springboot.dto.ProjectProgressBarDTO;
 import com.example.team_pj_springboot.dto.ProjectWorkDTO;
 import com.example.team_pj_springboot.service.ProjectWorkServiceImpl;
 
@@ -72,6 +73,17 @@ public class ProjectWorkController {
 			throws ServerException, IOException {
 		
 		service.delete(pw_id);
+	}
+	
+	// 프로젝트 진척도
+	@GetMapping("/progress/{team_id}")
+	public List<ProjectProgressBarDTO> pjProgressBar (@PathVariable int team_id, HttpServletRequest req, Model model)
+			throws ServletException, IOException {
+		System.out.println("[Controller → pjProgressBar]");
+		
+		return service.pjProgressBar(team_id, req, model);
+		
+		
 	}
 	
 }
