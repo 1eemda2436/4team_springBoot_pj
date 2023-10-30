@@ -10,11 +10,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.example.team_pj_springboot.dto.ProjectAndTeamDTO;
 import com.example.team_pj_springboot.dto.ProjectDTO;
+import com.example.team_pj_springboot.dto.ProjectWorkDTO;
 
 // 프로젝트 repository
 public interface ProjectRepository extends JpaRepository<ProjectDTO, Integer> {
 
+	// 프로젝트 SELECT
+	@Query("SELECT p FROM ProjectDTO p WHERE p.team_id = :team_id ")
+	List<ProjectDTO> findProject(@Param("team_id") int team_id);
 	
 }

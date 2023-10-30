@@ -15,17 +15,7 @@ import com.example.team_pj_springboot.dto.DepartmentDTO;
 import com.example.team_pj_springboot.dto.DepartmentListDTO;
 
 public interface DepartmentRepository extends JpaRepository<DepartmentDTO, Integer> {
-	
-	// 부서별 목록 띄우기용으로 추가 
-	@Query("SELECT d.depart_id, d.depart_name, MIN(m.name) AS member_name, MIN(p.pj_name) AS project_name, MIN(t.team_name) AS team_name " +
-	           "FROM DepartmentDTO d " +
-	           "LEFT JOIN MemberDTO m ON d.depart_id = m.depart_id " +
-	           "LEFT JOIN ProjectDTO p ON d.depart_id = p.depart_id " +
-	           "LEFT JOIN TeamDTO t ON d.depart_id = t.depart_id " +
-	           "GROUP BY d.depart_id, d.depart_name " +
-	           "ORDER BY d.depart_id ASC")
-	List<Object[]> departList();
-	
+
 	//관리자 부서 현황 
 	@Query("SELECT d.depart_id, d.depart_name, COUNT(t.team_id) AS teamCount, d.company_id " +
 	           "FROM DepartmentDTO d " +

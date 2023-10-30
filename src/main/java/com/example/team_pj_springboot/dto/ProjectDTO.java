@@ -25,7 +25,6 @@ public class ProjectDTO {
 	private String content;
 	private Date deadline_s;
 	private Date deadline_e;
-	private String depart_id;
 	private Integer team_id;
 	
 

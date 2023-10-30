@@ -1,7 +1,6 @@
 package com.example.team_pj_springboot.service;
 
 import com.example.team_pj_springboot.dto.AnnualDTO;
-import com.example.team_pj_springboot.dto.ComAnnualListDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;

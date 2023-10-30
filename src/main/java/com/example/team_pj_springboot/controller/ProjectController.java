@@ -1,15 +1,12 @@
 package com.example.team_pj_springboot.controller;
 
 import java.io.IOException;
+import java.rmi.ServerException;
 import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.team_pj_springboot.dto.ProjectAndTeamDTO;
 import com.example.team_pj_springboot.dto.ProjectDTO;
 import com.example.team_pj_springboot.service.ProjectServiceImpl;
 
@@ -34,22 +30,17 @@ public class ProjectController {
 	private ProjectServiceImpl service;
 	
 	// 프로젝트 리스트
-	@GetMapping
-	public List<ProjectDTO> ProjectList(HttpServletRequest req, Model model) 
-			throws ServletException, IOException {
-		logger.info("[ url - ProjectList ]");
+	@GetMapping("/list/{team_id}")
+	public List<ProjectDTO> ProjectList(@PathVariable(name="team_id")int team_id)
+			throws ServerException, IOException {
 		
-		return service.listAll(req, model);
+		return service.listAll(team_id);
 	}
 	
 	// 프로젝트 생성
 	@PostMapping
-	public void save(@RequestBody ProjectDTO dto)
-			throws ServletException, IOException {
-		logger.info("[ url - ProjectInsert ]");
-
-		ProjectDTO pjdto = new ProjectDTO();
-		pjdto.setDepart_id(dto.getDepart_id());
+	public void save(@RequestBody ProjectDTO dto) 
+			throws ServerException, IOException {
 		
 		System.out.println(dto);
 		service.save(dto);
@@ -57,9 +48,8 @@ public class ProjectController {
 	
 	// 프로젝트 수정을 위한 조회
 	@GetMapping("/{pj_id}")
-	public ProjectDTO fetchProjectById(@PathVariable(name="pj_id")int pj_id, Model model) 
-			throws ServletException, IOException {
-		logger.info("[ url - fetchProjectById ]");
+	public ProjectDTO fetchProjectById(@PathVariable(name="pj_id")int pj_id) 
+			throws ServerException, IOException {
 		
 		ProjectDTO dto = service.get(pj_id);
 		return dto;
@@ -68,9 +58,8 @@ public class ProjectController {
 	
 	// 프로젝트 삭제
 	@DeleteMapping("/{pj_id}")
-	public void ProjectWorkDelete(@PathVariable(name="pj_id") int pj_id, Model model) 
-			throws ServletException, IOException {
-		logger.info("[ url - ProjectWorkDelete ]");
+	public void ProjectWorkDelete(@PathVariable(name="pj_id") int pj_id) 
+			throws ServerException, IOException {
 		
 		service.delete(pj_id);
 	}
