@@ -50,11 +50,11 @@ public class MyPageServiceImpl implements MyPageService{
 //		return dao1.findById(id).get();
 	}
 	
-	// 마이페이지 수정 v
-	@Override
+	// 마이페이지 수정 
+	@Transactional
 	public void save(MemberDTO dto) {
 		System.out.println("수정");
-		member.updateMember(dto.getName(), dto.getEmail(), dto.getTel(), dto.getBank());
+		member.updateMember(dto.getEmail(), dto.getTel(), dto.getBank(), dto.getId());
 	}
 	
 	
