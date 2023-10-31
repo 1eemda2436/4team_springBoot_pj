@@ -46,7 +46,7 @@ public class ProjectController {
 		service.save(dto);
 	}
 	
-	// 프로젝트 수정을 위한 조회
+	// 프로젝트 1건
 	@GetMapping("/{pj_id}")
 	public ProjectDTO fetchProjectById(@PathVariable(name="pj_id")int pj_id) 
 			throws ServerException, IOException {

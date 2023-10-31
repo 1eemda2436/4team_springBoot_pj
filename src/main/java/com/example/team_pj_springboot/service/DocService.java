@@ -6,7 +6,11 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.core.io.Resource;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
@@ -80,5 +84,8 @@ public interface DocService {
 
    // 이미지 가져오기
    public String uploadImageFile(MultipartFile doc_attachment) throws IOException;
+   
+   // 문서 통계
+   public DocDTO docChart(String company_id, HttpServletRequest req, Model model) throws ServletException, IOException;
    
 }
