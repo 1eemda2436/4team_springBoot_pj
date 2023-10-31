@@ -19,35 +19,17 @@ import com.example.team_pj_springboot.repository.UserRoleRepository;
 @Service
 public class MyPageServiceImpl implements MyPageService{
 
-//	@Autowired
-//	private MyPageRepository dao;
-	
 	@Autowired
 	private MemberRepository member;
 	
 	@Autowired
 	private PersonnelMapper mapper;
 	
-	
-
-//	@Override
-//	public MyPageDTO memberFind(String id) {
-//		
-//		return dao.findMemeberByMyPageDTO(id);
-//		
-//	}
-//
-//	@Override
-//	public void updateMember(MyPageDTO dto) {
-//		dao.save(dto);
-//	}
-//	
 	// 마이페이지 진입을 위한 조회
 	@Override
 	public AllPersonnelDTO get(String id) {
 		System.out.println("떠라");
 		return mapper.myInfo(id);
-//		return dao1.findById(id).get();
 	}
 	
 	// 마이페이지 수정 
