@@ -11,6 +11,9 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,7 @@ import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
+import com.example.team_pj_springboot.dto.DocProgressBarDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -216,13 +220,20 @@ public class DocController {
    }
    
    // 결재요청목록
-   @GetMapping("/approvalIng2")
+   @GetMapping("/approvalSelect")
    public List<ApprovalIngAndDoc2DTO> approvalIngList2() {
       logger.info("<<< 컨트롤러 - approvalIngList >>>");
       
-      return service.approvalIngList2();
+      return service.approvalSelect();
    }
-   
-   
-   
+
+   // Doc Chart
+   @GetMapping("/docChart/{company_id}")
+   public DocProgressBarDTO docChart (@PathVariable String company_id, HttpServletRequest req, Model model)
+		   throws ServletException, IOException {
+	   System.out.println("[Controller → docChart]");
+	   
+	   return service.docChart(company_id, req, model);
+   }
+
 }   

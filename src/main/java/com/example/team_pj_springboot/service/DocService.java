@@ -6,7 +6,11 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.core.io.Resource;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.team_pj_springboot.dto.ApprovalAndDocDTO;
@@ -19,6 +23,7 @@ import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
+import com.example.team_pj_springboot.dto.DocProgressBarDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
 
@@ -46,7 +51,7 @@ public interface DocService {
    public List<ApprovalIngAndDocDTO> approvalIngList();
    
    // 결재요청목록
-   public List<ApprovalIngAndDoc2DTO> approvalIngList2();
+   public List<ApprovalIngAndDoc2DTO> approvalSelect();
    
    // 결재반려문서함
    public List<ApprovalBackAndDocDTO> approvalBackList();
@@ -80,5 +85,8 @@ public interface DocService {
 
    // 이미지 가져오기
    public String uploadImageFile(MultipartFile doc_attachment) throws IOException;
+   
+   // 문서 통계
+   public DocProgressBarDTO docChart(String company_id, HttpServletRequest req, Model model) throws ServletException, IOException;
    
 }

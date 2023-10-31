@@ -30,15 +30,23 @@ public class CommentController {
 	@Autowired
 	private CommentServiceImpl service;
 
+//	@GetMapping("/commentFind/{board_id}")
+//	public List<CommentDTO> commentFind(@PathVariable int board_id, Model model) {
+//		logger.info("CommentController - commentList");
+//
+//		List<CommentDTO> dto = service.commentFind(board_id);
+//		model.addAttribute("dto", dto);
+//		
+//		return dto;
+//	}
+	
 	@GetMapping("/commentFind/{board_id}")
-	public List<CommentDTO> commentFind(@PathVariable int board_id, Model model) {
-		logger.info("CommentController - commentList");
+    public List<CommentDTO> commentFind(@PathVariable int board_id) {
+        logger.info("CommentController - commentList");
 
-		List<CommentDTO> dto = service.commentFind(board_id);
-		model.addAttribute("dto", dto);
-		
-		return dto;
-	}
+        List<CommentDTO> dto = service.commentFind(board_id);
+        return dto;
+    }
 	
 //	@GetMapping("/commentList")
 //	public List<CommentDTO> commentList(){

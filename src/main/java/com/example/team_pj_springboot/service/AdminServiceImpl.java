@@ -15,7 +15,6 @@ import com.example.team_pj_springboot.repository.CompanyRepository;
 import com.example.team_pj_springboot.repository.DepartmentRepository;
 import com.example.team_pj_springboot.repository.TeamRepository;
 import com.example.team_pj_springboot.dto.AnnualDTO;
-import com.example.team_pj_springboot.dto.ComAnnualListDTO;
 import com.example.team_pj_springboot.dto.ComAttendanceDTO;
 import com.example.team_pj_springboot.dto.CompanyDTO;
 import com.example.team_pj_springboot.dto.DepAttendanceDTO;
@@ -129,8 +128,6 @@ public class AdminServiceImpl implements AdminService {
 		
 		DepAttendanceDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
 		
-		System.out.println("DepDTO : " + DepDTO);
-		
 		return DepDTO;
 	}
 
@@ -175,8 +172,6 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("[ AnnualServiceImpl → companyStatus ]");
 		
 		List<ComAttendanceDTO> ComDto = dao.companyStatus(company_id);
-		
-		System.out.println("ComDto : " + ComDto);
 		
 		return ComDto;
 	}

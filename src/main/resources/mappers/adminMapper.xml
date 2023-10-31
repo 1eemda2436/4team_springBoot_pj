@@ -92,7 +92,8 @@
 		    department d
 		WHERE d.depart_id = #{depart_id}
 	</select>
-	
+
+	<!-- 팀별 근태 현황/통계 조회 -->	
 	<select id="teamAttendanceStatus" parameterType="java.lang.Integer" resultType="com.example.team_pj_springboot.dto.TeamAndAttenDTO">
 		SELECT
 		    t.team_id,

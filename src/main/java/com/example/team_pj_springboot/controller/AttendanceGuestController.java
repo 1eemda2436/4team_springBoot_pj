@@ -64,8 +64,6 @@ public class AttendanceGuestController {
 	public Map<String, Object> annualRegister (@RequestBody AnnualDTO dto) throws ServletException, IOException {
 		System.out.println("[ AttendanceController - annualRegister ]");
 		
-		System.out.println(dto);
-		
 		String resultCode = "";
 		String resultMsg = "";
 		Map<String, Object> map = new HashMap<String, Object>();

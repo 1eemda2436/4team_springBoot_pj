@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.team_pj_springboot.mappers.DocMapper">
+	
+	<!-- 전사통계차트 -->
+	<select id="docChart" resultType="com.example.team_pj_springboot.dto.DocProgressBarDTO">
+		SELECT
+		    COUNT(CASE WHEN doc_status = '완료' THEN doc_id END) AS docConfirmCount,
+		    COUNT(CASE WHEN doc_status = '진행' THEN doc_id END) AS docDoingCount,
+		    COUNT(CASE WHEN doc_status = '반려' THEN doc_id END) AS docReturnCount,
+		    COUNT(CASE WHEN doc_status = '기안' THEN doc_id END) AS docNewCount,
+		    COUNT(CASE WHEN doc_status = '임시' THEN doc_id END) AS docLaterCount,
+		    COUNT(doc_id) AS allDocCount
+		  FROM doc
+		 WHERE company_id = #{company_id}
+	</select>
+	
+</mapper>

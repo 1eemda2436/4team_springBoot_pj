@@ -9,11 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team_pj_springboot.dto.AllPersonnelDTO;
+import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.MyPageDTO;
 import com.example.team_pj_springboot.service.MyPageServiceImpl;
 
@@ -26,24 +29,22 @@ public class MyPageController {
 
 	@Autowired
 	private MyPageServiceImpl service;
-	
-	@GetMapping("/memberFind/{id}")
-	public List<MyPageDTO> memberFind(@PathVariable String id, Model model) {
-		logger.info("MyPageController - memberFind");
+
+	// 마이페이지 진입을 위한 조회
+	@GetMapping("/member/{id}")
+	public AllPersonnelDTO fetchMemberById(@PathVariable(name="id")String id) {
+		logger.info("[ url - fetchMemberById]");
 		
-		List<MyPageDTO> dto = service.memberFind(id);
-		model.addAttribute("dto", dto);
-		
-		return dto;
+		AllPersonnelDTO member = service.get(id);
+		return member;
 	}
 	
-	@PutMapping("/memberEdit/{id}")
-	public void memberUpdate(@RequestBody MyPageDTO dto) {
-		logger.info("MyPageController - memberUpdate");
-		
-		service.updateMember(dto);
+	// 마이페이지 수정
+	@PutMapping("/memberModify")
+	public void save(@RequestBody MemberDTO member) {
+		logger.info("[ url - memberModify ]");
+		System.out.println(member);
+		service.save(member);
 	}
-	
-	
 	
 }
