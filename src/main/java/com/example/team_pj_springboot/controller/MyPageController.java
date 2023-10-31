@@ -29,25 +29,7 @@ public class MyPageController {
 
 	@Autowired
 	private MyPageServiceImpl service;
-	
-//	@GetMapping("/memberFind/{id}")
-//	public List<MyPageDTO> memberFind(@PathVariable String id, Model model) {
-//		logger.info("MyPageController - memberFind");
-//		
-//		List<MyPageDTO> dto = service.memberFind(id);
-//		model.addAttribute("dto", dto);
-//		
-//		return dto;
-//	}
-//	
-//	@PutMapping("/memberEdit/{id}")
-//	public void memberUpdate(@RequestBody MyPageDTO dto) {
-//		logger.info("MyPageController - memberUpdate");
-//		
-//		service.updateMember(dto);
-//	}
-//	
-	//*****************************유진***************************************
+
 	// 마이페이지 진입을 위한 조회
 	@GetMapping("/member/{id}")
 	public AllPersonnelDTO fetchMemberById(@PathVariable(name="id")String id) {
@@ -58,7 +40,7 @@ public class MyPageController {
 	}
 	
 	// 마이페이지 수정
-	@PostMapping("/memberModify")
+	@PutMapping("/memberModify")
 	public void save(@RequestBody MemberDTO member) {
 		logger.info("[ url - memberModify ]");
 		System.out.println(member);

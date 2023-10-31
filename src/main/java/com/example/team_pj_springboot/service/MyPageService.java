@@ -2,9 +2,12 @@ package com.example.team_pj_springboot.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.example.team_pj_springboot.dto.AllPersonnelDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.MyPageDTO;
+import com.example.team_pj_springboot.dto.UserRoleDTO;
 
 public interface MyPageService {
 
@@ -19,6 +22,7 @@ public interface MyPageService {
 	
 	// 마이페이지 수정
 	public void save(MemberDTO dto);
+
 	
 	
 }
