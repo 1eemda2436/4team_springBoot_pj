@@ -41,6 +41,7 @@ import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
+import com.example.team_pj_springboot.dto.DocProgressBarDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
 import com.example.team_pj_springboot.mappers.DocMapper;
@@ -331,11 +332,11 @@ public class DocServiceImpl implements DocService{
 
    // Doc Chart
    @Override
-   public DocDTO docChart(String company_id, HttpServletRequest req, Model model)
+   public DocProgressBarDTO docChart(String company_id, HttpServletRequest req, Model model)
 		   		throws ServletException, IOException {
 		System.out.println("[ DocServiceImpl → docChart ]");
 		
-		DocDTO docChart = docdao.docChart(company_id);
+		DocProgressBarDTO docChart = docdao.docChart(company_id);
 		
 		System.out.println("docChart" + docChart);
 		

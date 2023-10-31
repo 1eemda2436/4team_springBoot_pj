@@ -128,8 +128,6 @@ public class AdminServiceImpl implements AdminService {
 		
 		DepAttendanceDTO DepDTO = dao.departmentAttendanceStatus(depart_id);
 		
-		System.out.println("DepDTO : " + DepDTO);
-		
 		return DepDTO;
 	}
 
@@ -174,8 +172,6 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("[ AnnualServiceImpl → companyStatus ]");
 		
 		List<ComAttendanceDTO> ComDto = dao.companyStatus(company_id);
-		
-		System.out.println("ComDto : " + ComDto);
 		
 		return ComDto;
 	}

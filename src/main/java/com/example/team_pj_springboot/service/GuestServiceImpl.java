@@ -33,7 +33,7 @@ public class GuestServiceImpl implements GuestService {
 		return anGuestList;
 	}
 
-	// 연차 신청 목록 조회(GUEST)
+	// 휴가 신청 목록 조회(GUEST)
 	@Override
 	public List<VacationDTO> vacationGuestList(HttpServletRequest req, Model model, String id)
 			throws ServletException, IOException {

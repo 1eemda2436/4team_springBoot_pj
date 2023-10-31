@@ -50,6 +50,7 @@ import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
+import com.example.team_pj_springboot.dto.DocProgressBarDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.PersonnelMemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
@@ -228,7 +229,7 @@ public class DocController {
 
    // Doc Chart
    @GetMapping("/docChart/{company_id}")
-   public DocDTO docChart (@PathVariable String company_id, HttpServletRequest req, Model model)
+   public DocProgressBarDTO docChart (@PathVariable String company_id, HttpServletRequest req, Model model)
 		   throws ServletException, IOException {
 	   System.out.println("[Controller → docChart]");
 	   

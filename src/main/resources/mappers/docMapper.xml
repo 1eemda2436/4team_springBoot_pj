@@ -6,7 +6,7 @@
 <mapper namespace="com.example.team_pj_springboot.mappers.DocMapper">
 	
 	<!-- 전사통계차트 -->
-	<select id="docChart" resultType="com.example.team_pj_springboot.dto.DocDTO">
+	<select id="docChart" resultType="com.example.team_pj_springboot.dto.DocProgressBarDTO">
 		SELECT
 		    COUNT(CASE WHEN doc_status = '완료' THEN doc_id END) AS docConfirmCount,
 		    COUNT(CASE WHEN doc_status = '진행' THEN doc_id END) AS docDoingCount,

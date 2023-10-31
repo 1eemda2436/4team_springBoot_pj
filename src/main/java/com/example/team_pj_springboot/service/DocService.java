@@ -23,6 +23,7 @@ import com.example.team_pj_springboot.dto.DocAndCategoryDTO;
 import com.example.team_pj_springboot.dto.DocAndDraftDTO;
 import com.example.team_pj_springboot.dto.DocAndTemporaryDTO;
 import com.example.team_pj_springboot.dto.DocDTO;
+import com.example.team_pj_springboot.dto.DocProgressBarDTO;
 import com.example.team_pj_springboot.dto.MemberDTO;
 import com.example.team_pj_springboot.dto.TemporaryDTO;
 
@@ -86,6 +87,6 @@ public interface DocService {
    public String uploadImageFile(MultipartFile doc_attachment) throws IOException;
    
    // 문서 통계
-   public DocDTO docChart(String company_id, HttpServletRequest req, Model model) throws ServletException, IOException;
+   public DocProgressBarDTO docChart(String company_id, HttpServletRequest req, Model model) throws ServletException, IOException;
    
 }
