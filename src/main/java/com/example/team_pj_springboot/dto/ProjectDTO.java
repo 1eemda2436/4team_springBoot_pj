@@ -16,16 +16,16 @@ import lombok.Data;
 @Table(name = "project")
 @Data
 public class ProjectDTO {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROJECT_SEQ")
-	@SequenceGenerator(name = "PROJECT_SEQ", sequenceName = "PROJECT_SEQ", allocationSize = 1)
-	private Integer pj_id;
-	private String pj_name;
-	private String content;
-	private Date deadline_s;
-	private Date deadline_e;
-	private Integer team_id;
-	
+   
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROJECT_SEQ")
+   @SequenceGenerator(name = "PROJECT_SEQ", sequenceName = "PROJECT_SEQ", allocationSize = 1)
+   private Integer pj_id;
+   private String pj_name;
+   private String content;
+   private Date deadline_s;
+   private Date deadline_e;
+   private Integer team_id;
+   private String show;
 
 }

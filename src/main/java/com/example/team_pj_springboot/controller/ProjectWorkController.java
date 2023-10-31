@@ -43,7 +43,7 @@ public class ProjectWorkController {
 	}
 	
 	// 프로젝트 업무 생성 또는 수정
-	@PostMapping
+	@PostMapping("/workadd")
 	public void ProjectWorkSave(@RequestBody ProjectWorkDTO dto)
 			throws ServerException, IOException {
 		
