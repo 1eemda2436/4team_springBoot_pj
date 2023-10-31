@@ -5,10 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.team_pj_springboot.dto.DocDTO;
+import com.example.team_pj_springboot.dto.DocProgressBarDTO;
 
 @Mapper
 public interface DocMapper {
 	
-	public DocDTO docChart (String company_id);
+	public DocProgressBarDTO docChart (String company_id);
 
 }
