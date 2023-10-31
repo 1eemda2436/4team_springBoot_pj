@@ -3,6 +3,7 @@ package com.example.team_pj_springboot.service;
 import java.nio.CharBuffer;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ import com.example.team_pj_springboot.repository.DepartmentRepository;
 import com.example.team_pj_springboot.repository.MemberRepository;
 import com.example.team_pj_springboot.repository.TeamRepository;
 import com.example.team_pj_springboot.repository.UserRoleRepository;
+import com.example.team_pj_springboot.mappers.CompanyMapper;
+import com.example.team_pj_springboot.mappers.PersonnelMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +40,12 @@ public class UserService {
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
 
+	@Autowired
+	private CompanyMapper mapper;
+	
+	@Autowired
+	private PersonnelMapper p_mapper;
+	
 	public MemberDTO findById(String id) {
 		System.out.println("UserService - findById()");
 
@@ -69,7 +78,7 @@ public class UserService {
 		System.out.println(joinDTO);
 
 		CompanyDTO company = new CompanyDTO();
-		company.setCompanyId(joinDTO.getCompanyDTO().getCompanyId());
+		company.setCompanyId(String.valueOf(mapper.findMaxId() + 1));
 		company.setName(joinDTO.getCompanyDTO().getName());
 		company.setAddress(joinDTO.getCompanyDTO().getAddress());
 		company.setEmployees(joinDTO.getCompanyDTO().getEmployees());
@@ -101,7 +110,7 @@ public class UserService {
 
 
 		MemberDTO member = new MemberDTO();
-		member.setId(joinDTO.getMemberDTO().getId());
+		member.setId(String.valueOf(p_mapper.findMaxId() + 1));
 		member.setPwd(passwordEncoder.encode(CharBuffer.wrap(joinDTO.getMemberDTO().getPwd())));
 		member.setName(saveCompany.getManager());
 		member.setCompany_id(saveCompany.getCompanyId());
