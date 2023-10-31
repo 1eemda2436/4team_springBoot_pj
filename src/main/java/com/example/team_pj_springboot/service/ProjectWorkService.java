@@ -8,20 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
+import com.example.team_pj_springboot.dto.ProjectProgressBarDTO;
 import com.example.team_pj_springboot.dto.ProjectWorkDTO;
 
 public interface ProjectWorkService {
 	
-	public List<ProjectWorkDTO> listAll(HttpServletRequest req, Model model)
-			throws ServletException, IOException;
+	public List<ProjectWorkDTO> list(int pj_id);
 	
-	public void save(ProjectWorkDTO dto)
-			throws ServletException, IOException;
+	public void save(ProjectWorkDTO dto);
 	
-	public ProjectWorkDTO get(int pw_id)
-			throws ServletException, IOException;
+	public void saveComplete(int pw_id, String complete);
 	
-	public void delete(int pw_id)
-			throws ServletException, IOException;
+	public ProjectWorkDTO get(int pw_id);
+	
+	public void delete(int pw_id);
+	
+	public List<ProjectProgressBarDTO> pjProgressBar (int team_id, HttpServletRequest req, Model model) throws ServletException, IOException;
 
 }

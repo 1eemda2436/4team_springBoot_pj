@@ -13,17 +13,17 @@ import com.example.team_pj_springboot.dto.MemberDTO;
 
 @Repository
 public interface MemberRepository extends JpaRepository<MemberDTO, String> {
-//   @Query("SELECT new com.example.team_pj_springboot.dto.CompanyDTO(c.companyId) " + 
-//         "FROM MemberDTO m " + 
-//         "JOIN CompanyDTO c ON c.companyId = m.company_id" +
-//         "WHERE m.id = :id ")
-//   Optional<CompanyDTO> findCompanyByUserId(@Param("id") String id);
-   
-   @Query("SELECT m.company_id " + 
-         "FROM MemberDTO m " + 
-         "WHERE m.id = :id ")
-   Optional<String> findCompanyIdByUserId(@Param("id") String id);
-   
+	//   @Query("SELECT new com.example.team_pj_springboot.dto.CompanyDTO(c.companyId) " + 
+	//         "FROM MemberDTO m " + 
+	//         "JOIN CompanyDTO c ON c.companyId = m.company_id" +
+	//         "WHERE m.id = :id ")
+	//   Optional<CompanyDTO> findCompanyByUserId(@Param("id") String id);
+
+	@Query("SELECT m.company_id " + 
+			"FROM MemberDTO m " + 
+			"WHERE m.id = :id ")
+	Optional<String> findCompanyIdByUserId(@Param("id") String id);
+
 	@Modifying
     @Query("UPDATE MemberDTO m SET m.rank = :rank, m.authority = 'ROLE_MANAGER' WHERE m.id = :id")
     void updateRank(@Param("id") String id, @Param("rank") String rank);
@@ -31,6 +31,5 @@ public interface MemberRepository extends JpaRepository<MemberDTO, String> {
 	@Modifying
     @Query("UPDATE MemberDTO m SET m.email = :email, m.tel = :tel, m.bank = :bank WHERE m.id = :id")
     void updateMember(@Param("id") String id, @Param("email") String email, @Param("tel") String tel, @Param("bank") String bank);
-	
-	
+
 }

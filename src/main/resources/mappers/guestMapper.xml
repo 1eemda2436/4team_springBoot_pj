@@ -14,6 +14,7 @@
          WHERE id = #{id}
          ORDER BY annual_id ASC
     </select>
+    
 	<!-- 휴가목록 -->
     <select id="vacationGuestList" resultType="com.example.team_pj_springboot.dto.VacationDTO">
         SELECT vacation_id
@@ -24,6 +25,7 @@
          ORDER BY vacation_id ASC
     </select>
     
+    <!-- 연차신청서작성 -->
 	<insert id="insertAnnual" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
 	    INSERT INTO annual_board (annual_id ,id ,company_id ,name ,annual_title , annual_start, annual_end, annual_content, annual_reg_date)
 	    VALUES ((SELECT NVL(MAX(annual_id)+1, 1) FROM annual_board), #{id}, #{company_id}, #{name},#{annual_title}, #{annual_start}, #{annual_end}, #{annual_content}, SYSDATE)
@@ -34,6 +36,7 @@
 		VALUES ((SELECT NVL(MAX(vacation_id)+1, 1) FROM vacation_board), #{id}, #{company_id}, #{name}, #{vacation_title}, #{vacation_start}, #{vacation_end}, #{vacation_content}, SYSDATE)
 	</insert>
 	
+	<!-- 연차수정 -->
 	<update id="myAnnualModify" parameterType="com.example.team_pj_springboot.dto.AnnualDTO">
 		UPDATE annual_board
 		SET 
@@ -54,6 +57,7 @@
 		WHERE vacation_id = #{vacation_id}
 	</update>
 	
+	<!--  -->
  	<select id="myAttenCount" parameterType="String" resultType="com.example.team_pj_springboot.dto.MyAttendanceDTO">
  		<![CDATA[
 			SELECT
@@ -105,18 +109,25 @@
 		                0
 		        END
 		    ), 1) AS totalWeekOver,
-		    ROUND(40 - SUM(
-		        CASE 
-		            WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
-		                EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
-		            ELSE
-		                0
-		        END
-		    ), 1) AS remainWeekTime
+			ROUND(40 - (ROUND(SUM(
+			    CASE 
+			        WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+			            EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60
+			        ELSE
+			            0
+			    END
+			), 1) + ROUND(SUM(
+			    CASE 
+			        WHEN TO_CHAR(GENERAL_WORKIN, 'DY') IN ('월', '화', '수', '목', '금') THEN
+			            GREATEST(EXTRACT(HOUR FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) + EXTRACT(MINUTE FROM (GENERAL_WORKOUT - GENERAL_WORKIN)) / 60 - 8.5, 0)
+			        ELSE
+			            0
+			    END
+			), 1)), 1) AS remainWeekTime
 		FROM
 		    MEMBER_ATTENDANCE
 		WHERE
-		    ID = #{id}
+		    id = #{id}
 		    AND TRUNC(GENERAL_WORKIN) BETWEEN TRUNC(SYSDATE) - 4 AND TRUNC(SYSDATE)
 		GROUP BY
 		    MA_ID, ID
@@ -180,6 +191,7 @@
 		    M.id = V.id
 		WHERE
 		    M.id = #{id}
+		  AND V.confirm = 'Y'
 	</select>
 	
 	<!-- 승인된 연차 목록 -->

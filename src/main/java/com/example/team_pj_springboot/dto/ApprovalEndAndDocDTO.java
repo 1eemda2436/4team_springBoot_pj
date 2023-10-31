@@ -26,11 +26,12 @@ public class ApprovalEndAndDocDTO {
 	private String company_id;
 	
 	// 생성자 직접 정의
-	public ApprovalEndAndDocDTO(int doc_id, String doc_title, String doc_status, String name, Date approval_date) {
+	public ApprovalEndAndDocDTO(int doc_id, String doc_title, String doc_status, String name, String company_id, Date approval_date) {
 		this.doc_id = doc_id;
 		this.doc_title = doc_title;
 		this.doc_status = doc_status;
 		this.name = name;
+		this.company_id = company_id;
 		this.approval_date = approval_date;
 	}
 
