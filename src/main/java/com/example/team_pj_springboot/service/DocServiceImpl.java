@@ -125,6 +125,14 @@ public class DocServiceImpl implements DocService{
       return dao.approvalIngList();
    }
    
+   // 결재반려문서함
+   @Override
+   public List<ApprovalBackAndDocDTO> approvalBackList() {
+      System.out.println("DocServiceImpl - approvalBackList");
+      
+      return dao.approvalBackList();
+   }
+   
    // 결재요청목록
    @Override
    public List<ApprovalIngAndDoc2DTO> approvalSelect() {
@@ -133,13 +141,7 @@ public class DocServiceImpl implements DocService{
       return dao.approvalSelect();
    }
 
-   // 결재반려문서함
-   @Override
-   public List<ApprovalBackAndDocDTO> approvalBackList() {
-      System.out.println("DocServiceImpl - approvalBackList");
-      
-      return dao.approvalBackList();
-   }
+   
 
    // 문서작성페이지
    @Override
@@ -279,7 +281,7 @@ public class DocServiceImpl implements DocService{
       return dao.findById(doc_id).get();
    }
    
-   // 결재완료용 수정페이지
+// 결재완료용 수정페이지
    @Override
    public DocDTO updateEndStatus(int doc_id, DocDTO dto) {
       System.out.println("DocServiceImpl - updateDoc");
@@ -288,11 +290,13 @@ public class DocServiceImpl implements DocService{
       Optional<DocDTO> optionalDto = dao.findById(doc_id);
       if(optionalDto.isPresent()) {
          DocDTO realDto = optionalDto.get();
+         System.out.println("realDto : " + realDto);
          
          // 기존 문서 업데이트
          realDto.setApproval_content(dto.getApproval_content());
          realDto.setApproval_date(dto.getApproval_date());
          realDto.setDoc_status(dto.getDoc_status());
+         realDto.setAdmin_sign(dto.getAdmin_sign());
 
          return dao.save(realDto);
       }

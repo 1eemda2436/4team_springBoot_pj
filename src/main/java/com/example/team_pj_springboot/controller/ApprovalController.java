@@ -91,11 +91,25 @@ public class ApprovalController {
    
    // 결재완료용 수정페이지
    @PutMapping("/updateEnd/{doc_id}")
-   public void updateEndDoc(@PathVariable(name="doc_id") int doc_id, @ModelAttribute DocDTO dto) {
+   public void updateEndDoc(@PathVariable(name="doc_id") int doc_id, @RequestParam("admin_sign1") MultipartFile admin_sign1, @ModelAttribute DocDTO dto) {
       logger.info("<<< 컨트롤러 - updateDoc >>>");
       
-      service.updateEndStatus(doc_id, dto);
-      
+      try {
+          // 파일 업로드하고 파일 경로를 받아옴
+          String filePath = service.uploadImageFile(admin_sign1);
+          System.out.println("sign : " + admin_sign1);
+
+          // DTO 객체에 파일 경로 설정
+          dto.setAdmin_sign(filePath);
+          System.out.println("filePath: " + filePath);
+
+          // 서비스로 DTO 객체 전달하여 저장
+          service.updateEndStatus(doc_id, dto);
+         } catch (IOException e) {
+          // 파일 업로드 중 예외가 발생할 경우 처리
+          e.printStackTrace();
+         }
+
    }
    
    // 결재반려용 수정페이지
