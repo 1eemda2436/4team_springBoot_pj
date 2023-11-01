@@ -36,7 +36,7 @@ public class MyPageServiceImpl implements MyPageService{
 	@Transactional
 	public void save(MemberDTO dto) {
 		System.out.println("수정");
-		member.updateMember(dto.getEmail(), dto.getTel(), dto.getBank(), dto.getId());
+		member.updateMember(dto);
 	}
 	
 	

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.team_pj_springboot.dto.BoardCategoryDTO;
 import com.example.team_pj_springboot.dto.BoardDTO;
 import com.example.team_pj_springboot.dto.CategoryDTO;
 import com.example.team_pj_springboot.dto.CommentDTO;
@@ -61,12 +62,11 @@ public class BoardController {
 		
 		service.insertBoard(dto);
 	}
-	//게시글 수정
+	//Update
 	@PutMapping("/edit/{board_id}")
 	public void boardUpdate(@RequestBody BoardDTO dto, @PathVariable int board_id) {
 		logger.info("BoardController - boardUpdate");
 		dto.setBoard_id(board_id);
-//		System.out.println(dto.getBoard_id());
 		service.insertBoard(dto);
 	}
 	 
@@ -80,7 +80,7 @@ public class BoardController {
 	
 	//categories 목록
 	@GetMapping("/categories")
-	public List<CategoryDTO> categoriesSelect () {
+	public List<BoardCategoryDTO> categoriesSelect () {
 		return service.categoriesSelect();
 	}
 	

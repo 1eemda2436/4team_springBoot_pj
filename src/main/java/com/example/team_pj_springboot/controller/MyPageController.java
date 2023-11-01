@@ -22,7 +22,7 @@ import com.example.team_pj_springboot.service.MyPageServiceImpl;
 
 @CrossOrigin(origins="http://localhost:3000", maxAge=3600)
 @RestController
-@RequestMapping("/guest/my")
+@RequestMapping("/guest/personnel")
 public class MyPageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyPageController.class);
@@ -40,8 +40,8 @@ public class MyPageController {
 	}
 	
 	// 마이페이지 수정
-	@PutMapping("/memberModify")
-	public void save(@RequestBody MemberDTO member) {
+	@PutMapping("/memberModify/{id}")
+	public void save(@RequestBody MemberDTO member, @PathVariable("id") String id) {
 		logger.info("[ url - memberModify ]");
 		System.out.println(member);
 		service.save(member);
