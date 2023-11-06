@@ -61,8 +61,6 @@ public class UserService {
 		MemberDTO member = memberRepository.findById(loginDTO.getId())
 				.orElseThrow(() -> new AppException("UnKnown user", HttpStatus.NOT_FOUND));
 
-		// 비밀번호 인코더를 사용하여 비밀번호가 일반 텍스트로 저장되는 것을 방지하지만 해시된 비밀번호는 읽을 수 없다.
-		// import java.nio.CharBuffer; 주의
 		if(passwordEncoder.matches(CharBuffer.wrap(loginDTO.getPwd()), member.getPwd())) {
 			return member;
 		}
@@ -72,11 +70,6 @@ public class UserService {
 
 	@Transactional
 	public JoinDTO companyJoin(JoinDTO joinDTO) {
-
-		System.out.println("UserService - join()");
-
-		System.out.println(joinDTO);
-
 		CompanyDTO company = new CompanyDTO();
 		company.setCompanyId(String.valueOf(mapper.findMaxId() + 1));
 		company.setName(joinDTO.getCompanyDTO().getName());
@@ -90,23 +83,18 @@ public class UserService {
 		company.setEnabled(joinDTO.getCompanyDTO().getEnabled());
 
 		CompanyDTO saveCompany = companyRepository.save(company);
-		System.out.println(saveCompany);
-
 
 		DepartmentDTO department = new DepartmentDTO();
 		department.setCompany_id(saveCompany.getCompanyId());
 		department.setDepart_name("임시 부서");
 
 		DepartmentDTO saveDepartment = departmentRepository.save(department);
-		System.out.println(saveDepartment);
-
 
 		TeamDTO team = new TeamDTO();
 		team.setDepart_id(saveDepartment.getDepart_id());
 		team.setTeam_name("임시 팀");
 
 		TeamDTO saveTeam = teamRepository.save(team);
-		System.out.println(saveTeam);
 
 
 		MemberDTO member = new MemberDTO();
@@ -136,7 +124,6 @@ public class UserService {
 	
 	@Transactional
 	public void userRole(UserRoleDTO roleDTO) {
-		System.out.println(roleDTO);
 		userRoleRepository.save(roleDTO);
 		memberRepository.updateRank(roleDTO.getId(), roleDTO.getRank());
 	}

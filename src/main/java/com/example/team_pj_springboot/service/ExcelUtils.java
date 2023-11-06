@@ -59,7 +59,8 @@ public class ExcelUtils {
             dto.setKey(row.getCell(20).getStringCellValue());
             dto.setAuthority(row.getCell(21).getStringCellValue());
             dto.setEnabled(row.getCell(22).getStringCellValue().charAt(0));
-
+            
+            
             dataList.add(dto);
         }
         return dataList;

@@ -43,7 +43,6 @@ public class UserAuthProvider {
 
 	@PostConstruct
 	protected void init() {
-		// 일단 텍스트로 된 비밀키를 피하기 위해 base64로 인코딩
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 
@@ -95,7 +94,7 @@ public class UserAuthProvider {
 
 	    // 사용자에게 권한을 부여하여 UsernamePasswordAuthenticationToken을 생성
 	    List<GrantedAuthority> authorities = new ArrayList<>();
-	    authorities.add(new SimpleGrantedAuthority(authority)); // Spring Security는 "ROLE_" 접두어를 사용합니다.
+	    authorities.add(new SimpleGrantedAuthority(authority));
 	    System.out.println(authorities);
 		// 사용자가 내 데이터베이스에 존재하는지 확인
 		return new UsernamePasswordAuthenticationToken(member, null, authorities);

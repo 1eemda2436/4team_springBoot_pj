@@ -37,12 +37,13 @@
 		    M.state,
 		    M.e_state,
 		    M.KEY,
-		    M.authoriry,
+		    M.authority,
 		    M.enabled
 		FROM MEMBER M
 		LEFT JOIN department D ON M.depart_id = D.depart_id
 		LEFT JOIN team T ON M.team_id = T.team_id
 		WHERE M.company_id = #{company_id}
+		ORDER BY M.id
     </select>
     
      <!-- findmyinfo -->
@@ -71,7 +72,7 @@
 		    M.state,
 		    M.e_state,
 		    M.KEY,
-		    M.authoriry,
+		    M.authority,
 		    M.enabled
 		FROM MEMBER M
 		LEFT JOIN department D ON M.depart_id = D.depart_id

@@ -91,5 +91,6 @@ public class PersonnelMemberDTO {
 	
 	@Column(name = "enabled")
     private char enabled  = 'N'; // 인증여부 (Y/N)
+	
 
 }
